@@ -1,0 +1,5 @@
+dotenv
+ipykernel
+llm-openrouter
+numpy 
+polars
