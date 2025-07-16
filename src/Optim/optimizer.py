@@ -47,7 +47,7 @@ def call_optimizer_llm(sample_points: list[Dict[str, str]], optim_llm_name: str)
   )
 
   reply = optim_response.json()["choices"][0]["message"]["content"]
-  # print(reply)
+  print(reply)
   reply = clean_response(reply)
   return reply
 
@@ -55,6 +55,7 @@ if __name__ == "__main__":
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
   filepath = "../Dataset/summary_pairs.csv"
   sample_points = create_sample_points(filepath)
-  print(sample_points)
+  # print(sample_points)
   reply = call_optimizer_llm(sample_points, optim_llm_name)
   print(reply)
+  print(type(reply))

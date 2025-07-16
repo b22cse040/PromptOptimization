@@ -33,11 +33,12 @@ def create_evaluator_prompt(optim_llm_response : dict, task_desc=_TASK_DESCRIPTI
     {{
       "instruction": "<Copy the summarization instruction provided in the input>",
       "scores": {{
-        1: {{"fluency": int, "coherence": int, "consistency": int, "relevance": int}},
-        2: {{"fluency": int, "coherence": int, "consistency": int, "relevance": int}},
+        "1": {{"fluency": int, "coherence": int, "consistency": int, "relevance": int}},
+        "2": {{"fluency": int, "coherence": int, "consistency": int, "relevance": int}},
         ...
       }},
-      "recommendation": "Provide specific, actionable suggestions to improve the overall scores (e.g., improve factual coverage, fix grammar, simplify phrasing, make summaries more concise, etc.)."
+      "recommendation": "Provide specific, actionable suggestions to improve the overall scores (e.g., improve factual coverage, fix grammar, simplify phrasing, make summaries more concise, etc.)
+      This should be done in under 100 tokens."
     }}
     
     Respond only with this JSON object. Do not include any additional explanation or commentary.
