@@ -1,7 +1,7 @@
 import polars as pl
 from typing import Dict
 
-def random_subsample(file_path: str, n_texts : int = 10, n_summaries: int = 1) -> pl.DataFrame:
+def random_subsample(file_path: str, n_texts : int = 3, n_summaries: int = 1) -> pl.DataFrame:
   # Note that there are 11 human_summary for each piece of text (100 total)
   ## We will subsample 10 texts randomly, and each will have only 1 human_summary
   ## Attached to it.
