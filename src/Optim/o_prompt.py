@@ -1,3 +1,5 @@
+from src.Dataset.random_subsample import create_sample_points
+
 _TASK_DESCRIPTION = """ 
   Generate improved summaries optimizing for fluency, coherence, consistency, 
   and relevance.
@@ -6,7 +8,7 @@ _TASK_DESCRIPTION = """
 ## sample_points: list of dicts
 ## prev_top_k_prompts is a list of dicts, each mapping an instruction string to
 ## a dict of score metrics.
-def create_optim_meta_prompt(sample_points, prev_top_k_prompts, task_desc=_TASK_DESCRIPTION):
+def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_TASK_DESCRIPTION, k : int = 3):
   sample_points_pairs_text = ""
   for idx, pair in enumerate(sample_points, 1):
     sample_points_pairs_text += (
@@ -48,6 +50,9 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts, task_desc=_TASK_
     - The instruction given by the prompt.
     - Scores of fluency, coherence, consistency, relevance between 1 to 5.
     
+    Previous top {k} prompts: 
+    {prev_top_k_prompts_text}
+    
     Based on the above, generate a new improved instruction that can be used to guide 
     summarization (e.g., "Generate concise summaries emphasizing consistency and coherence.").
     
@@ -55,13 +60,19 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts, task_desc=_TASK_
     
     Respond ONLY with a valid JSON object of this form:
 
-    {
+    {{
         "instruction": "Your new summarization instruction here.",
-        "sample_points": {
-            1: {"text": "...", "human_summary": "...", "machine_summary": "..."},
+        "sample_points": {{
+            1: {{"text": "...", "human_summary": "...", "machine_summary": "..."}},
             2: ...
-        }
-    }
+        }}
+    }}
   """
 
   return _OPTIM_META_PROMPT
+
+if __name__ == "__main__":
+  prev_top_k = []
+  sample_points = create_sample_points(r"D:\PromptOptim\src\Dataset\summary_pairs.csv")
+  meta_prompt = create_optim_meta_prompt(sample_points, prev_top_k)
+  print(meta_prompt)
