@@ -3,6 +3,9 @@ _TASK_DESCRIPTION = """
   and relevance.
 """
 
+## sample_points: list of dicts
+## prev_top_k_prompts is a list of dicts, each mapping an instruction string to
+## a dict of score metrics.
 def create_optim_meta_prompt(sample_points, prev_top_k_prompts, task_desc=_TASK_DESCRIPTION):
   sample_points_pairs_text = ""
   for idx, pair in enumerate(sample_points, 1):
