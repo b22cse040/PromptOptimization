@@ -1,5 +1,6 @@
 import requests, os, re
 import json
+from typing import Dict
 from dotenv import load_dotenv
 from src.Dataset.random_subsample import create_sample_points
 from src.Optim.o_prompt import create_optim_meta_prompt
@@ -20,13 +21,11 @@ def clean_response(reply: str) -> dict:
     print(f"Error decoding JSON: {e}")
     return {}
 
-def call_optimizer_llm(file_path: str, optim_llm_name: str):
+def call_optimizer_llm(sample_points: list[Dict[str, str]], optim_llm_name: str):
   """
-  file_path: File to the dataset to randomly subsample for the prompt.
+  sample_points: list of dict containing samples sampled randomly.
   optim_llm_name: Name of the optimizer llm to use.
   """
-  sample_points = create_sample_points(file_path)
-  # print(sample_points)
   optim_meta_prompt = create_optim_meta_prompt(sample_points, prev_top_k_prompts=[])
   # print(optim_meta_prompt)
 
@@ -55,6 +54,7 @@ def call_optimizer_llm(file_path: str, optim_llm_name: str):
 if __name__ == "__main__":
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
   filepath = "../Dataset/summary_pairs.csv"
-  reply = call_optimizer_llm(filepath, optim_llm_name)
-  # print(type(reply))
-  # print(reply)
+  sample_points = create_sample_points(filepath)
+  print(sample_points)
+  reply = call_optimizer_llm(sample_points, optim_llm_name)
+  print(reply)

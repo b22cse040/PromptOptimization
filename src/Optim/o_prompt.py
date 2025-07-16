@@ -1,14 +1,21 @@
 from src.Dataset.random_subsample import create_sample_points
 
 _TASK_DESCRIPTION = """ 
-  Generate improved summaries optimizing for fluency, coherence, consistency, 
-  and relevance.
+Generate improved summaries optimizing for fluency, coherence, consistency, and relevance.
+
+- Fluency: The summary should be smooth, natural, and grammatically correct.
+- Coherence: Ideas should flow logically and be easy to follow.
+- Consistency: The summary must accurately reflect factual details from the original text.
+- Relevance: The summary should include all important and informative content, avoiding unnecessary details.
+
+Your goal is to produce high-quality summaries that excel in all four aspects.
 """
+
 
 ## sample_points: list of dicts
 ## prev_top_k_prompts is a list of dicts, each mapping an instruction string to
 ## a dict of score metrics.
-def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_TASK_DESCRIPTION, k : int = 3):
+def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_TASK_DESCRIPTION):
   sample_points_pairs_text = ""
   for idx, pair in enumerate(sample_points, 1):
     sample_points_pairs_text += (
@@ -50,7 +57,7 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_
     - The instruction given by the prompt.
     - Scores of fluency, coherence, consistency, relevance between 1 to 5.
     
-    Previous top {k} prompts: 
+    Previous top {len(prev_top_k_prompts)} prompts: 
     {prev_top_k_prompts_text}
     
     Based on the above, generate a new improved instruction that can be used to guide 
