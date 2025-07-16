@@ -58,13 +58,19 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_
     
     Then, generate new improved machine summaries for each text using this new instruction.
     
-    Respond ONLY with a valid JSON object of this form:
-
+    Important: You must respond with STRICT VALID JSON only. 
+    - Use double quotes for all keys and string values.
+    - Do not include any explanations or extra text outside the JSON.
+    - Do not include markdown code blocks (like ```json).
+    
+    Here is the required JSON structure example (strict format):
+    
     {{
         "instruction": "Your new summarization instruction here.",
         "sample_points": {{
-            1: {{"text": "...", "human_summary": "...", "machine_summary": "..."}},
-            2: ...
+            "1": {{"text": "...", "human_summary": "...", "machine_summary": "..."}},
+            "2": {{"text": "...", "human_summary": "...", "machine_summary": "..."}},
+            ...
         }}
     }}
   """
