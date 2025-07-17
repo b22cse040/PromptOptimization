@@ -1,7 +1,7 @@
 import polars as pl
 from typing import Dict
 
-def random_subsample(file_path: str, n_texts : int = 3, n_summaries: int = 1) -> pl.DataFrame:
+def random_subsample(file_path: str, n_texts : int = 5, n_summaries: int = 1) -> pl.DataFrame:
   # Note that there are 11 human_summary for each piece of text (100 total)
   ## We will subsample 10 texts randomly, and each will have only 1 human_summary
   ## Attached to it.
@@ -29,7 +29,7 @@ def create_sample_points(file_path: str) -> list[Dict[str, str]]:
   """
   The dataframe is subsampled and processed for _OPTIM_META_PROMPT
   """
-  df_subsampled = random_subsample(file_path, n_texts=10, n_summaries=1)
+  df_subsampled = random_subsample(file_path)
   sample_points = []
 
   for row in df_subsampled.iter_rows(named=True):
@@ -43,4 +43,5 @@ def create_sample_points(file_path: str) -> list[Dict[str, str]]:
 
 if __name__ == "__main__":
   sample_points = create_sample_points("summary_pairs.csv")
+  print(f"Length of sample_points: {len(sample_points)}\n")
   print(sample_points)

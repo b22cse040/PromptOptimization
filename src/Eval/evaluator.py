@@ -44,7 +44,7 @@ def process_reply(eval_reply: dict) -> dict:
   return {
     "instruction": eval_reply.get("instruction", ""),
     "scores" : averaged_scores,
-    "recommendations": eval_reply.get("recommendations", ""),
+    "recommendations": eval_reply.get("recommendation", ""),
   }
 
 def call_evaluator_llm(optim_llm_response: dict, eval_llm_name: str) -> dict:
@@ -78,8 +78,9 @@ def call_evaluator_llm(optim_llm_response: dict, eval_llm_name: str) -> dict:
   return eval_reply
 
 if __name__ == '__main__':
-  eval_llm_name = "google/gemini-2.0-flash-exp:free"
+  # optim_llm_name = "google/gemini-2.0-flash-exp:free"
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
+  eval_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
   filepath = "../Dataset/summary_pairs.csv"
 
   sample_points = create_sample_points(filepath)
@@ -91,7 +92,8 @@ if __name__ == '__main__':
 
   eval_judgements = call_evaluator_llm(optim_summaries, eval_llm_name)
   print(f"EVAL_LLM: Judging generated machine summaries")
-  # print(eval_judgements)
+  print(eval_judgements)
+  print('=' * 70)
 
   processed_eval_judgements = process_reply(eval_judgements)
   print(f"Processing Judgements: {len(processed_eval_judgements)}")
