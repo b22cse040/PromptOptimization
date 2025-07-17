@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from src.Dataset.random_subsample import create_sample_points
 from src.Eval.e_prompt import create_evaluator_prompt
 from src.Optim.optimizer import call_optimizer_llm
+from src.TopK_Heap.top_k import TopKHeap
 
 load_dotenv()
 
@@ -22,7 +23,7 @@ def clean_response(reply: str) -> dict:
     print(f"Error decoding JSON: {e}")
     return {}
 
-def process_reply(eval_reply: dict) -> dict:
+def process_reply(eval_reply: dict, heap: TopKHeap) -> dict:
   """
   Process the reply for meta-prompt. Averaging the scores for all samples.
   """
@@ -41,11 +42,14 @@ def process_reply(eval_reply: dict) -> dict:
     for metric, values in metric_values.items()
   }
 
-  return {
+  processed =  {
     "instruction": eval_reply.get("instruction", ""),
     "scores" : averaged_scores,
-    "recommendations": eval_reply.get("recommendation", ""),
+    "recommendation": eval_reply.get("recommendation", ""),
   }
+
+  heap.push(processed)
+  return processed
 
 def call_evaluator_llm(optim_llm_response: dict, eval_llm_name: str) -> dict:
   """

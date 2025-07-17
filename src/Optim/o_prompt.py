@@ -1,4 +1,5 @@
 from src.Dataset.random_subsample import create_sample_points
+from src.TopK_Heap.top_k import TopKHeap
 
 _TASK_DESCRIPTION = """ 
 Generate improved summaries optimizing for fluency, coherence, consistency, and relevance.
@@ -15,7 +16,7 @@ Your goal is to produce high-quality summaries that excel in all four aspects.
 ## sample_points: list of dicts
 ## prev_top_k_prompts is a list of dicts, each mapping an instruction string to
 ## a dict of score metrics.
-def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_TASK_DESCRIPTION):
+def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None, task_desc=_TASK_DESCRIPTION):
   sample_points_pairs_text = ""
   for idx, pair in enumerate(sample_points, 1):
     sample_points_pairs_text += (
@@ -30,14 +31,18 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_
     )
 
   prev_top_k_prompts_text = ""
-  for idx, prompt in enumerate(prev_top_k_prompts, 1):
-    for instruction, score in prompt.items():
+  if prev_top_k_prompts:
+    top_k_prompts = prev_top_k_prompts.get_topK()
+    for idx, (_, prompt_data) in enumerate(top_k_prompts, 1):
+      instruction = prompt_data["instruction"]
+      recommendation = prompt_data["recommendation"]
       prev_top_k_prompts_text += (
-        f"{idx}, Instruction: {instruction} | ",
-        f"Fluency: {score['Fluency']} | ",
-        f"Coherence: {score['Coherence']} | ",
-        f"Consistency: {score['Consistency']} | ",
-        f"Relevance: {score['Relevance']}\n",
+        f"{idx}, Instruction: {instruction}\n"
+        f"Fluency: {prompt_data['scores']['fluency']}\n"
+        f"Coherence: {prompt_data['scores']['coherence']}\n"
+        f"Consistency: {prompt_data['scores']['consistency']}\n"
+        f"Relevance: {prompt_data['scores']['relevance']}\n"
+        f"Recommendation: {recommendation}\n"
       )
 
   _OPTIM_META_PROMPT = f"""
@@ -56,6 +61,8 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts=None, task_desc=_
     Below is a list of previous top K prompts. Each prompt includes: 
     - The instruction given by the prompt.
     - Scores of fluency, coherence, consistency, relevance between 1 to 5.
+    - Recommendations on the basis of previous prompts that will help you find the 
+    new instruction.
     
     Previous top {len(prev_top_k_prompts)} prompts: 
     {prev_top_k_prompts_text}

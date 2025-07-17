@@ -4,6 +4,7 @@ from typing import Dict
 from dotenv import load_dotenv
 from src.Dataset.random_subsample import create_sample_points
 from src.Optim.o_prompt import create_optim_meta_prompt
+from src.TopK_Heap.top_k import TopKHeap
 
 load_dotenv()
 
@@ -21,12 +22,12 @@ def clean_response(reply: str) -> dict:
     print(f"Error decoding JSON: {e}")
     return {}
 
-def call_optimizer_llm(sample_points: list[Dict[str, str]], optim_llm_name: str):
+def call_optimizer_llm(sample_points: list[Dict[str, str]], top_k_prompts: TopKHeap, optim_llm_name: str):
   """
   sample_points: list of dict containing samples sampled randomly.
   optim_llm_name: Name of the optimizer llm to use.
   """
-  optim_meta_prompt = create_optim_meta_prompt(sample_points, prev_top_k_prompts=[])
+  optim_meta_prompt = create_optim_meta_prompt(sample_points, prev_top_k_prompts=top_k_prompts)
   # print(optim_meta_prompt)
 
   optim_response = requests.post(
@@ -47,7 +48,7 @@ def call_optimizer_llm(sample_points: list[Dict[str, str]], optim_llm_name: str)
   )
 
   reply = optim_response.json()["choices"][0]["message"]["content"]
-  print(reply)
+  # print(reply)
   reply = clean_response(reply)
   return reply
 
