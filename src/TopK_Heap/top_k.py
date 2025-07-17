@@ -14,14 +14,13 @@ class TopKHeap:
     return len(self.heap)
 
   def push(self, prompt_data: dict):
-    score = score_prompt(prompt_data["scores"])
-    entry = (score, prompt_data)
+    score_dict = prompt_data.get("scores", {})
+    avg_score = sum(score_dict.values()) / len(score_dict) if score_dict else 0
 
-    if len(self.heap) < self.k:
-      heapq.heappush(self.heap, entry)
+    heapq.heappush(self.heap, (-avg_score, prompt_data))
 
-    else:
-      heapq.heappushpop(self.heap, entry)
+    if len(self.heap) > self.k:
+      heapq.heappop(self.heap)
 
   def get_topK(self):
     return [entry[1] for entry in sorted(self.heap)]

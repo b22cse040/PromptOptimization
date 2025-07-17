@@ -4,7 +4,26 @@ from src.Eval.e_prompt import create_evaluator_prompt
 from src.Eval.evaluator import call_evaluator_llm, process_reply
 from src.Optim.optimizer import call_optimizer_llm
 from src.TopK_Heap.top_k import TopKHeap
-from tqdm import tqdm
+import matplotlib.pyplot as plt
+
+
+def plot_epoch_scores(scores: dict, save_path="epoch_scores.png"):
+  metrics = list(scores.keys())
+  epochs = range(1, len(scores[metrics[0]]) + 1)
+
+  plt.figure(figsize=(12, 8))
+  for i, metric in enumerate(metrics):
+    plt.subplot(2, 2, i + 1)
+    plt.plot(epochs, scores[metric], marker='o')
+    plt.title(f"{metric.capitalize()} over Epochs")
+    plt.xlabel("Epoch")
+    plt.ylabel("Score")
+    plt.grid(True)
+
+  plt.tight_layout()
+  plt.savefig(save_path)
+  print(f"✅ Saved epoch-wise metric plot as '{save_path}'")
+  plt.close()
 
 def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5, num_epochs: int = 3) -> dict:
   ## Sampling sample points
@@ -17,7 +36,9 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
 
   optim_summaries = None
 
-  for epoch in tqdm(range(num_epochs), desc="OPRO iterations"):
+  scores = {metric: [] for metric in ["fluency", "coherence", "consistency", "relevance"]}
+
+  for epoch in range(num_epochs):
     print(f"Epoch {epoch + 1}/{num_epochs}")
 
     optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
@@ -33,11 +54,10 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
     print(f"Step 5: Processed evaluated judgements (Successful)")
     print('=' * 100)
 
-    # top_k_prompts.push({
-    #   "instruction": eval_result.get("instruction", ""),
-    #   "scores": eval_result.get("scores", {}),
-    #   "recommendation": eval_result.get("recommendation", ""),
-    # })
+    for metric, score in eval_result["scores"].items():
+      scores[metric].append(score)
+
+  plot_epoch_scores(scores)
 
   return {
     "optim_summaries" : optim_summaries,
@@ -48,5 +68,5 @@ if __name__ == "__main__":
   eval_llm_name = "moonshotai/kimi-k2:free"
   optim_llm_name = "mistralai/mistral-small-3.2-24b-instruct:free"
   filepath = "Dataset/summary_pairs.csv"
-  opro_results = run_opro(filepath, optim_llm_name, eval_llm_name)
+  opro_results = run_opro(filepath, optim_llm_name, eval_llm_name, num_epochs=3)
   top_k_prompts = TopKHeap(k=5)
