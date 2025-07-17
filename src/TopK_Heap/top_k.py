@@ -20,7 +20,8 @@ class TopKHeap:
     if len(self.heap) < self.k:
       heapq.heappush(self.heap, entry)
 
-    else: heapq.heappushpop(self.heap, entry)
+    else:
+      heapq.heappushpop(self.heap, entry)
 
   def get_topK(self):
-    return sorted(self.heap)
+    return [entry[1] for entry in sorted(self.heap)]

@@ -33,7 +33,7 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None,
   prev_top_k_prompts_text = ""
   if prev_top_k_prompts:
     top_k_prompts = prev_top_k_prompts.get_topK()
-    for idx, (_, prompt_data) in enumerate(top_k_prompts, 1):
+    for idx, prompt_data in enumerate(top_k_prompts, 1):
       instruction = prompt_data["instruction"]
       recommendation = prompt_data["recommendation"]
       prev_top_k_prompts_text += (
@@ -90,12 +90,13 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None,
     }}
     
     Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
+    Please adhere to the said output.
   """
 
   return _OPTIM_META_PROMPT
 
 if __name__ == "__main__":
-  prev_top_k = []
+  prev_top_k = TopKHeap(3)
   sample_points = create_sample_points(r"D:\PromptOptim\src\Dataset\summary_pairs.csv")
   meta_prompt = create_optim_meta_prompt(sample_points, prev_top_k)
   print(meta_prompt)

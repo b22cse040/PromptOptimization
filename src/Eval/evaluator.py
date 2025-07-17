@@ -14,6 +14,9 @@ def clean_response(reply: str) -> dict:
     cleaned_reply = re.sub(r'^```json|```$', '', reply,
                            flags=re.MULTILINE).strip()
 
+    # Fix unescaped backslashes before parsing
+    cleaned_reply = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', cleaned_reply)
+
     data = json.loads(cleaned_reply)
     return data
   except json.JSONDecodeError as e:
@@ -23,7 +26,7 @@ def clean_response(reply: str) -> dict:
     print(f"Error decoding JSON: {e}")
     return {}
 
-def process_reply(eval_reply: dict, heap: TopKHeap) -> dict:
+def process_reply(eval_reply: dict, heap: TopKHeap, instruction: str) -> dict:
   """
   Process the reply for meta-prompt. Averaging the scores for all samples.
   """
@@ -43,12 +46,13 @@ def process_reply(eval_reply: dict, heap: TopKHeap) -> dict:
   }
 
   processed =  {
-    "instruction": eval_reply.get("instruction", ""),
+    "instruction": instruction,
     "scores" : averaged_scores,
     "recommendation": eval_reply.get("recommendation", ""),
   }
 
   heap.push(processed)
+  print(processed)
   return processed
 
 def call_evaluator_llm(optim_llm_response: dict, eval_llm_name: str) -> dict:
@@ -88,10 +92,11 @@ if __name__ == '__main__':
   filepath = "../Dataset/summary_pairs.csv"
 
   sample_points = create_sample_points(filepath)
-  # print(f"Sample points created: {len(sample_points)}")
+  print(f"Sample points created: {len(sample_points)}")
 
-  optim_summaries = call_optimizer_llm(sample_points, optim_llm_name=optim_llm_name)
-  # print(optim_summaries)
+  top_k_prompts = TopKHeap(3)
+  optim_summaries = call_optimizer_llm(sample_points, top_k_prompts=top_k_prompts,optim_llm_name=optim_llm_name)
+  print(optim_summaries)
   print(f"OPTIM_LLM: Generated machine summaries")
 
   eval_judgements = call_evaluator_llm(optim_summaries, eval_llm_name)
@@ -99,6 +104,6 @@ if __name__ == '__main__':
   print(eval_judgements)
   print('=' * 70)
 
-  processed_eval_judgements = process_reply(eval_judgements)
+  processed_eval_judgements = process_reply(eval_judgements, top_k_prompts)
   print(f"Processing Judgements: {len(processed_eval_judgements)}")
   print(processed_eval_judgements)

@@ -57,6 +57,7 @@ if __name__ == "__main__":
   filepath = "../Dataset/summary_pairs.csv"
   sample_points = create_sample_points(filepath)
   # print(sample_points)
-  reply = call_optimizer_llm(sample_points, optim_llm_name)
+  top_k_prompts = TopKHeap(3)
+  reply = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
   print(reply)
   print(type(reply))

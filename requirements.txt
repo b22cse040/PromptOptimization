@@ -1,6 +1,8 @@
 dotenv
 ipykernel
 llm-openrouter
+matplotlib
 numpy 
 polars
+seaborn
 tqdm
