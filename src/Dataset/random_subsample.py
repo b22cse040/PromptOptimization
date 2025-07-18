@@ -3,7 +3,7 @@ from typing import Dict
 
 def random_subsample(file_path: str, n_texts : int = 5, n_summaries: int = 1) -> pl.DataFrame:
   # Note that there are 11 human_summary for each piece of text (100 total)
-  ## We will subsample 10 texts randomly, and each will have only 1 human_summary
+  ## We will subsample n_texts texts randomly, and each will have n_summaries human_summary
   ## Attached to it.
 
   df = pl.read_csv(file_path)
@@ -13,7 +13,7 @@ def random_subsample(file_path: str, n_texts : int = 5, n_summaries: int = 1) ->
 
   df_filtered = df.join(sampled_texts, on="text")
 
-  # For each piece of text, pick one random human_summary
+  # For each piece of text, pick n_summaries random human_summary
   df_grouped = (
     df_filtered
     .group_by("text")

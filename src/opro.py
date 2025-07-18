@@ -22,7 +22,7 @@ def plot_epoch_scores(scores: dict, save_path="Plots/epoch_scores.png"):
 
   plt.tight_layout()
   plt.savefig(save_path)
-  print(f"✅ Saved epoch-wise metric plot as '{save_path}'")
+  print(f"Saved epoch-wise metric plot as '{save_path}'")
   plt.close()
 
 def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5, num_epochs: int = 3) -> dict:
@@ -46,6 +46,10 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
 
     print(optim_summaries)
     print("\n")
+
+    if optim_summaries == {}:
+      print("Invalid Output from optim LLM, retrying this step!")
+      optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
 
     eval_judgements = call_evaluator_llm(optim_summaries, eval_llm_name)
     print(f"Epoch: {epoch} at Step 4: Generating judgements (Successful)")
