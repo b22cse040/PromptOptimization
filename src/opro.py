@@ -1,9 +1,9 @@
-import json
 from src.Dataset.random_subsample import create_sample_points
-from src.Eval.e_prompt import create_evaluator_prompt
 from src.Eval.evaluator import call_evaluator_llm, process_reply
 from src.Optim.optimizer import call_optimizer_llm
 from src.TopK_Heap.top_k import TopKHeap
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
@@ -25,7 +25,7 @@ def plot_epoch_scores(scores: dict, save_path="Plots/epoch_scores.png"):
   print(f"Saved epoch-wise metric plot as '{save_path}'")
   plt.close()
 
-def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5, num_epochs: int = 3) -> dict:
+def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5, num_epochs: int = 3, run_id: int = 0) -> dict:
   ## Sampling sample points
   sample_points = create_sample_points(filepath)
   print(f"Step 1: Creating {len(sample_points)} Sample points (Successful)")
@@ -61,7 +61,8 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
     for metric, score in eval_result["scores"].items():
       scores[metric].append(score)
 
-  plot_epoch_scores(scores)
+  plot_path = f"Plots/epoch_scores_run_{run_id}.png"
+  plot_epoch_scores(scores, save_path=plot_path)
 
   return {
     "optim_summaries" : optim_summaries,
