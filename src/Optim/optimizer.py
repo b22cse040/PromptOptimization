@@ -1,5 +1,5 @@
 import requests, os, re
-import json
+import json5
 from typing import Dict
 from dotenv import load_dotenv
 from src.Dataset.random_subsample import create_sample_points
@@ -13,11 +13,8 @@ def clean_response(reply: str) -> dict:
     cleaned_reply = re.sub(r'^```json|```$', '', reply,
                            flags=re.MULTILINE).strip()
 
-    data = json.loads(cleaned_reply)
+    data = json5.loads(cleaned_reply)
     return data
-  except json.JSONDecodeError as e:
-    print(f"Error decoding JSON: {e}")
-    return {}
   except Exception as e:
     print(f"Error decoding JSON: {e}")
     return {}
@@ -36,7 +33,7 @@ def call_optimizer_llm(sample_points: list[Dict[str, str]], top_k_prompts: TopKH
       "Content-Type": "application/json",
       "Authorization": "Bearer " + os.getenv("OPENROUTER_API_KEY")
     },
-    data=json.dumps({
+    data=json5.dumps({
       "model" : optim_llm_name,
       "messages" : [
         {

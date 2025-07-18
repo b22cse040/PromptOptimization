@@ -1,4 +1,4 @@
-import requests, os, json, re
+import requests, os, json5, re
 import numpy as np
 from dotenv import load_dotenv
 
@@ -17,11 +17,11 @@ def clean_response(reply: str) -> dict:
     # Fix unescaped backslashes before parsing
     cleaned_reply = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', cleaned_reply)
 
-    data = json.loads(cleaned_reply)
+    data = json5.loads(cleaned_reply)
     return data
-  except json.JSONDecodeError as e:
-    print(f"Error decoding JSON: {e}")
-    return {}
+  # except json.JSONDecodeError as e:
+  #   print(f"Error decoding JSON: {e}")
+  #   return {}
   except Exception as e:
     print(f"Error decoding JSON: {e}")
     return {}
@@ -69,7 +69,7 @@ def call_evaluator_llm(optim_llm_response: dict, eval_llm_name: str) -> dict:
       "Content-Type": "application/json",
       "Authorization": "Bearer " + os.getenv("OPENROUTER_API_KEY")
     },
-    data = json.dumps({
+    data = json5.dumps({
       "model" : eval_llm_name,
       "messages" : [
         {

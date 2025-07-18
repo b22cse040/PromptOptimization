@@ -7,7 +7,7 @@ from src.TopK_Heap.top_k import TopKHeap
 import matplotlib.pyplot as plt
 
 
-def plot_epoch_scores(scores: dict, save_path="epoch_scores.png"):
+def plot_epoch_scores(scores: dict, save_path="Plots/epoch_scores.png"):
   metrics = list(scores.keys())
   epochs = range(1, len(scores[metrics[0]]) + 1)
 
@@ -65,8 +65,8 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
   }
 
 if __name__ == "__main__":
-  eval_llm_name = "moonshotai/kimi-k2:free"
+  eval_llm_name = "deepseek/deepseek-r1-0528:free"
   optim_llm_name = "mistralai/mistral-small-3.2-24b-instruct:free"
   filepath = "Dataset/summary_pairs.csv"
-  opro_results = run_opro(filepath, optim_llm_name, eval_llm_name, num_epochs=3)
+  opro_results = run_opro(filepath, optim_llm_name, eval_llm_name, num_epochs=5)
   top_k_prompts = TopKHeap(k=5)
