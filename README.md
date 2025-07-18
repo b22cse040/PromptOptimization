@@ -11,3 +11,6 @@ We also maintain a heap (top_k_prompts) that, keeps the top-k best performing in
 The results of one such run: 
 
 <img width="1200" height="800" alt="image" src="https://github.com/user-attachments/assets/88868d1e-3166-4967-91f1-506a365871b0" />
+
+Evaluator LLM : deepseek/deepseek-r1-0528
+Optimizer LLM : mistralai/mistral-small-3.2-24b-instruct
