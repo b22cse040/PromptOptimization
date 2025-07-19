@@ -1,5 +1,5 @@
-chardet
 dotenv
+ftfy
 ipykernel
 llm-openrouter
 matplotlib
