@@ -109,6 +109,7 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None,
 
 if __name__ == "__main__":
   prev_top_k = TopKHeap(3)
-  sample_points = create_sample_points(r"D:\PromptOptim\src\Dataset\summary_pairs.csv")
+  sample_points = create_sample_points(
+    r"/src/Dataset/dataset/summary_pairs.csv")
   meta_prompt = create_optim_meta_prompt(sample_points, prev_top_k)
   print(meta_prompt)

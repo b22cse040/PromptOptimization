@@ -50,7 +50,7 @@ def create_evaluator_prompt(optim_llm_response : dict, task_desc=_TASK_DESCRIPTI
 
 if __name__ == "__main__":
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  filepath = "../Dataset/summary_pairs.csv"
+  filepath = "../Dataset/dataset/summary_pairs.csv"
 
   sample_points = create_sample_points(filepath)
   # print(sample_points)

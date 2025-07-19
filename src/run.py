@@ -3,7 +3,7 @@ from src.opro import run_opro
 
 if __name__ == '__main__':
   # Fixed Parameters
-  filepath = "Dataset/summary_pairs.csv"
+  filepath = "Dataset/dataset/summary_pairs.csv"
   eval_llm_name = "deepseek/deepseek-r1-0528:free"
   optim_llm_name = "mistralai/mistral-small-3.2-24b-instruct:free"
   k = 5

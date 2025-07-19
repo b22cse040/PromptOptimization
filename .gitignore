@@ -1,4 +1,5 @@
 .env
 
-src/Dataset/summary_pairs.csv
-src/Dataset/model_annotations.aligned.jsonl
+src/Dataset/dataset/summary_pairs.csv
+src/Dataset/dataset/model_annotations.aligned.jsonl
+src/Dataset/dataset/model_annotations.aligned.paired.jsonl

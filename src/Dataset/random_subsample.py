@@ -30,6 +30,9 @@ def create_sample_points(file_path: str) -> list[Dict[str, str]]:
   The dataframe is subsampled and processed for _OPTIM_META_PROMPT
   """
   df_subsampled = random_subsample(file_path)
+  for row in df_subsampled.iter_rows(named=True):
+    for col in df_subsampled.columns:
+      print(f"{col}: {row[col]}\n")
   sample_points = []
 
   for row in df_subsampled.iter_rows(named=True):
@@ -42,6 +45,6 @@ def create_sample_points(file_path: str) -> list[Dict[str, str]]:
 
 
 if __name__ == "__main__":
-  sample_points = create_sample_points("summary_pairs.csv")
+  sample_points = create_sample_points("dataset/summary_pairs.csv")
   print(f"Length of sample_points: {len(sample_points)}\n")
-  print(sample_points)
+  # print(sample_points)

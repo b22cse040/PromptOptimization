@@ -89,7 +89,7 @@ if __name__ == '__main__':
   # optim_llm_name = "google/gemini-2.0-flash-exp:free"
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
   eval_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  filepath = "../Dataset/summary_pairs.csv"
+  filepath = "../Dataset/dataset/summary_pairs.csv"
 
   sample_points = create_sample_points(filepath)
   print(f"Sample points created: {len(sample_points)}")

@@ -1,8 +1,10 @@
+chardet
 dotenv
 ipykernel
 llm-openrouter
 matplotlib
-numpy 
+numpy
+pandas
 polars
 seaborn
 tqdm
