@@ -11,7 +11,7 @@ def create_evaluator_prompt(optim_llm_response : dict, task_desc=_TASK_DESCRIPTI
     optim_llm_response_text += (
       f"Point: {idx}\n"
       f"text: {sample_point['text']}\n"
-      # f"human_summary: {sample_point['human_summary']}\n"
+      f"human_summary: {sample_point['human_summary']}\n"
       f"machine_summary: {sample_point['machine_summary']}\n\n"
     )
 
@@ -21,7 +21,9 @@ def create_evaluator_prompt(optim_llm_response : dict, task_desc=_TASK_DESCRIPTI
     Task description: 
     {_TASK_DESCRIPTION}
     
-    For each aspect, assign a score from 1 to 5 (1 = very poor, 5 = excellent).
+    For each aspect, assign a score from 1 to 5 based on
+    how aligned they are with human summaries of the same text. (1 = very poorly 
+    aligned, 5 = excellent alignment).
     
     Below are the sample points. Each point includes the original text, the human written summary (if given)
     and the machine-generated summary:
