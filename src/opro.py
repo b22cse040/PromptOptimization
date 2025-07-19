@@ -28,34 +28,35 @@ def plot_epoch_scores(scores: dict, save_path="Plots/epoch_scores.png"):
 def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5, num_epochs: int = 3, run_id: int = 0) -> dict:
   ## Sampling sample points
   sample_points = create_sample_points(filepath)
-  print(f"Step 1: Creating {len(sample_points)} Sample points (Successful)")
+  print(f"Run {run_id + 1} ==> Step 1: Creating {len(sample_points)} Sample points (Successful)")
 
   ## Top-K prompts
   top_k_prompts = TopKHeap(k)
-  print(f"Step 2: Created a heap to store top-{k} prompts (Successful)")
+  print(f"Run {run_id + 1} ==> Step 2: Created a heap to store top-{k} prompts (Successful)")
 
   optim_summaries = None
 
   scores = {metric: [] for metric in ["fluency", "coherence", "consistency", "relevance"]}
 
   for epoch in range(num_epochs):
-    print(f"Epoch {epoch + 1}/{num_epochs}")
+    print(f"Run {run_id + 1} ==> Epoch {epoch + 1}/{num_epochs}")
 
     optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
-    print(f"Epoch: {epoch} at Step 3: Generated initial summaries from Optim LLM (Successful)")
+    print(f"Run {run_id} ==> Epoch: {epoch} at Step 3: Generated initial summaries from Optim LLM (Successful)")
 
+    print(f"Run {run_id + 1} ==>")
     print(optim_summaries)
     print("\n")
 
     if optim_summaries == {}:
-      print("Invalid Output from optim LLM, retrying this step!")
+      print(f"Run {run_id + 1} ==> Invalid Output from optim LLM, retrying this step!")
       optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
 
     eval_judgements = call_evaluator_llm(optim_summaries, eval_llm_name)
-    print(f"Epoch: {epoch} at Step 4: Generating judgements (Successful)")
+    print(f"Run {run_id + 1} ==> Epoch: {epoch} at Step 4: Generating judgements (Successful)")
 
     eval_result = process_reply(eval_judgements, top_k_prompts, optim_summaries["instruction"])
-    print(f"Step 5: Processed evaluated judgements (Successful)")
+    print(f"Run {run_id + 1} ==> Step 5: Processed evaluated judgements (Successful)")
     print('=' * 100)
 
     for metric, score in eval_result["scores"].items():
