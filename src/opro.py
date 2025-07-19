@@ -71,8 +71,8 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
   }
 
 if __name__ == "__main__":
-  eval_llm_name = "deepseek/deepseek-r1-0528:free"
-  optim_llm_name = "mistralai/mistral-small-3.2-24b-instruct:free"
+  eval_llm_name = "openai/gpt-4.1-nano"
+  optim_llm_name = "meta-llama/llama-3.2-3b-instruct:free"
   filepath = "Dataset/summary_pairs.csv"
   opro_results = run_opro(filepath, optim_llm_name, eval_llm_name, num_epochs=5)
   top_k_prompts = TopKHeap(k=5)

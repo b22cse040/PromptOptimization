@@ -1,15 +1,27 @@
 from src.Dataset.random_subsample import create_sample_points
 from src.TopK_Heap.top_k import TopKHeap
 
-_TASK_DESCRIPTION = """ 
-Generate improved summaries optimizing for fluency, coherence, consistency, and relevance.
-
-- Fluency: The summary should be smooth, natural, and grammatically correct.
-- Coherence: Ideas should flow logically and be easy to follow.
-- Consistency: The summary must accurately reflect factual details from the original text.
-- Relevance: The summary should include all important and informative content, avoiding unnecessary details.
-
-Your goal is to produce high-quality summaries that excel in all four aspects.
+_TASK_DESCRIPTION = """
+  In this task you will evaluate the quality of summaries written for news article.
+  To correctly solve this task, follow these steps:
+  
+  1. Carefully read the news article, be aware of the information it contains.
+  2. Read the proposed summary.
+  3. Rate each summary on a scale from 1 (worst) to 5 (best) by its relevance, 
+  consistency, fluency and coherence.
+  
+  Definitions:
+  
+  - Relevance: The rating measures how well the summary captures the key points of 
+  the article. Consider whether all and only the important aspects are contained in
+  the summary.
+  - Consistency: The rating measures whether the facts in the summary are consistent 
+  with the facts in the original article. Consider whether the summary does
+  reproduce all facts accurately and does not make up untrue information.
+  - Fluency: The rating measures the quality of individual sentences, are they 
+  well-written and grammatically correct. Consider the quality of individual sentences.
+  - Coherence: The rating measures the quality of all sentences collectively, to
+  fit together and sound naturally. Consider the quality of the summary as a whole.  
 """
 
 
@@ -22,8 +34,8 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None,
     sample_points_pairs_text += (
       f"Pair: {idx}\n"
       f"Text: {pair['text']}\n"
-      f"Human Summary: {pair['human_summary']}\n\n"
-      # f"Machine Summary: {pair['machine_summary']}\n"
+      # f"Human Summary: {pair['human_summary']}\n\n"
+      f"Machine Summary: {pair['machine_summary']}\n"
       # f"Fluency: {pair['fluency']}\n"
       # f"Coherence: {pair['coherence']}\n"
       # f"Consistency: {pair['consistency']}\n"
