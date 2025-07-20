@@ -59,6 +59,25 @@ def clean_dataset(df: pd.DataFrame) -> pd.DataFrame:
 
   return df
 
+def subsample_by_model_id(df: pd.DataFrame, model_id: str = "M11"):
+  # df = pd.read_json(df, lines=True, encoding="utf-8")
+  df = df[df.model_id == model_id].reset_index(drop=True)
+  annotation_keys = ["fluency", "coherence", "consistency", "relevance"]
+  for key in annotation_keys:
+    df[key] = df["expert_annotation"].apply(lambda x: x.get(key, None) if isinstance(x, dict) else None)
+
+  result_df = df[[
+    "machine_summary",
+    "human_summaries",
+    "text",
+    "fluency",
+    "coherence",
+    "consistency",
+    "relevance",
+  ]].copy()
+
+  return result_df
+
 if __name__ == '__main__':
   # original_path = "dataset/model_annotations.aligned.paired.jsonl"
   utf8_path = "dataset/model_annotations.utf8.jsonl"
@@ -66,15 +85,18 @@ if __name__ == '__main__':
 
   df = load_dataset(file_path=utf8_path, encoding='utf-8')
   cleaned_df = clean_dataset(df)
-  head = cleaned_df.head()
 
-  cleaned_df = fix_encoding(cleaned_df)
+  model_id = "M11"
+  subsampled_df = subsample_by_model_id(cleaned_df, model_id)
+  head = subsampled_df.head()
+
+  # cleaned_df = fix_encoding(result_df)
 
   for idx, row in head.iterrows():
-    for col in cleaned_df.columns:
+    for col in subsampled_df.columns:
       print(f"{col} : {row[col]}")
     print('\n\n')
 
-  output_path = "dataset/cleaned_df.csv"
-  cleaned_df.to_csv(output_path, encoding='utf-8', index=False)
-  print(f"Cleaned dataset saved to {output_path}")
+  output_path = f"dataset/df_model_{model_id}.csv"
+  subsampled_df.to_csv(output_path, encoding='utf-8', index=False)
+  # print(f"Cleaned dataset saved to {output_path}")
