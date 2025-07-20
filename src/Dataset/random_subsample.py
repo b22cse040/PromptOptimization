@@ -43,6 +43,11 @@ def create_sample_points(file_path: str) -> list[Dict[str, str]]:
     sample_points.append({
       "text": row["text"],
       "human_summaries": row["human_summaries"],
+      "machine_summary": row["machine_summary"],
+      "ground_fluency": row["fluency"],
+      "ground_coherence": row["coherence"],
+      "ground_consistency": row["consistency"],
+      "ground_relevance": row["relevance"],
     })
 
   return sample_points

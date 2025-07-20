@@ -51,10 +51,12 @@ def call_optimizer_llm(sample_points: list[Dict[str, str]], top_k_prompts: TopKH
 
 if __name__ == "__main__":
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  filepath = "../Dataset/dataset/summary_pairs.csv"
+  filepath = "../Dataset/dataset/df_model_M11.csv"
   sample_points = create_sample_points(filepath)
+  print("Created Samples!")
   # print(sample_points)
   top_k_prompts = TopKHeap(3)
+  print("Calling Optimizer!")
   reply = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
   print(reply)
   print(type(reply))
