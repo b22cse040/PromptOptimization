@@ -94,6 +94,10 @@ def create_evaluator_prompt(sample_points: list[Dict[str, str]],
     - Do not include markdown code blocks (like ```json or ```).
     - Escape all internal newlines and quotes in string values if needed.
     
+    Important: Do not reference or include ground-truth metric scores (e.g., no 
+    “predicted vs. ground truth” comparisons). Focus only on analyzing the predicted 
+    scores and providing recommendations based on patterns in those predictions.
+    
     Here is the required JSON structure example (strict format):
     {{
       "instruction": "<same string from instruction>",

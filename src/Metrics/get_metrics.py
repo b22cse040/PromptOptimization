@@ -1,6 +1,6 @@
 from src.Dataset.random_subsample import create_sample_points
 from src.Optim.optimizer import call_optimizer_llm
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score, f1_score
 from typing import Dict
 
 from src.TopK_Heap.top_k import TopKHeap
@@ -8,12 +8,16 @@ from src.TopK_Heap.top_k import TopKHeap
 
 def calculate_metrics(sample_points: list[Dict[str, str]], optim_llm_response: dict) -> dict:
   """
-  Calculates metrics based on sample_points and optim_llm_response
-  :param sample_points: Original Sample Points with Ground Truth scores.
-  :param optim_llm_response: Predicted LLM response with predicted scores
-  :return: A dict with metrics
+    Calculates accuracy and F1-score per metric (fluency, coherence, consistency, relevance).
 
-  { "label" : "classification_report" }
+    :param sample_points: Original sample points with ground-truth scores.
+    :param optim_llm_response: Model predictions with scores per sample.
+    :return: Dict in format:
+             {
+               "fluency": {"accuracy": ..., "f1": ...},
+               "coherence": {"accuracy": ..., "f1": ...},
+               ...
+             }
   """
 
   metrics = {
@@ -30,31 +34,37 @@ def calculate_metrics(sample_points: list[Dict[str, str]], optim_llm_response: d
 
     predicted_scores = optim_llm_response["sample_points"][response_key]["score"]
 
-    for metric in metrics.keys():
-      ground_key = f"ground_{metric}"
-      predicted_key = f"predicted_{metric}"
+    for metric in metrics:
+      ground_score = int(sample[f"ground_{metric}"] if sample[f"ground_{metric}"] else 0.0)
+      predicted_score = int(predicted_scores[f"predicted_{metric}"] if predicted_scores else 0.0)
 
-      y_true = int(sample[ground_key])
-      y_pred = int(predicted_scores[predicted_key])
+      if ground_score == 0 or predicted_score == 0: continue
 
-      metrics[metric]["y_true"].append(y_true)
-      metrics[metric]["y_pred"].append(y_pred)
+      metrics[metric]["y_true"].append(ground_score)
+      metrics[metric]["y_pred"].append(predicted_score)
 
+  # Calculating eval metrics: F1 and accuracy
   result = {}
   for metric, data in metrics.items():
-    report = classification_report(
-      y_true=data["y_true"],
-      y_pred=data["y_pred"],
-      labels=[1, 2, 3, 4, 5],
-      zero_division=0,
-      output_dict=True
-    )
-    result[metric] = report
+    y_true = data["y_true"]
+    y_pred = data["y_pred"]
+
+    if not y_true or not y_pred:
+      result[metric] = {"accuracy": 0, "f1": 0}
+      continue
+
+    acc = accuracy_score(y_true, y_pred)
+    f1 = f1_score(y_true, y_pred, average="weighted", zero_division=0)
+
+    result[metric] = {
+      "accuracy": round(acc, 4),
+      "f1": round(f1, 4)
+    }
 
   return result
 
 if __name__ == "__main__":
-  optim_llm_name = "meta-llama/llama-3.2-3b-instruct:free"
+  optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
   sample_points = create_sample_points("../Dataset/dataset/df_model_M11.csv")
   # print("Created sample_points:")
   top_k_prompts = TopKHeap(3)
@@ -69,7 +79,4 @@ if __name__ == "__main__":
   metrics = calculate_metrics(sample_points, optim_llm_response)
   # print(metrics)
 
-  for metric, report in metrics.items():
-    print(metric)
-    print(report,)
-    print('=' * 100)
+  print(metrics)

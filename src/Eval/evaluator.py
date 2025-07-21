@@ -1,11 +1,13 @@
 import requests, os, json5, re
-import numpy as np
+# import numpy as np
 from dotenv import load_dotenv
 
 from src.Dataset.random_subsample import create_sample_points
 from src.Eval.e_prompt import create_evaluator_prompt
+from src.Metrics.get_metrics import calculate_metrics
 from src.Optim.optimizer import call_optimizer_llm
 from src.TopK_Heap.top_k import TopKHeap
+from typing import Dict
 
 load_dotenv()
 
@@ -26,42 +28,33 @@ def clean_response(reply: str) -> dict:
     print(f"Error decoding JSON: {e}")
     return {}
 
-def process_reply(eval_reply: dict, heap: TopKHeap, instruction: str) -> dict:
+def process_reply(eval_reply: dict, heap: TopKHeap, metrics: dict) -> dict:
   """
-  Process the reply for meta-prompt. Averaging the scores for all samples.
+  Processes the evaluator reply. Pushes the instruction, metrics, and recommendation
+  into the TopKHeap, and returns the processed dict.
+  :param eval_reply: Output from evaluator LLM containing 'instruction' and 'recommendation'
+  :param heap: TopKHeap object to maintain top-k prompts
+  :param metrics: Dictionary of classification reports per metric (fluency, coherence, etc.)
+  :return: Processed dict pushed to heap
   """
-  scores = eval_reply.get("scores", {})
-  metrics = ["fluency", "coherence", "consistency", "relevance"]
 
-  metric_values = {metric: [] for metric in metrics}
-
-  for idx_scores in scores.values():
-    for metric in metrics:
-      if metric in idx_scores:
-        metric_values[metric].append(idx_scores[metric])
-
-  averaged_scores = {
-    metric: round(float(np.mean(values)), 2) if values else 0.0
-    for metric, values in metric_values.items()
-  }
-
-  processed =  {
-    "instruction": instruction,
-    "scores" : averaged_scores,
-    "recommendation": eval_reply.get("recommendation", ""),
+  processed = {
+    "instruction": eval_reply["instruction"],
+    "metrics" : metrics,
+    "recommendation": eval_reply["recommendation"],
   }
 
   heap.push(processed)
-  print(processed)
+  # print(processed)
   return processed
 
-def call_evaluator_llm(optim_llm_response: dict, eval_llm_name: str) -> dict:
+def call_evaluator_llm(sample_points: list[Dict[str, str]], optim_llm_response: dict, eval_llm_name: str) -> dict:
   """
   optim_llm_response: the response generated from OPTIM_LLM containing text, human_summary
   and machine_summary
   eval_llm_name: name of the evaluator llm to use
   """
-  evaluator_prompt = create_evaluator_prompt(optim_llm_response)
+  evaluator_prompt = create_evaluator_prompt(sample_points, optim_llm_response)
 
   evaluator_response = requests.post(
     url="https://openrouter.ai/api/v1/chat/completions",
@@ -89,7 +82,7 @@ if __name__ == '__main__':
   # optim_llm_name = "google/gemini-2.0-flash-exp:free"
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
   eval_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  filepath = "../Dataset/dataset/summary_pairs.csv"
+  filepath = "../Dataset/dataset/df_model_M11.csv"
 
   sample_points = create_sample_points(filepath)
   print(f"Sample points created: {len(sample_points)}")
@@ -97,13 +90,17 @@ if __name__ == '__main__':
   top_k_prompts = TopKHeap(3)
   optim_summaries = call_optimizer_llm(sample_points, top_k_prompts=top_k_prompts,optim_llm_name=optim_llm_name)
   print(optim_summaries)
-  print(f"OPTIM_LLM: Generated machine summaries")
+  print(f"OPTIM_LLM: Generated summary scores")
 
-  eval_judgements = call_evaluator_llm(optim_summaries, eval_llm_name)
-  print(f"EVAL_LLM: Judging generated machine summaries")
+  metrics = calculate_metrics(sample_points, optim_summaries)
+  print(metrics)
+  print(f"Calculated metrics")
+
+  eval_judgements = call_evaluator_llm(sample_points, optim_summaries, eval_llm_name)
+  print(f"EVAL_LLM: Generating recommendations")
   print(eval_judgements)
   print('=' * 70)
 
-  processed_eval_judgements = process_reply(eval_judgements, top_k_prompts)
+  processed_eval_judgements = process_reply(eval_judgements, top_k_prompts, metrics)
   print(f"Processing Judgements: {len(processed_eval_judgements)}")
   print(processed_eval_judgements)

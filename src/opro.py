@@ -37,7 +37,7 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
 
   optim_summaries = None
 
-  scores = {metric: [] for metric in ["fluency", "coherence", "consistency", "relevance"]}
+  # scores = {metric: [] for metric in ["fluency", "coherence", "consistency", "relevance"]}
 
   for epoch in range(num_epochs):
     print(f"Run {run_id + 1} ==> Epoch {epoch + 1}/{num_epochs}")
@@ -57,7 +57,7 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
     ## Process the predicted summaries for classification report
     metrics = calculate_metrics(sample_points, optim_summaries)
 
-    eval_judgements = call_evaluator_llm(optim_summaries, eval_llm_name)
+    eval_judgements = call_evaluator_llm(sample_points, optim_summaries, eval_llm_name)
     print(f"Run {run_id + 1} ==> Epoch: {epoch} at Step 4: Generating judgements (Successful)")
 
     eval_result = process_reply(eval_judgements, top_k_prompts, optim_summaries["instruction"])
