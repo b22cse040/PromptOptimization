@@ -2,7 +2,14 @@ from src.Optim.o_prompt import _TASK_DESCRIPTION, create_optim_meta_prompt
 from src.Optim.optimizer import call_optimizer_llm
 from src.Dataset.random_subsample import create_sample_points
 
-def create_evaluator_prompt(optim_llm_response : dict, task_desc=_TASK_DESCRIPTION) -> str:
+def create_evaluator_prompt(sample_points: dict, optim_llm_response : dict, task_desc=_TASK_DESCRIPTION) -> str:
+  """
+  Creates an evaluator prompt
+  :param sample_points: Original Sample Points with Ground Truth scores.
+  :param optim_llm_response: Optimized LLM response with predicted scores
+  :param task_desc: Task Description for the task at hand
+  :return: A string containing the prompt
+  """
   # instruction: str = optim_llm_response["instruction"]
   sample_points_response = optim_llm_response["sample_points"]
   optim_llm_response_text = ""
@@ -11,7 +18,7 @@ def create_evaluator_prompt(optim_llm_response : dict, task_desc=_TASK_DESCRIPTI
     optim_llm_response_text += (
       f"Point: {idx}\n"
       f"text: {sample_point['text']}\n"
-      f"human_summary: {sample_point['human_summary']}\n"
+      # f"human_summary: {sample_point['human_summary']}\n"
       f"machine_summary: {sample_point['machine_summary']}\n\n"
     )
 

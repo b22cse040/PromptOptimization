@@ -103,19 +103,19 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None,
         "1": {{
           "machine_summary": "<original string from the sample point>",
           "score": {{
-            "fluency": 1|2|3|4|5,
-            "coherence": 1|2|3|4|5,
-            "relevance": 1|2|3|4|5,
-            "consistency": 1|2|3|4|5
+            "predicted_fluency": 1|2|3|4|5,
+            "predicted_coherence": 1|2|3|4|5,
+            "predicted_relevance": 1|2|3|4|5,
+            "predicted_consistency": 1|2|3|4|5
           }}
         }},
         "2": {{
           "machine_summary": "<original string from the sample point>",
           "score": {{
-            "fluency": 1|2|3|4|5,
-            "coherence": 1|2|3|4|5,
-            "relevance": 1|2|3|4|5,
-            "consistency": 1|2|3|4|5
+            "predicted_fluency": 1|2|3|4|5,
+            "predicted_coherence": 1|2|3|4|5,
+            "predicted_relevance": 1|2|3|4|5,
+            "predicted_consistency": 1|2|3|4|5
           }}
         }},...
       }}

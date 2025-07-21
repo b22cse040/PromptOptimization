@@ -6,5 +6,6 @@ matplotlib
 numpy
 pandas
 polars
+scikit-learn
 seaborn
 tqdm

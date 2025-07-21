@@ -1,5 +1,6 @@
 from src.Dataset.random_subsample import create_sample_points
 from src.Eval.evaluator import call_evaluator_llm, process_reply
+from src.Metrics.get_metrics import calculate_metrics
 from src.Optim.optimizer import call_optimizer_llm
 from src.TopK_Heap.top_k import TopKHeap
 import matplotlib
@@ -52,6 +53,9 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
       print(f"Run {run_id + 1} ==> Invalid Output from optim LLM, retrying this step!")
       optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
 
+    ## Process the predicted summaries for classification report
+    metrics = calculate_metrics(sample_points, optim_summaries)
+
     eval_judgements = call_evaluator_llm(optim_summaries, eval_llm_name)
     print(f"Run {run_id + 1} ==> Epoch: {epoch} at Step 4: Generating judgements (Successful)")
 
@@ -73,6 +77,6 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
 if __name__ == "__main__":
   eval_llm_name = "openai/gpt-4.1-nano"
   optim_llm_name = "meta-llama/llama-3.2-3b-instruct:free"
-  filepath = "Dataset/dataset/summary_pairs.csv"
+  filepath = "Dataset/dataset/df_model_M11.csv"
   opro_results = run_opro(filepath, optim_llm_name, eval_llm_name, num_epochs=5)
   top_k_prompts = TopKHeap(k=5)
