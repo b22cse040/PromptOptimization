@@ -103,6 +103,9 @@ def create_evaluator_prompt(sample_points: list[Dict[str, str]],
       "instruction": "<same string from instruction>",
       "recommendation": "<your suggestion to better align model outputs with human scores>"
     }}
+    
+    Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
+    Please adhere to the said output.
   """
 
   return _EVALUATOR_PROMPT

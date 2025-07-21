@@ -48,14 +48,19 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None,
     for idx, prompt_data in enumerate(top_k_prompts, 1):
       instruction = prompt_data["instruction"]
       recommendation = prompt_data["recommendation"]
+      metrics = prompt_data["metrics"] if prompt_data["metrics"] else {}
+
+      metric_lines = []
+      for label in ["fluency", "coherence", "consistency", "relevance"]:
+        label_metrics = metrics.get(label, {})
+        acc = label_metrics.get("accuracy", 0.0)
+        f1  = label_metrics.get("f1", 0.0)
+        metric_lines.append(f"{label.title()} - Accuracy: {acc:.3f} - F1: {f1:.3f}")
+
       prev_top_k_prompts_text += (
-        ## difference => How much the score deviates from original rating.
-        f"{idx}, Instruction: {instruction}\n"
-        f"Fluency difference: {prompt_data['scores']['fluency']}\n"
-        f"Coherence difference: {prompt_data['scores']['coherence']}\n"
-        f"Consistency difference: {prompt_data['scores']['consistency']}\n"
-        f"Relevance difference: {prompt_data['scores']['relevance']}\n"
-        f"Recommendation: {recommendation}\n"
+        f"Instruction: {instruction}\n"
+        + "\n".join(metric_lines) + "\n"
+        f"Recommendation: {recommendation}\n\n"
       )
 
   _OPTIM_META_PROMPT = f"""
@@ -121,7 +126,6 @@ def create_optim_meta_prompt(sample_points, prev_top_k_prompts : TopKHeap =None,
       }}
     }}
 
-    
     Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
     Please adhere to the said output.
   """
