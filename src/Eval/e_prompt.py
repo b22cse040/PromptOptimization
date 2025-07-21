@@ -35,7 +35,9 @@ _TASK_DESCRIPTION_EVAL = """
   Be specific, grounded in the provided evidence, and focus on actionable improvements.
 """
 
-def create_evaluator_prompt(sample_points: list[Dict[str, str]], optim_llm_response : dict, task_desc=_TASK_DESCRIPTION_EVAL) -> str:
+def create_evaluator_prompt(sample_points: list[Dict[str, str]],
+                            optim_llm_response : dict,
+                            task_desc : str =_TASK_DESCRIPTION_EVAL) -> str:
   """
   Creates an evaluator prompt
   :param sample_points: Original Sample Points with Ground Truth scores.
@@ -44,10 +46,23 @@ def create_evaluator_prompt(sample_points: list[Dict[str, str]], optim_llm_respo
   :return: A string containing the prompt
   """
   # instruction: str = optim_llm_response["instruction"]
+  sample_points_text = ""
+  i = 1
+  for point in sample_points:
+    sample_points_text += (
+      f"Point: {i}\n"
+      f"Text: {point['text']}\n"
+      f"ground_fluency: {point['ground_fluency']}\n"
+      f"ground_coherence: {point['ground_coherence']}\n"
+      f"ground_consistency: {point['ground_consistency']}\n"
+      f"ground_relevance: {point['ground_relevance']}\n\n"
+    )
+    i += 1
+
   sample_points_predicted = optim_llm_response["sample_points"]
+  instruction = optim_llm_response["instruction"]
   optim_llm_response_text = ""
   for idx, sample_point in sample_points_predicted.items():
-    # idx = int(idx_str)
     optim_llm_response_text += (
       f"Point: {idx}\n"
       # f"text: {sample_point['text']}\n"
@@ -63,10 +78,27 @@ def create_evaluator_prompt(sample_points: list[Dict[str, str]], optim_llm_respo
     Task description: 
     {task_desc}
     
+    The following samples are to be evaluated: 
+    {sample_points_text}
+    
     The following LLM Samples contain machine summaries and their performance
     across the metrics as predicted by the LLM, keyed by idx. 
     
     {optim_llm_response_text}
+    
+    The current instruction is: {instruction}
+    
+    Important: You must respond with STRICT VALID JSON only. 
+    - Use double quotes (") for all keys and string values.
+    - Do NOT include any explanations, comments or extra text before or after the JSON.
+    - Do not include markdown code blocks (like ```json or ```).
+    - Escape all internal newlines and quotes in string values if needed.
+    
+    Here is the required JSON structure example (strict format):
+    {{
+      "instruction": "<same string from instruction>",
+      "recommendation": "<your suggestion to better align model outputs with human scores>"
+    }}
   """
 
   return _EVALUATOR_PROMPT
@@ -85,3 +117,5 @@ if __name__ == "__main__":
 
   evaluator_prompt = create_evaluator_prompt(sample_points, optim_llm_response)
   print(evaluator_prompt)
+  print('=' * 100)
+  print(len(evaluator_prompt))
