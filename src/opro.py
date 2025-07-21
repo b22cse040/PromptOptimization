@@ -49,7 +49,8 @@ def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5
     print(optim_summaries)
     print("\n")
 
-    if optim_summaries == {}:
+    # Retry until correct response format!
+    while optim_summaries == {}:
       print(f"Run {run_id + 1} ==> Invalid Output from optim LLM, retrying this step!")
       optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
 

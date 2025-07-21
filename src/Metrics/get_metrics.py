@@ -56,16 +56,16 @@ def calculate_metrics(sample_points: list[Dict[str, str]], optim_llm_response: d
 if __name__ == "__main__":
   optim_llm_name = "meta-llama/llama-3.2-3b-instruct:free"
   sample_points = create_sample_points("../Dataset/dataset/df_model_M11.csv")
-  print("Created sample_points:")
+  # print("Created sample_points:")
   top_k_prompts = TopKHeap(3)
-  print("Created top_k_prompts:")
-  print("Calling Optimizer!")
+  # print("Created top_k_prompts:")
+  # print("Calling Optimizer!")
   optim_llm_response = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
 
-  print(optim_llm_response)
-  print('\n\n')
-  print('=' * 100)
-  print("Metrics ->")
+  # print(optim_llm_response)
+  # print('\n\n')
+  # print('=' * 100)
+  # print("Metrics ->")
   metrics = calculate_metrics(sample_points, optim_llm_response)
   # print(metrics)
 
