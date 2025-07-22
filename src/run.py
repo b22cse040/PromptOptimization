@@ -4,7 +4,8 @@ from src.opro import run_opro
 if __name__ == '__main__':
   # Fixed Parameters
   filepath = "Dataset/dataset/df_model_M11.csv"
-  eval_llm_name = "deepseek/deepseek-r1-0528:free"
+  eval_llm_name = "openai/gpt-4.1-nano"
+  #optim_llm_name = "meta-llama/llama-3.2-3b-instruct:free"
   optim_llm_name = "mistralai/mistral-small-3.2-24b-instruct:free"
   k = 5
   num_epochs = 5
