@@ -1,17 +1,18 @@
 # PromptOptimization
 
-Using LLM to act as a judge (LLM-as-a-Judge) to improve summarization of texts over iterations, while optimizing fluency, coherence, consistency and relevance in a multi-task setting.
+## Instruction
+We design a multi-objective optimization setup for evaluating and improving LLM-generated instructions that rate machine-generated summaries. The pipeline uses two distinct LLM roles:
 
-The setup uses two 2 LLMs: 
- - An Optimizer LLM that summarizes tasks and incorporates previous iterations to improve over the previous iterations of the task (like an optimizer in classical ML setting).
- - An Evaluator LLM that acts a judge and rates theses scores between (1 - 5), and recommends improvements based on the current instruction.
+- ```Optimizer LLM``` : This LLM is tasked to judge (LLM-as-a-Judge) the rating of the quality of machine generated summaries along 4 labels : {fluency, coherence, consistency and relevance} - each as a multi-task classification (1 | 2 | 3 | 4 | 5).
+- ```Evaluator LLM``` : This LLM plays the role of an optimizer. It compares the Optimizer LLM's predicted labels with ground truth annotations and generates detailed recommendation for improving the instruction used to produce human aligned summary evaluations.
 
-We also maintain a heap (top_k_prompts) that, keeps the top-k best performing instructions in an ascending order. These are present in the meta prompt of the optimizer-LLM to improve the instruction that optimizes the performances.
+We maintain a Heap to track the top-k best performing instructions (based  on the accuracy and F1 scores across the 4 metrics). The top-k prompts are injected into the Optimizer LLM's meta-prompt in the next iteration, helping it learn from better instructions.
 
-The results of one such run: 
+Over time, this loops drives the generation of improved instructions that yield more accurate and aligned predictions.
 
-<img width="1200" height="800" alt="image" src="https://github.com/user-attachments/assets/88868d1e-3166-4967-91f1-506a365871b0" />
+<img width="1200" height="500" alt="image" src="https://github.com/user-attachments/assets/7e3c2d35-0f59-41b0-aade-11d5ab46fde3" />
 
-Evaluator LLM : deepseek/deepseek-r1-0528
 
-Optimizer LLM : mistralai/mistral-small-3.2-24b-instruct
+Evaluator LLM : openai/gpt-4.1-nano
+
+Optimizer LLM : meta-llama/llama-3.2-3b-instruct
