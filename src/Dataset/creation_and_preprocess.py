@@ -1,4 +1,5 @@
 import pandas as pd
+import ast
 
 # def convert_encoding(input_path: str, output_path: str, from_encoding: str = 'latin-1', to_encoding: str = 'utf-8'):
 #   with open(input_path, 'r', encoding=from_encoding) as infile:
@@ -38,7 +39,7 @@ def fix_encoding(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def clean_dataset(df: pd.DataFrame) -> pd.DataFrame:
-  df = df.explode("expert_annotations")
+  df = df.explode("expert_annotation")
 
   df = df.rename(columns={
     "decoded" : "machine_summary",
@@ -62,9 +63,19 @@ def clean_dataset(df: pd.DataFrame) -> pd.DataFrame:
 def subsample_by_model_id(df: pd.DataFrame, model_id: str = "M11"):
   # df = pd.read_json(df, lines=True, encoding="utf-8")
   df = df[df.model_id == model_id].reset_index(drop=True)
+
+  if df["expert_annotation"].dtype == object:
+    df["expert_annotation"] = df["expert_annotation"].apply(
+      lambda x: ast.literal_eval(x) if isinstance(x, str) and x.strip().startswith(
+      "{") else x
+    )
+
   annotation_keys = ["fluency", "coherence", "consistency", "relevance"]
   for key in annotation_keys:
     df[key] = df["expert_annotation"].apply(lambda x: x.get(key, None) if isinstance(x, dict) else None)
+
+  df = df.groupby(["text", "machine_summary"], group_keys=False).apply(
+    lambda x: x.sample(1, random_state=42)).reset_index(drop=True)
 
   result_df = df[[
     "machine_summary",
@@ -79,24 +90,21 @@ def subsample_by_model_id(df: pd.DataFrame, model_id: str = "M11"):
   return result_df
 
 if __name__ == '__main__':
-  # original_path = "dataset/model_annotations.aligned.paired.jsonl"
-  utf8_path = "dataset/model_annotations.utf8.jsonl"
-  # convert_encoding(original_path, utf8_path)
-
-  df = load_dataset(file_path=utf8_path, encoding='utf-8')
-  cleaned_df = clean_dataset(df)
+  df = pd.read_csv("dataset/cleaned_df.csv")
+  # cleaned_df = clean_dataset(df)
 
   model_id = "M11"
-  subsampled_df = subsample_by_model_id(cleaned_df, model_id)
+  subsampled_df = subsample_by_model_id(df, model_id)
   head = subsampled_df.head()
-
-  # cleaned_df = fix_encoding(result_df)
 
   for idx, row in head.iterrows():
     for col in subsampled_df.columns:
       print(f"{col} : {row[col]}")
     print('\n\n')
 
-  output_path = f"dataset/df_model_{model_id}.csv"
+  print("Shape: ",subsampled_df.shape)
+
+  output_path = f"dataset/df_{model_id}_sampled.csv"
   subsampled_df.to_csv(output_path, encoding='utf-8', index=False)
-  # print(f"Cleaned dataset saved to {output_path}")
+  # subsampled_df.to_parquet(output_path, index=False)
+  print(f"Cleaned dataset saved to {output_path}")

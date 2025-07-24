@@ -1,4 +1,4 @@
-from src.Optim.optimizer import call_optimizer_llm
+from src.Rater.rater import call_optimizer_llm
 from src.Dataset.random_subsample import create_sample_points
 from src.TopK_Heap.top_k import TopKHeap
 from typing import Dict

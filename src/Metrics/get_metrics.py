@@ -1,5 +1,5 @@
 from src.Dataset.random_subsample import create_sample_points
-from src.Optim.optimizer import call_optimizer_llm
+from src.Rater.rater import call_optimizer_llm
 from sklearn.metrics import accuracy_score, f1_score
 from typing import Dict
 

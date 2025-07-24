@@ -3,7 +3,7 @@ import json5
 from typing import Dict
 from dotenv import load_dotenv
 from src.Dataset.random_subsample import create_sample_points
-from src.Optim.o_prompt import create_optim_meta_prompt
+from src.Rater.rater_prompt import create_optim_meta_prompt
 from src.TopK_Heap.top_k import TopKHeap
 
 load_dotenv()

@@ -1,7 +1,7 @@
 from src.Dataset.random_subsample import create_sample_points
-from src.Eval.evaluator import call_evaluator_llm, process_reply
+from src.Recommender.recommender import call_evaluator_llm, process_reply
 from src.Metrics.get_metrics import calculate_metrics
-from src.Optim.optimizer import call_optimizer_llm
+from src.Rater.rater import call_optimizer_llm
 from src.TopK_Heap.top_k import TopKHeap
 import matplotlib
 matplotlib.use("Agg")
