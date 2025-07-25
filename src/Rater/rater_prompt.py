@@ -29,7 +29,7 @@ _TASK_DESCRIPTION = """
 ## sample_points: list of dicts
 ## prev_top_k_prompts is a list of dicts, each mapping an instruction string to
 ## a dict of score metrics.
-def create_optim_meta_prompt(
+def create_rater_meta_prompt(
     prev_top_k_prompts : TopKHeap = None,
     task_desc=_TASK_DESCRIPTION
 ):
@@ -96,7 +96,7 @@ def create_optim_meta_prompt(
 
 ## The biggest difference between Meta Prompt and Prompt is that meta-prompt generates
 ## an instruction while Prompt uses that instruction to generate scores
-def create_prompt(instruction: str, run_id: int  = 0, file_path = "../Dataset/dataset/df_M11_sampled.parquet") -> str:
+def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Dataset/dataset/df_M11_sampled.parquet") -> str:
   df = pd.read_parquet(file_path)
 
   sample_point = df.iloc[run_id]
