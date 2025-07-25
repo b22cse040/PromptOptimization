@@ -25,26 +25,7 @@ def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str):
   rater_meta_prompt = create_rater_meta_prompt(prev_top_k_prompts=top_k_prompts)
   # print(optim_meta_prompt)
 
-  rater_response = requests.post(
-    url="https://openrouter.ai/api/v1/chat/completions",
-    headers={
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + os.getenv("OPENROUTER_API_KEY")
-    },
-    data=json5.dumps({
-      "model" : rater_llm_name,
-      "messages" : [
-        {
-          "role"  : "user",
-          "content" : rater_meta_prompt
-        }
-      ],
-    })
-  )
-
-  reply = rater_response.json()["choices"][0]["message"]["content"]
-  # print(reply)
-  # reply = clean_response(reply)
+  reply = call_openrouter(rater_meta_prompt, rater_llm_name)
   return reply
 
 def call_rater_llm_prompt(

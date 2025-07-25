@@ -73,7 +73,7 @@ def call_openrouter(
       # If last try, raise the final exception
       if attempt + 1 == retries:
         print("All retries failed.")
-        raise Exception(f"API req faile after {retries} retries.") from e
+        raise Exception(f"API req failed after {retries} retries.") from e
 
       # Calculate wait time
       backoff_time = backoff * (2 ** attempt)
