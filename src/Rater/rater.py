@@ -19,12 +19,11 @@ def clean_response(reply: str) -> dict:
     print(f"Error decoding JSON: {e}")
     return {}
 
-def call_optimizer_llm(sample_points: list[Dict[str, str]], top_k_prompts: TopKHeap, optim_llm_name: str):
+def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, optim_llm_name: str):
   """
-  sample_points: list of dict containing samples sampled randomly.
   optim_llm_name: Name of the optimizer llm to use.
   """
-  optim_meta_prompt = create_optim_meta_prompt(sample_points, prev_top_k_prompts=top_k_prompts)
+  optim_meta_prompt = create_optim_meta_prompt(prev_top_k_prompts=top_k_prompts)
   # print(optim_meta_prompt)
 
   optim_response = requests.post(
@@ -46,17 +45,15 @@ def call_optimizer_llm(sample_points: list[Dict[str, str]], top_k_prompts: TopKH
 
   reply = optim_response.json()["choices"][0]["message"]["content"]
   # print(reply)
-  reply = clean_response(reply)
+  # reply = clean_response(reply)
   return reply
 
 if __name__ == "__main__":
   optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
   filepath = "../Dataset/dataset/df_model_M11.csv"
-  sample_points = create_sample_points(filepath)
-  print("Created Samples!")
   # print(sample_points)
   top_k_prompts = TopKHeap(3)
   print("Calling Optimizer!")
-  reply = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
+  reply = call_rater_llm_meta_prompt(top_k_prompts, optim_llm_name)
   print(reply)
   print(type(reply))

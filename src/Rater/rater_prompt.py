@@ -1,3 +1,4 @@
+import pandas as pd
 from src.Dataset.random_subsample import create_sample_points
 from src.TopK_Heap.top_k import TopKHeap
 
@@ -28,7 +29,10 @@ _TASK_DESCRIPTION = """
 ## sample_points: list of dicts
 ## prev_top_k_prompts is a list of dicts, each mapping an instruction string to
 ## a dict of score metrics.
-def create_optim_meta_prompt(prev_top_k_prompts : TopKHeap =None, task_desc=_TASK_DESCRIPTION):
+def create_optim_meta_prompt(
+    prev_top_k_prompts : TopKHeap = None,
+    task_desc=_TASK_DESCRIPTION
+):
   # sample_points_pairs_text = ""
   # for idx, pair in enumerate(sample_points, 1):
   #   sample_points_pairs_text += (
@@ -63,7 +67,7 @@ def create_optim_meta_prompt(prev_top_k_prompts : TopKHeap =None, task_desc=_TAS
         f"Recommendation: {recommendation}\n\n"
       )
 
-  _OPTIM_META_PROMPT = f"""
+  _RATER_META_PROMPT = f"""
     You are an expert prompt optimizer working on improving summarization quality across 
     multiple evaluation aspects: fluency, coherence, consistency, relevance.
     
@@ -88,12 +92,65 @@ def create_optim_meta_prompt(prev_top_k_prompts : TopKHeap =None, task_desc=_TAS
     Please adhere to the said output.
   """
 
-  return _OPTIM_META_PROMPT
+  return _RATER_META_PROMPT
+
+## The biggest difference between Meta Prompt and Prompt is that meta-prompt generates
+## an instruction while Prompt uses that instruction to generate scores
+def create_prompt(instruction: str, run_id: int  = 0, file_path = "../Dataset/dataset/df_M11_sampled.parquet") -> str:
+  df = pd.read_parquet(file_path)
+
+  sample_point = df.iloc[run_id]
+  sample_point_text = ""
+
+  cols_to_be_ignored = [
+    "human_summaries",
+    "fluency",
+    "coherence",
+    "consistency",
+    "relevance"
+  ]
+
+  for col in df.columns:
+    if col in cols_to_be_ignored: continue
+    sample_point_text += f"{col}: {sample_point[col]}\n"
+
+  sample_point_text += '\n'
+  sample_point_text = sample_point_text.strip()
+
+  _RATER_PROMPT = f"""
+  Your task is written below, kindly complete this and return the output in the 
+  correct format.
+  
+  Instruction : {instruction}
+  
+  Your sample point that is to be rated is: 
+  {sample_point_text}
+  
+  Output the summaries in a JSON Format of the form:
+  - Do not add any commentary, markdown, or explanation. As this will raise an error.
+  - Return strictly in a JSON format.
+  
+  Format: 
+  {{
+    "run_id": {run_id},
+    "score" : {{
+      "predicted_fluency" : 1|2|3|4|5,
+      "predicted_coherence" : 1|2|3|4|5,
+      "predicted_consistency" : 1|2|3|4|5,
+      "predicted_relevance" : 1|2|3|4|5,
+    }}
+  }}
+  """
+
+  return _RATER_PROMPT
 
 if __name__ == "__main__":
   prev_top_k = TopKHeap(3)
-  sample_points = create_sample_points(
-    r"../Dataset/dataset/df_model_M11.csv")
 
-  meta_prompt = create_optim_meta_prompt(prev_top_k)
-  print(meta_prompt)
+  instruction = "Filler"
+  prompt = create_prompt(instruction)
+  print(prompt)
+  print('=' * 100)
+  print(f"Length of prompt: {len(prompt)}")
+  # meta_prompt = create_optim_meta_prompt(prev_top_k)
+  # print(meta_prompt)
