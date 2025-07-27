@@ -31,7 +31,7 @@ def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str) -> 
   reply = call_openrouter(rater_meta_prompt, rater_llm_name)
   return reply
 
-def call_rater_llm_prompt(
+def call_rater_llm_prompt_utils(
     instruction: str,
     run_id: int = 0,
     file_path : str = "../Dataset/dataset/df_M11_sampled.parquet",
@@ -50,6 +50,36 @@ def call_rater_llm_prompt(
   reply = clean_response(reply)
   return reply
 
+def call_rater_llm_prompt(
+    instruction: str,
+    file_path: str = "../Dataset/dataset/df_M11_sampled.parquet",
+    num_examples : int = 100,
+    max_workers: int = 10,
+    calls_per_minute: int = 120,
+    rater_llm_name : str = "meta-llama/llama-3-8b-instruct"
+) -> list[dict]:
+
+  calls_per_second = calls_per_minute / 60
+  executor = RestrictedConcurrencyThreadPoolExecutor(
+    max_workers=max_workers,
+    max_calls_per_second=calls_per_second,
+  )
+  print("Formed Executor!")
+
+  futures = [
+    executor.submit(
+      call_rater_llm_prompt_utils,
+      instruction, run_id, file_path, rater_llm_name
+    ) for run_id in range(num_examples)
+  ]
+  print("Submitted All futures")
+
+  results: list[dict] = [
+    fut.result() for fut in tqdm(futures, desc="Processing Prompts")
+  ]
+  print("Res")
+  return results
+
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "../Dataset/dataset/df_M11_sampled.parquet"
@@ -63,27 +93,8 @@ if __name__ == "__main__":
   new_instruction = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name)
   print(new_instruction)
   print('=' * 100)
-  # print(type(new_instruction))
 
-  ## Rating summary concurrently
-  executor = RestrictedConcurrencyThreadPoolExecutor(
-    max_workers=max_concurrent_calls,
-    max_calls_per_second=calls_per_second,
-  )
-  print("Formed executor")
-
-  futures = [
-    executor.submit(
-      call_rater_llm_prompt,
-      new_instruction, run_id, filepath, rater_llm_name
-    ) for run_id in range(num_examples)
-  ]
-  print("Futures")
-
-  results: list[dict] = [
-    fut.result() for fut in tqdm(futures, desc="Processing Prompts")
-  ]
-  print("Res")
+  results = call_rater_llm_prompt(new_instruction, rater_llm_name=rater_llm_name)
 
   print("\nFinal Results:")
   for res in results:

@@ -1,5 +1,5 @@
-from src.Rater.rater import call_optimizer_llm
-from src.Dataset.random_subsample import create_sample_points
+from src.Rater.rater import call_rater_llm_prompt, call_rater_llm_prompt, \
+  call_rater_llm_meta_prompt
 from src.TopK_Heap.top_k import TopKHeap
 from typing import Dict
 
@@ -111,18 +111,18 @@ def create_evaluator_prompt(sample_points: list[Dict[str, str]],
   return _EVALUATOR_PROMPT
 
 if __name__ == "__main__":
-  optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  filepath = "../Dataset/dataset/df_model_M11.csv"
-
-  sample_points = create_sample_points(filepath)
-  # print(sample_points)
+  rater_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
+  file_path = "../Dataset/dataset/df_M11_sampled.parquet"
 
   top_k_prompts = TopKHeap(3)
 
-  optim_llm_response = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
-  print(optim_llm_response)
+  rater_meta_prompt = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name)
+  print(rater_meta_prompt)
 
-  evaluator_prompt = create_evaluator_prompt(sample_points, optim_llm_response)
-  print(evaluator_prompt)
-  print('=' * 100)
-  print(len(evaluator_prompt))
+  evals = call_rater_llm_prompt(rater_meta_prompt, file_path=file_path, rater_llm_name=rater_llm_name)
+  print(evals)
+
+  # evaluator_prompt = create_evaluator_prompt(sample_points, optim_llm_response)
+  # print(evaluator_prompt)
+  # print('=' * 100)
+  # print(len(evaluator_prompt))

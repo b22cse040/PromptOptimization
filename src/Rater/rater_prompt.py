@@ -123,6 +123,8 @@ def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Data
   
   Instruction : {instruction}
   
+  Sample Point ID: {run_id}
+  
   Your sample point that is to be rated is: 
   {sample_point_text}
   
@@ -140,6 +142,8 @@ def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Data
       "predicted_relevance" : 1|2|3|4|5,
     }}
   }}
+  
+  Do not add any commentary, markdown, or explanation. As this will raise an error.
   """
 
   return _RATER_PROMPT
@@ -148,7 +152,7 @@ if __name__ == "__main__":
   prev_top_k = TopKHeap(3)
 
   instruction = "Filler"
-  prompt = create_prompt(instruction)
+  prompt = create_rater_prompt(instruction, run_id=25)
   print(prompt)
   print('=' * 100)
   print(f"Length of prompt: {len(prompt)}")
