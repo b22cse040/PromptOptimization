@@ -55,7 +55,7 @@ def call_rater_llm_prompt(
     file_path: str = "../Dataset/dataset/df_M11_sampled.parquet",
     num_examples : int = 100,
     max_workers: int = 10,
-    calls_per_minute: int = 120,
+    calls_per_minute: int = 60, # 60 is the best case as of now.
     rater_llm_name : str = "meta-llama/llama-3-8b-instruct"
 ) -> list[dict]:
 
@@ -83,9 +83,9 @@ def call_rater_llm_prompt(
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "../Dataset/dataset/df_M11_sampled.parquet"
-  num_examples = 5
-  max_concurrent_calls = 4
-  calls_per_minute = 120
+  num_examples = 100
+  max_concurrent_calls = 20
+  calls_per_minute = 45
   calls_per_second = calls_per_minute / 60
 
   top_k_prompts = TopKHeap(3)
@@ -97,5 +97,9 @@ if __name__ == "__main__":
   results = call_rater_llm_prompt(new_instruction, rater_llm_name=rater_llm_name, num_examples=num_examples, max_workers=max_concurrent_calls)
 
   print("\nFinal Results:")
+  complete_results = 0
   for res in results:
+    if res != {}: complete_results += 1
     print(res, '\n\n')
+  print('=' * 100)
+  print(f"Complete Results: {complete_results}")
