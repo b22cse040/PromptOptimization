@@ -83,8 +83,8 @@ def call_rater_llm_prompt(
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "../Dataset/dataset/df_M11_sampled.parquet"
-  num_examples = 100
-  max_concurrent_calls = 20
+  num_examples = 5
+  max_concurrent_calls = 4
   calls_per_minute = 120
   calls_per_second = calls_per_minute / 60
 
@@ -94,7 +94,7 @@ if __name__ == "__main__":
   print(new_instruction)
   print('=' * 100)
 
-  results = call_rater_llm_prompt(new_instruction, rater_llm_name=rater_llm_name)
+  results = call_rater_llm_prompt(new_instruction, rater_llm_name=rater_llm_name, num_examples=num_examples, max_workers=max_concurrent_calls)
 
   print("\nFinal Results:")
   for res in results:

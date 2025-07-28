@@ -1,17 +1,17 @@
-from src.Dataset.random_subsample import create_sample_points
-from src.Rater.rater import call_optimizer_llm
+import pandas as pd
+from src.Rater.rater import call_rater_llm_meta_prompt, call_rater_llm_prompt
 from sklearn.metrics import accuracy_score, f1_score
 from typing import Dict
 
 from src.TopK_Heap.top_k import TopKHeap
 
 
-def calculate_metrics(sample_points: list[Dict[str, str]], optim_llm_response: dict) -> dict:
+def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet") -> dict:
   """
     Calculates accuracy and F1-score per metric (fluency, coherence, consistency, relevance).
 
-    :param sample_points: Original sample points with ground-truth scores.
-    :param optim_llm_response: Model predictions with scores per sample.
+    :param file_path: File containing sample points with ground-truth scores.
+    :param rater_response: RATER response containing predicted scores
     :return: Dict in format:
              {
                "fluency": {"accuracy": ..., "f1": ...},
@@ -19,6 +19,7 @@ def calculate_metrics(sample_points: list[Dict[str, str]], optim_llm_response: d
                ...
              }
   """
+  df = pd.read_parquet(file_path)
 
   metrics = {
     "fluency": {"y_true": [], "y_pred": []},
@@ -27,23 +28,29 @@ def calculate_metrics(sample_points: list[Dict[str, str]], optim_llm_response: d
     "relevance": {"y_true": [], "y_pred": []}
   }
 
-  for i, sample in enumerate(sample_points, start=1):
-    response_key = str(i)
-    if response_key not in optim_llm_response["sample_points"]:
+  for entry in rater_response:
+    if not entry or "score" not in entry or not entry["score"]:
       continue
 
-    predicted_scores = optim_llm_response["sample_points"][response_key]["score"]
+    run_id = entry["run_id"]
+    if run_id not in df.index: continue
 
-    for metric in metrics:
-      ground_score = int(sample[f"ground_{metric}"] if sample[f"ground_{metric}"] else 0.0)
-      predicted_score = int(predicted_scores[f"predicted_{metric}"] if predicted_scores else 0.0)
+    score = entry["score"]
 
-      if ground_score == 0 or predicted_score == 0: continue
+    sample = df.loc[run_id]
+
+    for metric in ["fluency", "coherence", "consistency", "relevance"]:
+      try:
+        ground_score = int(sample[f"{metric}"])
+        predicted_score = int(score[f"predicted_{metric}"])
+      except (KeyError, ValueError, TypeError): continue
+
+      if ground_score == 0 or predicted_score == 0:
+        continue
 
       metrics[metric]["y_true"].append(ground_score)
       metrics[metric]["y_pred"].append(predicted_score)
 
-  # Calculating eval metrics: F1 and accuracy
   result = {}
   for metric, data in metrics.items():
     y_true = data["y_true"]
@@ -56,27 +63,25 @@ def calculate_metrics(sample_points: list[Dict[str, str]], optim_llm_response: d
     acc = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average="weighted", zero_division=0)
 
-    result[metric] = {
-      "accuracy": round(acc, 4),
-      "f1": round(f1, 4)
-    }
+    result[metric] = {"accuracy": round(acc, 3), "f1": round(f1, 3)}
 
   return result
 
 if __name__ == "__main__":
-  optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  sample_points = create_sample_points("../Dataset/dataset/df_model_M11.csv")
-  # print("Created sample_points:")
+  rater_llm_name = "meta-llama/llama-3-8b-instruct"
+  file_path = "../Dataset/dataset/df_M11_sampled.csv"
+
+
   top_k_prompts = TopKHeap(3)
   # print("Created top_k_prompts:")
   # print("Calling Optimizer!")
-  optim_llm_response = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
+  meta_prompt = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name)
 
-  # print(optim_llm_response)
-  # print('\n\n')
-  # print('=' * 100)
-  # print("Metrics ->")
-  metrics = calculate_metrics(sample_points, optim_llm_response)
-  # print(metrics)
+  print(meta_prompt)
+  print('=' * 100)
 
+  print("Metrics ->")
+  rater_response = call_rater_llm_prompt(meta_prompt, rater_llm_name=rater_llm_name)
+
+  metrics = calculate_metrics(rater_response)
   print(metrics)
