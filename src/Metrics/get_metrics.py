@@ -1,7 +1,7 @@
 import pandas as pd
+import numpy as np
 from src.Rater.rater import call_rater_llm_meta_prompt, call_rater_llm_prompt
 from sklearn.metrics import accuracy_score, f1_score
-from typing import Dict
 
 from src.TopK_Heap.top_k import TopKHeap
 
@@ -22,10 +22,10 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
   df = pd.read_parquet(file_path)
 
   metrics = {
-    "fluency": {"y_true": [], "y_pred": []},
-    "coherence": {"y_true": [], "y_pred": []},
-    "consistency": {"y_true": [], "y_pred": []},
-    "relevance": {"y_true": [], "y_pred": []}
+    "fluency": {"y_true": [], "y_pred": [], "diffs" : []},
+    "coherence": {"y_true": [], "y_pred": [], "diffs" : []},
+    "consistency": {"y_true": [], "y_pred": [], "diffs" : []},
+    "relevance": {"y_true": [], "y_pred": [], "diffs" : []},
   }
 
   for entry in rater_response:
@@ -50,20 +50,27 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
 
       metrics[metric]["y_true"].append(ground_score)
       metrics[metric]["y_pred"].append(predicted_score)
+      metrics[metric]["diffs"].append(predicted_score - ground_score)
 
   result = {}
   for metric, data in metrics.items():
     y_true = data["y_true"]
     y_pred = data["y_pred"]
+    diffs = data["diffs"]
 
     if not y_true or not y_pred:
-      result[metric] = {"accuracy": 0, "f1": 0}
+      result[metric] = {"accuracy": 0, "f1": 0, "mean_diff": 0}
       continue
 
     acc = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average="weighted", zero_division=0)
+    mean_diff = round(np.mean(diffs), 3) if diffs else 0
 
-    result[metric] = {"accuracy": round(acc, 3), "f1": round(f1, 3)}
+    result[metric] = {
+      "accuracy": round(acc, 3),
+      "f1": round(f1, 3),
+      "mean_diff": mean_diff
+    }
 
   return result
 
