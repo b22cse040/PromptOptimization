@@ -1,104 +1,98 @@
-from src.Dataset.random_subsample import create_sample_points
-from src.Recommender.recommender import call_evaluator_llm, process_reply
+import os
+from src.Recommender.recommender import call_recommender_llm, process_reply
 from src.Metrics.get_metrics import calculate_metrics
-from src.Rater.rater import call_optimizer_llm
+from src.Rater.rater import call_rater_llm_meta_prompt, call_rater_llm_prompt
 from src.TopK_Heap.top_k import TopKHeap
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+def plot_metric_over_epochs(metric_values: dict, save_dir="Plots"):
+  """
+  Plots f1, accuracy, and mean_diff over epochs for all evaluation metrics
+  (fluency, coherence, consistency, relevance) in single plots.
 
-def plot_epoch_scores(f1_scores: dict, acc_scores: dict, save_path="Plots/epoch_scores.png"):
-  epochs = range(1, len(f1_scores["fluency"]) + 1)
+  :param metric_values: Nested dictionary:
+    {
+      "fluency": {"f1": [...], "accuracy": [...], "mean_diff": [...]},
+      ...
+    }
+  :param save_dir: Directory where the plots will be saved.
+  """
+  os.makedirs(save_dir, exist_ok=True)
+  metric_types = ["f1", "accuracy", "mean_diff"]
+  eval_metrics = list(metric_values.keys())  # ['fluency', 'coherence', ...]
 
-  plt.figure(figsize=(12, 5))
+  num_epochs = len(next(iter(metric_values.values()))['f1'])
+  epochs = list(range(1, num_epochs + 1))
 
-  # Plot 1: F1 Scores
-  plt.subplot(1, 2, 1)
-  for metric, values in f1_scores.items():
-    plt.plot(epochs, values, marker='o', label=metric)
-  plt.title("F1 Scores Over Epochs")
-  plt.xlabel("Epoch")
-  plt.ylabel("F1 Score")
-  plt.ylim(0, 1.05)
-  plt.grid(True)
-  plt.legend()
+  for metric_type in metric_types:
+    plt.figure()
+    for eval_metric in eval_metrics:
+      values = metric_values[eval_metric][metric_type]
+      plt.plot(epochs, values, marker='o', label=eval_metric.capitalize())
 
-  # Plot 2: Accuracy Scores
-  plt.subplot(1, 2, 2)
-  for metric, values in acc_scores.items():
-    plt.plot(epochs, values, marker='s', label=metric)
-  plt.title("Accuracy Scores Over Epochs")
-  plt.xlabel("Epoch")
-  plt.ylabel("Accuracy")
-  plt.ylim(0, 1.05)
-  plt.grid(True)
-  plt.legend()
+    plt.title(f"{metric_type.replace('_', ' ').capitalize()} Scores Over Epochs")
+    plt.xlabel("Epoch")
+    plt.ylabel(metric_type.replace('_', ' ').capitalize())
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
 
-  plt.tight_layout()
-  path = f"{save_path}.png"
-  plt.savefig(path)
-  print(f"Saved F1/Accuracy plot at '{path}'")
-  plt.close()
+    save_path = os.path.join(save_dir, f"{metric_type}_scores.png")
+    plt.savefig(save_path)
+    print(f"Saved plot at '{save_path}'")
+    plt.close()
 
-def run_opro(filepath: str, optim_llm_name: str, eval_llm_name: str, k: int  = 5, num_epochs: int = 3, run_id: int = 0) -> dict:
-  ## Sampling sample points
-  sample_points = create_sample_points(filepath)
-  print(f"Run {run_id + 1} ==> Step 1: Creating {len(sample_points)} Sample points (Successful)")
+
+def run_opro(
+  file_path: str = "Dataset/dataset/df_M11_sampled.parquet",
+  top_k: int = 10,
+  num_epochs: int = 30,
+  rater_llm_name: str = "meta-llama/llama-3-8b-instruct",
+  reco_llm_name: str = "meta-llama/llama-3-8b-instruct",
+) -> dict:
 
   ## Top-K prompts
-  top_k_prompts = TopKHeap(k)
-  print(f"Run {run_id + 1} ==> Step 2: Created a heap to store top-{k} prompts (Successful)")
+  top_k_prompts = TopKHeap(top_k)
+  print(f"Step 1: Created a heap to store top-{top_k} prompts (Successful)")
 
-  optim_summaries = None
-
-  # scores = {metric: [] for metric in ["fluency", "coherence", "consistency", "relevance"]}
-  label_metrics = ["fluency", "coherence", "consistency", "relevance"]
-  f1_scores = {metric: [] for metric in label_metrics}
-  acc_scores = {metric: [] for metric in label_metrics}
-
-  for epoch in range(num_epochs):
-    print(f"Run {run_id + 1} ==> Epoch {epoch + 1}/{num_epochs}")
-
-    optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
-    print(f"Run {run_id + 1} ==> Epoch: {epoch} at Step 3: Generated initial summaries from Optim LLM (Successful)")
-
-    print(f"Run {run_id + 1} ==>")
-    print(optim_summaries)
-    print("\n")
-
-    # Retry until correct response format!
-    while optim_summaries == {}:
-      print(f"Run {run_id + 1} ==> Invalid Output from optim LLM, retrying this step!")
-      optim_summaries = call_optimizer_llm(sample_points, top_k_prompts, optim_llm_name)
-
-    ## Process the predicted summaries for F1 and Accuracy
-    metrics = calculate_metrics(sample_points, optim_summaries)
-    for metric in f1_scores.keys():
-      f1_scores[metric].append(metrics[metric]["f1"])
-      acc_scores[metric].append(metrics[metric]["accuracy"])
-
-    eval_judgements = call_evaluator_llm(sample_points, optim_summaries, eval_llm_name)
-    print(f"Run {run_id + 1} ==> Epoch: {epoch} at Step 4: Generating judgements (Successful)")
-
-    eval_result = process_reply(eval_judgements, top_k_prompts, metrics)
-    print(f"Run {run_id + 1} ==> Step 5: Processed evaluated judgements (Successful)")
-    print('=' * 100)
-
-    # for metric, score in eval_result["scores"].items():
-    #   scores[metric].append(score)
-
-  plot_path = f"Plots/epoch_scores_run_{run_id}.png"
-  plot_epoch_scores(f1_scores, acc_scores, save_path=plot_path)
-
-  return {
-    "optim_summaries" : optim_summaries,
-    "prev_top_k_prompts" : top_k_prompts,
+  metric_names = ["fluency", "coherence", "consistency", "relevance"]
+  metric_history = {
+    metric : {"f1" : [], "accuracy" : [], "mean_diff" : []} for metric in metric_names
   }
 
+  for epoch in range(num_epochs):
+    print(f"\n--- Epoch {epoch + 1}/{num_epochs} ---")
+    instruction = call_rater_llm_meta_prompt(top_k_prompts=top_k_prompts,
+                                             rater_llm_name=rater_llm_name)
+    print("Generated instruction")
+
+    evals = call_rater_llm_prompt(instruction=instruction, file_path=file_path, rater_llm_name=rater_llm_name)
+    print("Generated evals")
+
+    metrics = calculate_metrics(evals, file_path=file_path)
+    print("Calculated metrics")
+
+    for metric in metric_names:
+      metric_history[metric]["f1"].append(metrics[metric]["f1"])
+      metric_history[metric]["accuracy"].append(metrics[metric]["accuracy"])
+      metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
+
+    recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name)
+    print("Generated recommendation")
+
+    processed_reply = process_reply(instruction=instruction, recommendation=recommendation, heap=top_k_prompts, metrics=metrics)
+    print("Processed Reply")
+
+  for metric in metric_names:
+    plot_metric_over_epochs(metric_values=metric_history)
+
+  return metric_history
+
 if __name__ == "__main__":
-  eval_llm_name = "openai/gpt-4.1-nano"
-  # optim_llm_name = "meta-llama/llama-3.2-3b-instruct:free"
-  optim_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  filepath = "Dataset/dataset/df_model_M11.csv"
-  opro_results = run_opro(filepath, optim_llm_name, eval_llm_name, num_epochs=3, run_id=0)
+  rater_llm_name = "meta-llama/llama-3-8b-instruct"
+  reco_llm_name = "meta-llama/llama-3-8b-instruct"
+  filepath = "Dataset/dataset/df_M11_sampled.parquet"
+  opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=30
+                          , rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name)

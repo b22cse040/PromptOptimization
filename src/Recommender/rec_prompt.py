@@ -63,7 +63,18 @@ def create_recommender_prompt(
   The performance of the said instruction is:
   {metrics_text}
   
-  Generate only what is asked. Add no other commentary or grammar than what is needed essentially. 
+  Generate only what is asked. Add no other commentary or grammar than what is needed essentially.
+  A format for you: 
+   
+  Recommendations:
+    1. [First recommendation, focusing on metric definitions or instruction clarity.]
+    2. [Second recommendation, addressing observed biases or errors.]
+    ...
+
+    Do NOT include:
+    - Any introductory/closing sentences.
+    - Analysis of performance metrics (e.g., "The model is lenient").
+    - Sections like "Instruction Analysis" or "Overall Performance."
   """
 
   return _RECOMMENDER_PROMPT
