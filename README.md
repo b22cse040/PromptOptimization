@@ -17,6 +17,6 @@ Over time, this loops drives the generation of improved instructions that yield 
 <img width="640" height="480" alt="image" src="https://github.com/user-attachments/assets/22111b3f-ff2a-4dfc-ba0f-33f502000eaa" />
 
 
-Evaluator LLM : meta-llama/llama-3-8b-instruct
+Rater LLM : meta-llama/llama-3-8b-instruct
 
-Optimizer LLM : meta-llama/llama-3-8b-instruct
+Recommender LLM : meta-llama/llama-3-8b-instruct
