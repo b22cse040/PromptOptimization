@@ -33,3 +33,7 @@ class TopKHeap:
       avg = (accuracy + f1) / 2
       scores.append(avg)
     return sum(scores) / len(scores) if len(scores) else 0
+
+  def __getitem__(self, index):
+    topk = self.get_topK()
+    return topk[index]

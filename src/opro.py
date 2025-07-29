@@ -20,6 +20,13 @@ def plot_metric_over_epochs(metric_values: dict, save_dir="Plots"):
   :param save_dir: Directory where the plots will be saved.
   """
   os.makedirs(save_dir, exist_ok=True)
+
+  def ema(series, alpha=0.3):
+    smoothed = [series[0]]
+    for i in range(1, len(series)):
+      smoothed.append(alpha * series[i] + (1 - alpha) * smoothed[-1])
+    return smoothed
+
   metric_types = ["f1", "accuracy", "mean_diff"]
   eval_metrics = list(metric_values.keys())  # ['fluency', 'coherence', ...]
 
@@ -30,9 +37,10 @@ def plot_metric_over_epochs(metric_values: dict, save_dir="Plots"):
     plt.figure()
     for eval_metric in eval_metrics:
       values = metric_values[eval_metric][metric_type]
-      plt.plot(epochs, values, marker='o', label=eval_metric.capitalize())
+      smoothed_values = ema(values)
+      plt.plot(epochs, smoothed_values, marker='o', label=eval_metric.capitalize())
 
-    plt.title(f"{metric_type.replace('_', ' ').capitalize()} Scores Over Epochs")
+    plt.title(f"EMA df {metric_type.replace('_', ' ').capitalize()} Over Epochs")
     plt.xlabel("Epoch")
     plt.ylabel(metric_type.replace('_', ' ').capitalize())
     plt.grid(True)
@@ -51,6 +59,9 @@ def run_opro(
   num_epochs: int = 30,
   rater_llm_name: str = "meta-llama/llama-3-8b-instruct",
   reco_llm_name: str = "meta-llama/llama-3-8b-instruct",
+  calls_per_minute: int = 120,
+  max_workers: int = 10,
+  num_examples: int = 100,
 ) -> dict:
 
   ## Top-K prompts
@@ -68,7 +79,11 @@ def run_opro(
                                              rater_llm_name=rater_llm_name)
     print("Generated instruction")
 
-    evals = call_rater_llm_prompt(instruction=instruction, file_path=file_path, rater_llm_name=rater_llm_name)
+    evals = call_rater_llm_prompt(
+      instruction=instruction, file_path=file_path,
+      rater_llm_name=rater_llm_name, max_workers=max_workers,
+      calls_per_minute=calls_per_minute, num_examples=num_examples
+    )
     print("Generated evals")
 
     metrics = calculate_metrics(evals, file_path=file_path)
@@ -85,14 +100,25 @@ def run_opro(
     processed_reply = process_reply(instruction=instruction, recommendation=recommendation, heap=top_k_prompts, metrics=metrics)
     print("Processed Reply")
 
-  for metric in metric_names:
-    plot_metric_over_epochs(metric_values=metric_history)
+  # for metric in metric_names:
+  #   plot_metric_over_epochs(metric_values=metric_history)
 
-  return metric_history
+  return {
+    "metric_histories": metric_history,
+    "top_k_prompts": top_k_prompts,
+  }
 
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   reco_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
-  opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=30
-                          , rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name)
+  opro_results = run_opro(file_path=filepath, top_k=5, num_epochs=10,
+                          rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name, calls_per_minute=120, max_workers=10, num_examples=100)
+
+  for i, item in enumerate(opro_results["top_k_prompts"][:3], 1):
+    print(f"\n--- Top {i} Prompt ---")
+    print(f"Instruction: {item['instruction']}")
+    print("Metrics:")
+    for metric, value in item['metrics'].items():
+      print(f"  {metric}: {value}")
+    print(f"Recommendation: {item['recommendation']}")
