@@ -1,5 +1,4 @@
 import pandas as pd
-from src.Dataset.random_subsample import create_sample_points
 from src.TopK_Heap.top_k import TopKHeap
 
 _TASK_DESCRIPTION = """
