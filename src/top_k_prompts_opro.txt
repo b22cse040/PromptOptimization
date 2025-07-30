@@ -1,0 +1,307 @@
+
+
+
+--- Top 1 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, accurately capturing the article's core essentials, with precise representation of the original article's factual information, well-structured individual sentences with clear and concise wording, and cohesive logical connections between sentences with effective transitions, providing nuanced guidance on what constitutes relevance, coherence, and consistency.
+
+Metrics:
+   fluency:
+       accuracy: 0.265
+       f1: 0.173
+       mean_diff: 0.878
+   coherence:
+       accuracy: 0.122
+       f1: 0.033
+       mean_diff: 1.367
+   consistency:
+       accuracy: 0.122
+       f1: 0.1
+       mean_diff: 0.898
+   relevance:
+       accuracy: 0.102
+       f1: 0.087
+       mean_diff: 1.449
+
+Recommendations:
+
+1. Revise the fluency instruction to emphasize the importance of clear and concise sentence structure, as the high mean-difference suggests that the rater is overly lenient in their evaluation of fluency, allowing for poorly written sentences to receive high scores.
+2. Revise the coherence instruction to provide more specific guidance on the type of logical connections and sentence transitions expected, as the low f1-score and high mean-difference indicate that the rater is struggling to distinguish cohesive and incoherent summaries.
+3. Consider adding a clarification to the consistency instruction to specify the importance of accurate representation of factual information, as the low accuracy and f1-scores suggest that the rater is inconsistent in their evaluation of consistency.
+4. Develop more nuanced guidance on what constitutes relevance, as the high mean-difference and low accuracy and f1-scores suggest that the rater is missing key aspects of the original article's core essentials or is overemphasizing certain information.
+
+
+
+--- Top 2 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, accurately capturing the article's core essentials, with precise representation of original article's factual information, well-structured sentences with clear and concise wording and grammatical correctness, and cohesive logical connections between sentences with effective transitions.
+
+Metrics:
+   fluency:
+       accuracy: 0.26
+       f1: 0.203
+       mean_diff: 0.64
+   coherence:
+       accuracy: 0.04
+       f1: 0.012
+       mean_diff: 1.66
+   consistency:
+       accuracy: 0.16
+       f1: 0.163
+       mean_diff: 0.86
+   relevance:
+       accuracy: 0.08
+       f1: 0.066
+       mean_diff: 1.54
+
+Recommendations:
+ 1. Revise the instruction to clarify the difference between 'well-structured sentences' and 'cohesive logical connections between sentences' to improve fluency and coherence evaluations, as there seems to be a misalignment in expectations.
+ 2. Revise the instruction to more clearly emphasize the presence of 'effective transitions' as a crucial aspect of coherence, as the model appears to struggle in evaluating this aspect.
+ 3. Consider redefining the metric of consistency to better capture factual accuracy and specificity, as the current definition may be too vague and leading to high mean-differences.
+ 4. Revise the instruction to highlight the importance of 'precision' in the representation of original article's factual information, as the current definition may be too broad and leading to overly lenient or strict evaluations.
+
+
+
+--- Top 3 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, consistently and accurately capturing the core essentials of the article, precise representation of the original article's factual information, well-structured individual sentences with clear, concise, and grammatically correct wording, and cohesive logical connections between sentences with effective transitions. Provide nuanced guidance on what constitutes relevance, coherence, and consistency, and emphasize the importance of sentence-level clarity, logical connectives, and accuracy in reproducing facts.
+
+Metrics:
+   fluency:
+       accuracy: 0.191
+       f1: 0.149
+       mean_diff: 0.681
+   coherence:
+       accuracy: 0.17
+       f1: 0.138
+       mean_diff: 1.447
+   consistency:
+       accuracy: 0.064
+       f1: 0.073
+       mean_diff: 1.043
+   relevance:
+       accuracy: 0.106
+       f1: 0.089
+       mean_diff: 1.553
+
+Recommendations:
+
+1. Revise the fluency instruction to emphasize the importance of sentence-level clarity and grammatical correctness, as high accuracy and F1-score for this metric suggest that raters are having difficulty evaluating fluency.
+2. Provide nuanced guidance on what constitutes coherence by emphasizing the importance of logical transitions between sentences, as the high mean-difference for this metric and relatively low F1-score suggest that raters need more direction on evaluating cohesiveness.
+3. Reformulate the consistency instruction to offer more specific guidance on what constitutes accurate representation of original article's factual information, as the low accuracy and F1-score for this metric indicate that raters are struggling to assess consistency accurately.
+4. Offer more clarity on the definition of relevance, as the high mean-difference and relatively low F1-score for this metric suggest that raters' definitions of relevance may be too broad or too narrow.
+
+
+
+--- Top 4 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, accuracy and precision in capturing the article's core essentials, well-structured individual sentences with clear and concise wording, logical connections between sentences with effective transitions, and consistent with the original article's facts.
+
+Metrics:
+   fluency:
+       accuracy: 0.24
+       f1: 0.204
+       mean_diff: 0.58
+   coherence:
+       accuracy: 0.06
+       f1: 0.03
+       mean_diff: 1.54
+   consistency:
+       accuracy: 0.1
+       f1: 0.112
+       mean_diff: 1.04
+   relevance:
+       accuracy: 0.14
+       f1: 0.083
+       mean_diff: 1.42
+
+Recommendations:
+
+1. Revise the instruction to provide a clearer distinction between relevance and consistency. The current instruction mentions accuracy and precision, which may be too broad and confusing for the model. Consider rephrasing to focus on capturing the article's key points (relevance) versus accurately reproducing facts from the original article (consistency).
+
+2. Emphasize the importance of coherence in the instruction. The poor performance on coherence (accuracy of 0.06, F1 of 0.03) suggests that the model may be misunderstanding what constitutes a coherent summary. Consider adding a specific phrase or guideline to help the model understand the connection between sentences and the role of logical transitions.
+
+No further recommendations based on the provided data as all remaining metrics have moderate to high performance accuracy (>0.10) and F1 scores.
+
+
+
+--- Top 5 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, capturing the essential core information, accurately and precisely representing the original article's factual information, well-structured individual sentences with clear and concise wording, and cohesive logical connections between sentences with effective transitions, providing nuanced guidance on what constitutes relevance, coherence, and consistency.
+
+Metrics:
+   fluency:
+       accuracy: 0.2
+       f1: 0.151
+       mean_diff: 0.64
+   coherence:
+       accuracy: 0.1
+       f1: 0.035
+       mean_diff: 1.62
+   consistency:
+       accuracy: 0.12
+       f1: 0.128
+       mean_diff: 0.64
+   relevance:
+       accuracy: 0.12
+       f1: 0.085
+       mean_diff: 1.5
+
+Recommendations:
+
+1. Revise the fluency instruction to emphasize specific aspects, such as clear sentence structure, grammatical correctness, and concise language, to improve the clarity and objectivity of the rating task.
+
+
+
+--- Top 6 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, capturing the article's core essentials, clear and concise sentence structure, logical connections between sentences, and consistency with the original article's facts.
+
+Metrics:
+   fluency:
+       accuracy: 0.231
+       f1: 0.18
+       mean_diff: 0.308
+   coherence:
+       accuracy: 0.103
+       f1: 0.027
+       mean_diff: 1.513
+   consistency:
+       accuracy: 0.128
+       f1: 0.103
+       mean_diff: 1.026
+   relevance:
+       accuracy: 0.103
+       f1: 0.042
+       mean_diff: 1.513
+
+Recommendations:
+1. Revise the instruction to specifically emphasize the importance of accurate information in the summary, suggesting that the rating should take into account the consistency with the original article's facts.
+2. Consider revising the coherence instruction to focus on "logical connections between sentences, as well as effective transitions between ideas" to help the rater better capture this metric.
+3. Provide additional guidance on what is meant by "clear and concise sentence structure" in the fluency metric, as the low accuracy and f1 scores suggest potential misunderstandings or inconsistencies.
+4. Clarify the instruction to provide a better understanding of what constitutes "capturing the article's core essentials" in the relevance metric, as the low accuracy and f1 scores may indicate difficulties in understanding this concept.
+
+
+
+--- Top 7 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, accurately capturing the core essentials of the article, with precise representation of the original article's factual information, well-structured individual sentences with clear and concise wording and grammatical correctness, and cohesive logical connections between sentences with effective transitions.
+
+Metrics:
+   fluency:
+       accuracy: 0.18
+       f1: 0.109
+       mean_diff: 1.14
+   coherence:
+       accuracy: 0.1
+       f1: 0.075
+       mean_diff: 1.88
+   consistency:
+       accuracy: 0.18
+       f1: 0.158
+       mean_diff: 1.18
+   relevance:
+       accuracy: 0.08
+       f1: 0.014
+       mean_diff: 1.58
+
+Recommendations:
+
+1. Revise the instruction to clarify the distinction between "accurate" representation of factual information and "relevant" representation of core essentials, to help the rater better evaluate consistency and relevance separately.
+
+
+
+--- Top 8 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, capturing the essential core information, accurate and precise representation of the original article's facts, well-structured individual sentences with clear and concise wording, and cohesive logical connections between sentences.
+
+Metrics:
+   fluency:
+       accuracy: 0.146
+       f1: 0.106
+       mean_diff: 0.707
+   coherence:
+       accuracy: 0.098
+       f1: 0.049
+       mean_diff: 1.585
+   consistency:
+       accuracy: 0.122
+       f1: 0.127
+       mean_diff: 0.854
+   relevance:
+       accuracy: 0.049
+       f1: 0.005
+       mean_diff: 1.537
+
+Recommendations:
+
+1. Revise the fluency instruction to specify the importance of sentence-level clarity, as the high mean-difference (0.707) suggests that the model is overly forgiving of grammatical errors.
+2. Emphasize logical connectives and sentence transitions in the coherence instruction, as the high mean-difference (1.585) indicates that the model is often lenient with incoherent summaries.
+3. Quantify the level of accuracy and precision expected for consistency evaluation, as the mean-difference (0.854) suggests that the model is sometimes too lenient or too strict.
+4. Clarify the relevance instruction to specify the scope of "essential core information" and provide concrete examples, as the low f1-score (0.005) and high mean-difference (1.537) suggest a lack of consistency in rating relevance.
+
+
+
+--- Top 9 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, accurately capturing the article's core essentials, with precise representation of original article's factual information, well-structured individual sentences with clear and concise wording, and cohesive logical connections between sentences with effective transitions, providing nuanced guidance on what constitutes relevance, coherence, and consistency, and emphasizing the importance of sentence-level clarity, logical connectives, and accuracy in reproducing facts.
+
+Metrics:
+   fluency:
+       accuracy: 0.143
+       f1: 0.057
+       mean_diff: 0.464
+   coherence:
+       accuracy: 0.143
+       f1: 0.053
+       mean_diff: 1.321
+   consistency:
+       accuracy: 0.107
+       f1: 0.076
+       mean_diff: 0.75
+   relevance:
+       accuracy: 0.071
+       f1: 0.044
+       mean_diff: 1.607
+
+Recommendations:
+
+1. Revise the relevance instruction to provide a clear example of what "capturing the article's core essentials" means in practice, as the high mean-difference (1.607) suggests that the rater may need more guidance on what constitutes relevance.
+
+2. Emphasize the importance of logical connections between sentences in the coherence instruction, as the high mean-difference (1.321) and low f1-score (0.053) suggest that the rater may be having difficulty distinguishing between coherent and incoherent summaries.
+
+3. Provide additional guidance on what "precise representation of original article's factual information" means in the consistency instruction, as the low accuracy (0.107) and f1-score (0.076) suggest that the rater may be struggling to accurately identify consistent summaries.
+
+4. Consider adding a specific example of a well-structured summary with clear and concise wording to the fluency instruction, as the low f1-score (0.057) and high mean-difference (0.464) suggest that the rater may need more guidance on what constitutes fluency.
+
+
+
+--- Top 10 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its relevance, accurately capturing the article's core essentials, with precise representation of the original article's factual information, well-structured individual sentences with clear and concise wording, and cohesive logical connections between sentences with effective transitions, providing nuanced guidance on what constitutes relevance, coherence, and consistency.
+
+Metrics:
+   fluency:
+       accuracy: 0.189
+       f1: 0.146
+       mean_diff: 0.865
+   coherence:
+       accuracy: 0.081
+       f1: 0.018
+       mean_diff: 1.865
+   consistency:
+       accuracy: 0.054
+       f1: 0.048
+       mean_diff: 1.568
+   relevance:
+       accuracy: 0.027
+       f1: 0.036
+       mean_diff: 2.027
+
+Recommendations:
+
+1. Revise the consistency instruction to emphasize the importance of accurately reproducing all facts in the original article, and provide specific guidance on what constitutes factual inaccuracy, such as incorrect dates, events, or details.
+
+2. Provide more concrete examples of nuances in relevance, coherence, and consistency to help the rater better understand the subtle differences between scores, such as differentiating between a well-structured summary and a summary that merely lists key points.
+
+3. Consider revising the fluency instruction to add specific language around sentence-level clarity and concision, as the model is struggling to accurately evaluate this metric, which may indicate misalignment between human and model understanding of fluency.

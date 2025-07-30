@@ -7,6 +7,34 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+def save_metric_history(metric_history: dict, filepath="metric_history_opro.txt"):
+  with open(filepath, "w", encoding="utf-8") as f:
+    for metric, scores in metric_history.items():
+      f.write(f"=== {metric.upper()} ===\n")
+      for score_type, values in scores.items():
+        f.write(f"{score_type}: {values}\n")
+      f.write("\n")
+  print(f"Saved metric history to {filepath}")
+
+def save_top_k_prompts(top_k_prompts: TopKHeap, filepath="top_k_prompts_opro.txt"):
+  top_k_prompts = top_k_prompts.get_topK()
+
+  with open(filepath, "w", encoding="utf-8") as f:
+    for i, item in enumerate(top_k_prompts, 1):
+      f.write(f"\n\n\n--- Top {i} Prompt ---\n")
+      f.write(f"Instruction:\n{item.get('instruction', '')}\n\n")
+
+      metrics = item.get("metrics", {})
+      f.write("Metrics:\n")
+      for metric_name, metric_values in metrics.items():
+        f.write(f"   {metric_name}:\n")
+        for k, v in metric_values.items():
+          f.write(f"       {k}: {v}\n")
+      reco = item.get("recommendation", "")
+      f.write(f"\n{reco}\n")
+
+  print(f"Saved top-k prompts to {filepath}")
+
 def plot_metric_over_epochs(metric_values: dict, save_dir="Plots"):
   """
   Plots f1, accuracy, and mean_diff over epochs for all evaluation metrics
@@ -100,8 +128,8 @@ def run_opro(
     processed_reply = process_reply(instruction=instruction, recommendation=recommendation, heap=top_k_prompts, metrics=metrics)
     print("Processed Reply")
 
-  # for metric in metric_names:
-  #   plot_metric_over_epochs(metric_values=metric_history)
+  for metric in metric_names:
+    plot_metric_over_epochs(metric_values=metric_history)
 
   return {
     "metric_histories": metric_history,
@@ -112,13 +140,15 @@ if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   reco_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
-  opro_results = run_opro(file_path=filepath, top_k=5, num_epochs=10,
-                          rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name, calls_per_minute=120, max_workers=10, num_examples=100)
+  opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=30,
+                          rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name, calls_per_minute=60, max_workers=10, num_examples=100)
 
-  for i, item in enumerate(opro_results["top_k_prompts"][:3], 1):
-    print(f"\n--- Top {i} Prompt ---")
-    print(f"Instruction: {item['instruction']}")
-    print("Metrics:")
-    for metric, value in item['metrics'].items():
-      print(f"  {metric}: {value}")
-    print(f"Recommendation: {item['recommendation']}")
+  # for i, item in enumerate(opro_results["top_k_prompts"], 1):
+  #   print(f"\n--- Top {i} Prompt ---")
+  #   print(f"Instruction: {item['instruction']}")
+  #   print("Metrics:")
+  #   for metric, value in item['metrics'].items():
+  #     print(f"  {metric}: {value}")
+  #   print(f"Recommendation: {item['recommendation']}")
+  save_metric_history(opro_results["metric_histories"], "metric_history_opro.txt")
+  save_top_k_prompts(opro_results["top_k_prompts"], "top_k_prompts_opro.txt")
