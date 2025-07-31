@@ -23,6 +23,8 @@ def clean_response(reply: str) -> dict:
   #   return {}
   except Exception as e:
     print(f"Error decoding JSON: {e}")
+    print(reply)
+    print(f"Cleaned Reply: {cleaned_reply}")
     return {}
 
 def process_reply(instruction: str, recommendation : str, heap: TopKHeap, metrics: dict) -> dict:

@@ -117,32 +117,29 @@ def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Data
   sample_point_text = sample_point_text.strip()
 
   _RATER_PROMPT = f"""
-  Your task is written below, kindly complete this and return the output in the 
-  correct format.
-  
-  Instruction : {instruction}
-  
-  Sample Point ID: {run_id}
-  
-  Your sample point that is to be rated is: 
-  {sample_point_text}
-  
-  Output the summaries in a JSON Format of the form:
-  - Do not add any commentary, markdown, or explanation. As this will raise an error.
-  - Return strictly in a JSON format.
-  
-  Format: 
-  {{
-    "run_id": {run_id},
-    "score" : {{
-      "predicted_fluency" : 1|2|3|4|5,
-      "predicted_coherence" : 1|2|3|4|5,
-      "predicted_consistency" : 1|2|3|4|5,
-      "predicted_relevance" : 1|2|3|4|5,
-    }}
+Your task is written below, kindly complete this and return the output in the 
+correct format.
+
+Instruction : {instruction}
+
+Your sample point that is to be rated is: 
+{sample_point_text}
+
+Output the summaries in a JSON Format of the form:
+- Do not add any commentary, markdown, or explanation. As this will raise an error.
+- Return strictly in a JSON format.
+
+Format: 
+{{
+  "score" : {{
+    "predicted_fluency" : 1|2|3|4|5,
+    "predicted_coherence" : 1|2|3|4|5,
+    "predicted_consistency" : 1|2|3|4|5,
+    "predicted_relevance" : 1|2|3|4|5,
   }}
-  
-  Do not add any commentary, markdown, or explanation. As this will raise an error.
+}}
+
+Do not add any commentary, markdown, or explanation. As this will raise an error.
   """
 
   return _RATER_PROMPT
