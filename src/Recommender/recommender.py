@@ -10,21 +10,18 @@ load_dotenv()
 
 def clean_response(reply: str) -> dict:
   try:
-    cleaned_reply = re.sub(r'^```json|```$', '', reply,
-                           flags=re.MULTILINE).strip()
+    start = reply.find('{')
+    end = reply.rfind('}')
 
-    # Fix unescaped backslashes before parsing
-    cleaned_reply = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', cleaned_reply)
+    if start == -1 or end == -1 or start > end:
+      raise ValueError("Invalid reply")
 
-    data = json5.loads(cleaned_reply)
+    data = json5.loads(reply[start:end + 1])
     return data
-  # except json.JSONDecodeError as e:
-  #   print(f"Error decoding JSON: {e}")
-  #   return {}
   except Exception as e:
     print(f"Error decoding JSON: {e}")
     print(reply)
-    print(f"Cleaned Reply: {cleaned_reply}")
+    print(f"Cleaned Reply: {data}")
     return {}
 
 def process_reply(instruction: str, recommendation : str, heap: TopKHeap, metrics: dict) -> dict:

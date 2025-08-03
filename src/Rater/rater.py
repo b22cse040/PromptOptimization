@@ -11,15 +11,18 @@ load_dotenv()
 
 def clean_response(reply: str) -> dict:
   try:
-    cleaned_reply = re.sub(r'^```json|```$', '', reply,
-                           flags=re.MULTILINE).strip()
+    start = reply.find('{')
+    end = reply.rfind('}')
 
-    data = json5.loads(cleaned_reply)
+    if start == -1 or end == -1 or start > end:
+      raise ValueError("Invalid reply")
+
+    data = json5.loads(reply[start:end + 1])
     return data
   except Exception as e:
     print(f"Error decoding JSON: {e}")
     print(reply)
-    print(f"Cleaned Reply: {cleaned_reply}")
+    print(f"Cleaned Reply: {data}")
     return {}
 
 def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str) -> str:
@@ -85,9 +88,9 @@ def call_rater_llm_prompt(
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "../Dataset/dataset/df_M11_sampled.parquet"
-  num_examples = 100
+  num_examples = 20
   max_concurrent_calls = 20
-  calls_per_minute = 45
+  calls_per_minute = 60
   calls_per_second = calls_per_minute / 60
 
   top_k_prompts = TopKHeap(3)

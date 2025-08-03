@@ -141,7 +141,7 @@ if __name__ == "__main__":
   reco_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
   opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=1,
-                          rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name, calls_per_minute=60, max_workers=10, num_examples=20)
+                          rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name, calls_per_minute=60, max_workers=10, num_examples=100)
 
   # for i, item in enumerate(opro_results["top_k_prompts"], 1):
   #   print(f"\n--- Top {i} Prompt ---")

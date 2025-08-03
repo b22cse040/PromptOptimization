@@ -28,16 +28,14 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
     "relevance": {"y_true": [], "y_pred": [], "diffs" : []},
   }
 
-  for entry in rater_response:
+  for i, entry in enumerate(rater_response):
     if not entry or "score" not in entry or not entry["score"]:
       continue
 
-    run_id = entry["run_id"]
-    if run_id not in df.index: continue
+    if i >= len(df): continue
 
     score = entry["score"]
-
-    sample = df.loc[run_id]
+    sample = df.iloc[i]
 
     for metric in ["fluency", "coherence", "consistency", "relevance"]:
       try:
