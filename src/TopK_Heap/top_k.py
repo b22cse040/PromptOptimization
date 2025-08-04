@@ -22,7 +22,7 @@ class TopKHeap:
       heapq.heappop(self.heap)
 
   def get_topK(self):
-    return [entry[2] for entry in sorted(self.heap)]
+    return [entry[2] for entry in sorted(self.heap, reverse=True)]
 
   def _rank(self, metrics : dict):
     """Compute the average of accuracy and f1-scores across all metric reports."""

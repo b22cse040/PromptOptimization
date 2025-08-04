@@ -25,22 +25,25 @@ def clean_response(reply: str) -> dict:
     print(f"Cleaned Reply: {data}")
     return {}
 
-def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str) -> str:
+def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str, rater_temp: float = 0.1, rater_top_p: float = 0.95) -> str:
   """
+  top_k_prompts: Previous top-K performing instructions. (K is a hyperparameter)
   rater_llm_name: Name of the optimizer llm to use.
   """
   rater_meta_prompt = create_rater_meta_prompt(prev_top_k_prompts=top_k_prompts)
   # print(optim_meta_prompt)
 
   # No need to clean the response as it returns a string.
-  reply = call_openrouter(rater_meta_prompt, rater_llm_name)
+  reply = call_openrouter(rater_meta_prompt, rater_llm_name, temperature=rater_temp, top_p=rater_top_p)
   return reply
 
 def call_rater_llm_prompt_utils(
     instruction: str,
     run_id: int = 0,
     file_path : str = "../Dataset/dataset/df_M11_sampled.parquet",
-    rater_llm_name: str = "deepseek/deepseek-r1-0528-qwen3-8b:free"
+    rater_llm_name: str = "deepseek/deepseek-r1-0528-qwen3-8b:free",
+    rater_temp: float = 0.1,
+    rater_top_p: float = 0.95,
 ) -> dict:
   # Forming Prompt : returns a str containing the prompt for rater LLM
   # print(f"Run {run_id}: LLM Prompt formation")
@@ -48,7 +51,7 @@ def call_rater_llm_prompt_utils(
 
   # Generating JSON Response by the Rater LLM
   # print(f"Run {run_id}: LLM Calling")
-  reply = call_openrouter(rater_prompt, rater_llm_name)
+  reply = call_openrouter(rater_prompt, rater_llm_name, temperature=rater_temp, top_p=rater_top_p)
 
   # Cleaning JSON response
   # print(f"Run {run_id}: LLM reply received")
@@ -61,7 +64,9 @@ def call_rater_llm_prompt(
     num_examples : int = 100,
     max_workers: int = 10,
     calls_per_minute: int = 60, # 60 is the best case as of now.
-    rater_llm_name : str = "meta-llama/llama-3-8b-instruct"
+    rater_llm_name : str = "meta-llama/llama-3-8b-instruct",
+    rater_temp: float = 0.1,
+    rater_top_p: float = 0.95,
 ) -> list[dict]:
 
   calls_per_second = calls_per_minute / 60
@@ -74,7 +79,7 @@ def call_rater_llm_prompt(
   futures = [
     executor.submit(
       call_rater_llm_prompt_utils,
-      instruction, run_id, file_path, rater_llm_name
+      instruction, run_id, file_path, rater_llm_name, rater_temp, rater_top_p,
     ) for run_id in range(num_examples)
   ]
   print("Submitted All futures")

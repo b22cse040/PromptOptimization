@@ -9,6 +9,8 @@ load_dotenv()
 def call_openrouter(
     prompt: str,
     llm_name: str = 'meta-llama/llama-3-8b-instruct',
+    temperature: float = 1.0,
+    top_p: float = 0.95,
     retries: int = 5,
     backoff: float = 1.0,
     jitter: float = 0.25,
@@ -49,7 +51,9 @@ def call_openrouter(
   }
   data = {
     "model" : llm_name,
-    "messages" : [{"role" : "user", "content" : prompt}]
+    "messages" : [{"role" : "user", "content" : prompt}],
+    "temperature" : temperature,
+    "top_p" : top_p,
   }
 
   # Retry loop with exponential backoff and jitter

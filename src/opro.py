@@ -90,6 +90,10 @@ def run_opro(
   calls_per_minute: int = 120,
   max_workers: int = 10,
   num_examples: int = 100,
+  rater_temp: float = 0.1,
+  reco_temp: float = 1.0,
+  rater_top_p: float = 0.95,
+  reco_top_p: float = 0.95,
 ) -> dict:
 
   ## Top-K prompts
@@ -103,14 +107,18 @@ def run_opro(
 
   for epoch in range(num_epochs):
     print(f"\n--- Epoch {epoch + 1}/{num_epochs} ---")
-    instruction = call_rater_llm_meta_prompt(top_k_prompts=top_k_prompts,
-                                             rater_llm_name=rater_llm_name)
+    instruction = call_rater_llm_meta_prompt(
+      top_k_prompts=top_k_prompts,
+      rater_llm_name=rater_llm_name,
+      rater_temp=rater_temp, rater_top_p=rater_top_p,
+    )
     print("Generated instruction")
 
     evals = call_rater_llm_prompt(
       instruction=instruction, file_path=file_path,
       rater_llm_name=rater_llm_name, max_workers=max_workers,
-      calls_per_minute=calls_per_minute, num_examples=num_examples
+      calls_per_minute=calls_per_minute, num_examples=num_examples,
+      rater_temp=rater_temp, rater_top_p=rater_top_p,
     )
     print("Generated evals")
 
@@ -122,14 +130,14 @@ def run_opro(
       metric_history[metric]["accuracy"].append(metrics[metric]["accuracy"])
       metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
 
-    recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name)
+    recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name, reco_temp=reco_temp, reco_top_p=reco_top_p)
     print("Generated recommendation")
 
     processed_reply = process_reply(instruction=instruction, recommendation=recommendation, heap=top_k_prompts, metrics=metrics)
     print("Processed Reply")
 
-  # for metric in metric_names:
-  #   plot_metric_over_epochs(metric_values=metric_history)
+  for metric in metric_names:
+    plot_metric_over_epochs(metric_values=metric_history)
 
   return {
     "metric_histories": metric_history,
@@ -140,8 +148,10 @@ if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   reco_llm_name = "meta-llama/llama-3-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
-  opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=1,
-                          rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name, calls_per_minute=60, max_workers=10, num_examples=100)
+  opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=30,
+                          rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name,
+                          calls_per_minute=60, max_workers=10, num_examples=100,
+                          rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95)
 
   # for i, item in enumerate(opro_results["top_k_prompts"], 1):
   #   print(f"\n--- Top {i} Prompt ---")
@@ -150,5 +160,5 @@ if __name__ == "__main__":
   #   for metric, value in item['metrics'].items():
   #     print(f"  {metric}: {value}")
   #   print(f"Recommendation: {item['recommendation']}")
-  # save_metric_history(opro_results["metric_histories"], "metric_history_opro.txt")
-  # save_top_k_prompts(opro_results["top_k_prompts"], "top_k_prompts_opro.txt")
+  save_metric_history(opro_results["metric_histories"], "metric_history_opro.txt")
+  save_top_k_prompts(opro_results["top_k_prompts"], "top_k_prompts_opro.txt")
