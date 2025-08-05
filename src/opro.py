@@ -145,8 +145,8 @@ def run_opro(
   }
 
 if __name__ == "__main__":
-  rater_llm_name = "meta-llama/llama-3-8b-instruct"
-  reco_llm_name = "meta-llama/llama-3-8b-instruct"
+  rater_llm_name = "meta-llama/llama-3.1-70b-instruct"
+  reco_llm_name = "meta-llama/llama-3.1-70b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
   opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=30,
                           rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name,
