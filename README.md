@@ -11,12 +11,14 @@ We maintain a Heap to track the top-k best performing instructions (based  on th
 Over time, this loops drives the generation of improved instructions that yield more accurate and aligned predictions.
 
 ### F1 plot
-<img width="640" height="480" alt="image" src="https://github.com/user-attachments/assets/53f3f9a9-c603-4199-81ac-5a27366c6b03" />
+<img width="640" height="480" alt="f1_scores" src="https://github.com/user-attachments/assets/9b4cb821-3d29-4f91-b44c-b14057e6ef21" />
+
 
 ### Accuracy Plot
-<img width="640" height="480" alt="image" src="https://github.com/user-attachments/assets/22111b3f-ff2a-4dfc-ba0f-33f502000eaa" />
+<img width="640" height="480" alt="accuracy_scores" src="https://github.com/user-attachments/assets/28325b56-c755-4131-b029-932395d79c37" />
 
 
-Rater LLM : meta-llama/llama-3-8b-instruct
 
-Recommender LLM : meta-llama/llama-3-8b-instruct
+Rater LLM : meta-llama/llama-3-70b-instruct
+
+Recommender LLM : meta-llama/llama-3-70b-instruct
