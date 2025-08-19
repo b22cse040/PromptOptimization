@@ -22,7 +22,7 @@ def clean_response(reply: str) -> dict:
   except Exception as e:
     print(f"Error decoding JSON: {e}")
     print(reply)
-    print(f"Cleaned Reply: {data}")
+    # print(f"Cleaned Reply: {data}")
     return {}
 
 def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str, rater_temp: float = 0.1, rater_top_p: float = 0.95) -> str:

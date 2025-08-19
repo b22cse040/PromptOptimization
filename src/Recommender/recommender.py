@@ -18,10 +18,10 @@ def clean_response(reply: str) -> dict:
 
     data = json5.loads(reply[start:end + 1])
     return data
+
   except Exception as e:
     print(f"Error decoding JSON: {e}")
     print(reply)
-    print(f"Cleaned Reply: {data}")
     return {}
 
 def process_reply(instruction: str, recommendation : str, heap: TopKHeap, metrics: dict) -> dict:
@@ -71,7 +71,7 @@ if __name__ == '__main__':
   print(instruction)
   print('=' * 70)
 
-  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath)
+  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=50, max_workers=20)
 
   metrics = calculate_metrics(evals)
   print(metrics)

@@ -55,7 +55,7 @@ def plot_metric_over_epochs(metric_values: dict, save_dir="Plots"):
       smoothed.append(alpha * series[i] + (1 - alpha) * smoothed[-1])
     return smoothed
 
-  metric_types = ["f1", "accuracy", "mean_diff"]
+  metric_types = ["f1", "accuracy"]
   eval_metrics = list(metric_values.keys())  # ['fluency', 'coherence', ...]
 
   num_epochs = len(next(iter(metric_values.values()))['f1'])
@@ -100,9 +100,9 @@ def run_opro(
   top_k_prompts = TopKHeap(top_k)
   print(f"Step 1: Created a heap to store top-{top_k} prompts (Successful)")
 
-  metric_names = ["fluency", "coherence", "consistency", "relevance"]
+  metric_names = ["relevance"] # "fluency", "consistency", "relevance","coherence"
   metric_history = {
-    metric : {"f1" : [], "accuracy" : [], "mean_diff" : []} for metric in metric_names
+    metric : {"f1" : [], "accuracy" : []} for metric in metric_names # , "mean_diff" : []
   }
 
   for epoch in range(num_epochs):
@@ -128,7 +128,7 @@ def run_opro(
     for metric in metric_names:
       metric_history[metric]["f1"].append(metrics[metric]["f1"])
       metric_history[metric]["accuracy"].append(metrics[metric]["accuracy"])
-      metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
+      # metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
 
     recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name, reco_temp=reco_temp, reco_top_p=reco_top_p)
     print("Generated recommendation")
@@ -145,12 +145,12 @@ def run_opro(
   }
 
 if __name__ == "__main__":
-  rater_llm_name = "meta-llama/llama-3.1-70b-instruct"
-  reco_llm_name = "meta-llama/llama-3.1-70b-instruct"
+  rater_llm_name = "meta-llama/llama-3.1-8b-instruct"
+  reco_llm_name = "meta-llama/llama-3.1-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
   opro_results = run_opro(file_path=filepath, top_k=10, num_epochs=30,
                           rater_llm_name=rater_llm_name, reco_llm_name=reco_llm_name,
-                          calls_per_minute=60, max_workers=10, num_examples=100,
+                          calls_per_minute=60, max_workers=20, num_examples=100,
                           rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95)
 
   # for i, item in enumerate(opro_results["top_k_prompts"], 1):

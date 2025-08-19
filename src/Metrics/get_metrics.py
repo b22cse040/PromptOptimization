@@ -22,10 +22,10 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
   df = pd.read_parquet(file_path)
 
   metrics = {
-    "fluency": {"y_true": [], "y_pred": [], "diffs" : []},
-    "coherence": {"y_true": [], "y_pred": [], "diffs" : []},
-    "consistency": {"y_true": [], "y_pred": [], "diffs" : []},
-    "relevance": {"y_true": [], "y_pred": [], "diffs" : []},
+    #"fluency": {"y_true": [], "y_pred": [], "diffs" : []},
+    # "coherence": {"y_true": [], "y_pred": [], "diffs" : []},
+    # "consistency": {"y_true": [], "y_pred": [], "diffs" : []},
+     "relevance": {"y_true": [], "y_pred": [], "diffs" : []},
   }
 
   for i, entry in enumerate(rater_response):
@@ -37,7 +37,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
     score = entry["score"]
     sample = df.iloc[i]
 
-    for metric in ["fluency", "coherence", "consistency", "relevance"]:
+    for metric in ["relevance"]: #  "fluency", "consistency", "relevance", "coherence",
       try:
         ground_score = int(sample[f"{metric}"])
         predicted_score = int(score[f"predicted_{metric}"])
@@ -48,7 +48,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
 
       metrics[metric]["y_true"].append(ground_score)
       metrics[metric]["y_pred"].append(predicted_score)
-      metrics[metric]["diffs"].append(predicted_score - ground_score)
+      # metrics[metric]["diffs"].append(predicted_score - ground_score)
 
   result = {}
   for metric, data in metrics.items():
@@ -57,17 +57,17 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
     diffs = data["diffs"]
 
     if not y_true or not y_pred:
-      result[metric] = {"accuracy": 0, "f1": 0, "mean_diff": 0}
+      result[metric] = {"accuracy": 0, "f1": 0,} # "mean_diff": 0}
       continue
 
     acc = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average="weighted", zero_division=0)
-    mean_diff = round(np.mean(diffs), 3) if diffs else 0
+    # mean_diff = round(np.mean(diffs), 3) if diffs else 0
 
     result[metric] = {
       "accuracy": round(acc, 3),
       "f1": round(f1, 3),
-      "mean_diff": mean_diff
+      # "mean_diff": mean_diff
     }
 
   return result
@@ -85,8 +85,8 @@ if __name__ == "__main__":
   print(meta_prompt)
   print('=' * 100)
 
+  rater_response = call_rater_llm_prompt(meta_prompt, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20)
   print("Metrics ->")
-  rater_response = call_rater_llm_prompt(meta_prompt, rater_llm_name=rater_llm_name)
 
   metrics = calculate_metrics(rater_response)
   print(metrics)
