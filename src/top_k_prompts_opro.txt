@@ -3,31 +3,182 @@
 
 --- Top 1 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance to the key points of the original article.
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including subtle inferences and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Penalize summaries that omit essential information, defined as critical facts that significantly impact the understanding of the article's main points, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article.
 
 Metrics:
-   relevance:
-       accuracy: 0.0
-       f1: 0.0
+   consistency:
+       accuracy: 0.28
+       f1: 0.334
 
 Recommendations:
-1. Revise the relevance instruction to explicitly state that the rater should identify whether all and only the important aspects are contained in the summary, to better align with expert annotators.
-2. Consider revising the scoring system to be more granular, such as using a 6-point scale or a qualitative framework, to capture more nuanced differences in relevance scores and reduce the likelihood of extreme scores (1 or 5) that may be counterintuitive for certain cases.
-3. Provide a clear definition of what constitutes an "important aspect" of the article, and consider providing examples or non-examples to help guide the rater in their evaluation.
+1. Revise the consistency instruction to focus more explicitly on the presence of specific factual inaccuracies, emphasizing the need to penalize summaries that introduce untrue information or contradict the original article, with specific examples of critical facts that significantly impact the understanding of the article's main points.
+2. Emphasize the importance of accurate ordering and presentation of information in the instruction, as it appears that the model may be overlooking these aspects or not adequately penalizing summaries that alter the original context.
+3. Clarify the definition of "essential information" and provide more guidance on what constitutes "critical facts" to ensure consistency in ratings across different samples and to address potential biases in omitting or introducing information.
 
 
 
 --- Top 2 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance to the key points of the original article, considering whether all and only the important aspects, such as main events, key quotes, and supporting evidence, are accurately and comprehensively captured in the summary.
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, and specific details that alter the context or meaning. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with equal penalties for omitting critical facts and introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context, and consider the following thresholds: omitting or misrepresenting critical facts that significantly impact the understanding of the article's main points, introducing untrue information that alters the context or meaning, and presenting information in a non-logical or incoherent order.
 
 Metrics:
-   relevance:
-       accuracy: 0.1
-       f1: 0.1
+   consistency:
+       accuracy: 0.27
+       f1: 0.331
 
 Recommendations:
-1. Revise the relevance instruction to provide specific examples of main events, key quotes, and supporting evidence that should be accurately captured in the summary.
-2. Consider adding a clarifying statement to emphasize that irrelevant information, such as tangential details or filler words, should not be considered when evaluating the summary's relevance.
-3. Propose a clearer distinction between "important aspects" and "accurately and comprehensively captured," to ensure raters focus on the quality of summary content rather than its quantity.
-4. Revise the instruction to guide raters on evaluating the summary's ability to condense the article's key information without introducing new information or altering the original meaning.
+1. Revise the consistency instruction to emphasize the distinction between factual inaccuracies and interpretations that deviate from the original context, providing clear examples to guide the rater LLM in making this distinction.
+2. Refine the definition of critical facts to prioritize key events, quotes, and statistics that significantly alter the context or meaning of the article, and provide guidance on how to penalize summaries that omit or misrepresent these critical facts.
+3. Emphasize the importance of maintaining the original context and meaning in the summary, and provide guidance on how to evaluate whether the summary accurately reproduces the original article's facts and avoids introducing new information.
+4. Consider revising the instruction to provide more explicit guidance on how to evaluate the presentation and ordering of information in the summary, and how to uniformly penalize summaries that present information in a non-logical or incoherent order.
+5. Provide more specific guidance on the thresholds for penalizing summaries, including clear examples of when a summary should receive a lower consistency rating due to omitting or misrepresenting critical facts, introducing untrue information, or presenting information in a non-logical or incoherent order.
+
+
+
+--- Top 3 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, and specific details that alter the context or meaning. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context.
+
+Metrics:
+   consistency:
+       accuracy: 0.27
+       f1: 0.331
+
+Recommendations:
+ 
+1. Revise the consistency instruction to place greater emphasis on penalizing summaries that introduce untrue information, such as fabricated facts, misinterpretations, or misrepresentations of original information, and provide explicit examples to clarify the distinction between critical facts and non-essential details.
+
+2. Clarify the definition of "critical facts" to ensure consistent evaluation across samples, and provide guidance on how to handle summaries that omit non-essential details versus those that omit key events or quotes that significantly impact the understanding of the article's main points.
+
+3. Provide additional guidance on how to evaluate the consistency of summaries that present information in a logical and coherent order but introduce minor inaccuracies, to address observed inconsistencies in rating such summaries.
+
+4. Consider adding examples of summaries that accurately reproduce the original article's facts but deviate from the original context or meaning, to help raters better understand the nuances of evaluating consistency.
+
+5. Emphasize the importance of considering the accuracy of specific details, such as names, dates, and locations, when evaluating consistency, as errors in these areas may significantly impact the overall consistency rating.
+
+
+
+--- Top 4 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, and specific details that alter the context or meaning. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context.
+
+Metrics:
+   consistency:
+       accuracy: 0.27
+       f1: 0.319
+
+Recommendations:
+  1. Revise the consistency instruction to prioritize the evaluation of specific details such as names, dates, and locations, as these seem to be critical areas where summaries are struggling to maintain consistency.
+  2. Emphasize the importance of penalizing summaries that introduce untrue information, particularly fabricated facts, misinterpretations, or misrepresentations of original information, as the current performance suggests leniency in this area.
+  3. Clarify the definition of "critical facts" to ensure that summaries are accurately reproducing key events, quotes, statistics, and specific details that alter the context or meaning, as omission or alteration of these facts may be contributing to the low performance.
+  4. Refine the instruction to provide more specific guidance on evaluating the presentation and ordering of information, as this aspect of consistency appears to be challenging for the model to assess accurately.
+  5. Consider providing additional examples of direct factual inaccuracies versus interpretations that deviate from the original context to improve the model's ability to distinguish between these two types of inconsistencies.
+
+
+
+--- Top 5 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, and specific details that alter the context or meaning. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context.
+
+Metrics:
+   consistency:
+       accuracy: 0.26
+       f1: 0.321
+
+Recommendations:
+  1. Revise the consistency instruction to explicitly emphasize the distinction between critical and non-critical facts, ensuring that summaries are penalized accordingly for omitting or distorting key information.
+  2. Clarify the definition of "untrue information" to include not only fabricated facts but also misinterpretations and misrepresentations of original information, and provide examples to illustrate the differences.
+  3. Emphasize the importance of evaluating the logical and coherent ordering of information in the summary, as this aspect appears to be underweighted in the current ratings.
+  4. Consider adding guidance on how to handle summaries that omit critical facts but do not introduce untrue information, as these cases may be unduly penalized or overlooked.
+  5. Provide more specific examples of direct factual inaccuracies versus interpretations that deviate from the original context to help raters better distinguish between these cases.
+
+
+
+--- Top 6 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, and specific details that alter the context or meaning. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context.
+
+Metrics:
+   consistency:
+       accuracy: 0.26
+       f1: 0.32
+
+Recommendations:
+  1. Revise the consistency instruction to emphasize the distinction between factual inaccuracies and interpretative deviations from the original context, providing clearer examples to guide the rating process.
+  2. Clarify the definition of "critical facts" to ensure consistency in penalizing summaries that omit or misrepresent such information, focusing on key events, quotes, statistics, and specific details that significantly impact the article's main points.
+  3. Refine the instruction to uniformly penalize summaries that introduce untrue information, including fabricated facts, misinterpretations, or misrepresentations of original information, to improve consistency in rating.
+  4. Emphasize the importance of evaluating the accuracy of specific details, presentation, and ordering of information in the summary, to ensure consistency ratings accurately reflect the summary's faithfulness to the original article.
+  5. Provide additional guidance on how to handle summaries that partially reproduce the original article's facts but also introduce new information or contradict the original context, to reduce inconsistencies in rating.
+
+
+
+--- Top 7 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, and specific details that alter the context or meaning. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context.
+
+Metrics:
+   consistency:
+       accuracy: 0.26
+       f1: 0.315
+
+Recommendations:
+  1. Revise the consistency instruction to emphasize the importance of accurately reproducing specific details, such as names, dates, and locations, as the current performance suggests inconsistencies in these areas.
+  2. Clarify the distinction between introducing untrue information and omitting critical facts, as the model may be inconsistent in penalizing these errors, to ensure uniformity in rating summaries.
+  3. Provide more guidance on evaluating the presentation and ordering of information in the summary, as the current instruction may not be clear enough, leading to inconsistencies in rating.
+  4. Consider adding examples of inconsistencies in summaries that maintain the original context but introduce new information, to help the model better understand what constitutes an inconsistent summary.
+  5. Emphasize the importance of maintaining the original context and meaning in the summary, as the current performance suggests the model may be inconsistent in rating summaries that deviate from the original context.
+
+
+
+--- Top 8 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, and specific details that alter the context or meaning. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context.
+
+Metrics:
+   consistency:
+       accuracy: 0.26
+       f1: 0.312
+
+Recommendations:
+ 
+1. Revise the consistency instruction to explicitly distinguish between critical and non-critical factual inaccuracies, and provide clear guidance on how to penalize each type.
+2. Emphasize the importance of accurately reproducing specific details, such as names, dates, and locations, and provide examples of how to uniformly penalize summaries that omit or introduce incorrect information.
+3. Clarify the definition of "critical facts" to ensure that evaluators consistently identify and penalize omissions or misrepresentations of key information.
+4. Provide additional guidance on how to evaluate summaries that introduce information that contradicts the original article, with clear examples of what constitutes a contradiction versus an interpretation that deviates from the original context.
+5. Consider revising the instruction to place greater emphasis on penalizing summaries that introduce untrue information, as the current instruction appears to be too lenient in this regard.
+
+
+
+--- Top 9 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its consistency with the original article, considering the entire content, including explicit statements, subtle inferences, and implications, and evaluating whether all aspects of the text are true to the original, including specific details such as names, dates, and locations. Define critical facts as information that significantly impacts the understanding of the article's main points, including key events, quotes, statistics, specific details that alter the context or meaning, and any information that, if omitted or misrepresented, would change the reader's understanding of the article. Penalize summaries that omit critical facts, introduce untrue information, or contradict the original article, with heavier penalties for introducing untrue information, which includes fabricated facts, misinterpretations, or misrepresentations of original information. Ensure consistency ratings account for the accuracy of specific details, the presentation, and ordering of information, and uniformly penalize summaries that omit or introduce information that contradicts the original article. When evaluating consistency, consider whether the summary accurately reproduces the original article's facts, avoids introducing new information, presents information in a logical and coherent order, and maintains the original context and meaning. Provide specific guidance on what constitutes a consistent or inconsistent summary, including examples of direct factual inaccuracies versus interpretations that deviate from the original context.
+
+Metrics:
+   consistency:
+       accuracy: 0.25
+       f1: 0.321
+
+Recommendations:
+  1. Revise the consistency instruction to emphasize the distinction between factual inaccuracies and interpretations that deviate from the original context, as the current instruction may lead to inconsistent penalization of summaries with nuanced deviations.
+  2. Clarify the definition of "critical facts" to focus on specific details that, if altered or omitted, would change the reader's understanding of the article's main points, as the current instruction may be too broad.
+  3. Provide explicit guidance on how to penalize summaries that introduce untrue information, including fabricated facts, misinterpretations, or misrepresentations, as the current instruction may lead to inconsistent application of penalties.
+  4. Consider adding an emphasis on the importance of maintaining the original context and meaning in the summary, as the current instruction may not adequately convey the significance of this aspect.
+
+
+
+--- Top 10 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on how accurately it reproduces the facts from the original article and avoids introducing untrue information, focusing on consistency.
+
+Metrics:
+   consistency:
+       accuracy: 0.31
+       f1: 0.261
+
+Recommendations:
+1. Revise the consistency instruction to emphasize whether all aspects of the text are actually true to the original article, rather than just reproducing facts, to account for instances where summaries may accurately reproduce some facts but introduce untrue information.
+2. Clarify that consistency ratings should penalize summaries that omit critical facts from the original article, as current performance suggests leniency in such cases.
+3. Emphasize the importance of evaluating summaries based on the accuracy of specific details, such as names, dates, and locations, to reduce errors where summaries receive high consistency ratings despite factual inaccuracies.
+4. Consider adding guidance on how to handle summaries that contradict the original article, as current performance indicates inconsistency in rating such summaries.
+5. Refine the instruction to distinguish between summaries that inaccurately reproduce facts and those that introduce entirely new, untrue information, to ensure consistent scoring.
+6. Provide additional guidance on evaluating consistency in summaries that present information in a different order or with different emphasis than the original article, to reduce errors where summaries receive high consistency ratings despite discrepancies in presentation.

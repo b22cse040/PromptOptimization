@@ -4,65 +4,65 @@ from src.Metrics.get_metrics import calculate_metrics
 from src.TopK_Heap.top_k import TopKHeap
 from typing import Dict
 
-# _TASK_DESCRIPTION_RECOMMENDER = """
-#
-#   You will be given:
-#   - A string that was the instruction received to the rater LLM to judge summaries
-#     on 4 metrics: fluency, coherence, consistency, relevance.
-#   - The performance of the said instruction on different samples.
-#   - The performance contains f1-score, accuracy and mean-difference for each metric.
-#     -> mean-difference is the average of (predicted_score - ground_truth_score) for all the samples.
-#     A positive mean-difference indicates the rater is more lenient than it should be, while a negative
-#     mean-difference indicates the rater is less lenient than it should be.
-#
-#   Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
-#
-#   - Relevance: The rating measures how well the summary captures the key points of
-#   the article. Consider whether all and only the important aspects are contained in
-#   the summary.
-#   - Consistency: The rating measures whether the facts in the summary are consistent
-#   with the facts in the original article. Consider whether the summary does
-#   reproduce all facts accurately and does not make up untrue information.
-#   - Fluency: The rating measures the quality of individual sentences, are they
-#   well-written and grammatically correct. Consider the quality of individual sentences.
-#   - Coherence: The rating measures the quality of all sentences collectively, to
-#   fit together and sound naturally. Consider the quality of the summary as a whole.
-#
-#   You may:
-#   - Recommend adjustments to metric definitions if misalignment is observed.
-#   - Highlight patterns in errors across multiple samples (e.g., consistently underrating coherence).
-#   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
-#    -> Bad example - "Improve coherence definition"
-#    -> Good example - "Revise the coherence instruction to emphasize 'logical transitions
-#       between sentences'.
-#
-#   Be specific, grounded in the provided evidence, and focus on actionable improvements.
-# """
-
 _TASK_DESCRIPTION_RECOMMENDER = """
 
   You will be given:
   - A string that was the instruction received to the rater LLM to judge summaries
-    on relevance.
+    on 4 metrics: fluency, coherence, consistency, relevance.
   - The performance of the said instruction on different samples.
-  - The performance contains f1-score and accuracy.
+  - The performance contains f1-score, accuracy and mean-difference for each metric.
+    -> mean-difference is the average of (predicted_score - ground_truth_score) for all the samples.
+    A positive mean-difference indicates the rater is more lenient than it should be, while a negative
+    mean-difference indicates the rater is less lenient than it should be.
 
-  Each sample is evaluated along the following metric, with score values ranging from 1 to 5:
+  Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 
   - Relevance: The rating measures how well the summary captures the key points of
-   the article. Consider whether all and only the important aspects are contained in
-   the summary.
+  the article. Consider whether all and only the important aspects are contained in
+  the summary.
+  - Consistency: The rating measures whether the facts in the summary are consistent
+  with the facts in the original article. Consider whether the summary does
+  reproduce all facts accurately and does not make up untrue information.
+  - Fluency: The rating measures the quality of individual sentences, are they
+  well-written and grammatically correct. Consider the quality of individual sentences.
+  - Coherence: The rating measures the quality of all sentences collectively, to
+  fit together and sound naturally. Consider the quality of the summary as a whole.
 
   You may:
-  - Recommend adjustments to the relevance definition if misalignment is observed.
-  - Highlight patterns in errors across multiple samples (e.g., consistently identifying unnecessary sentences as relevant.).
-  - You may recommend harsher or more lenient scoring but you CANNOT tell the exact f1 and accuracy scores in your recommendation.
+  - Recommend adjustments to metric definitions if misalignment is observed.
+  - Highlight patterns in errors across multiple samples (e.g., consistently underrating coherence).
   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
-   -> Bad example - "Improve relevance definition"
-   -> Good example - "Revise the relevance instruction to emphasize whether all and only the important aspects are contained in the summary. 
+   -> Bad example - "Improve coherence definition"
+   -> Good example - "Revise the coherence instruction to emphasize 'logical transitions
+      between sentences'.
 
   Be specific, grounded in the provided evidence, and focus on actionable improvements.
 """
+
+# _TASK_DESCRIPTION_RECOMMENDER = """
+#
+# You will be given:
+# - A string that was the instruction received to the rater LLM to judge summaries
+#   on coherence.
+# - The performance of the said instruction on different samples.
+# - The performance contains f1-score and accuracy.
+#
+# Each sample is evaluated along the following metric, with score values ranging from 1 to 5:
+#
+# - Coherence: The rating measures the quality of all sentences collectively, to
+#   fit together and sound naturally. Consider the quality of the summary as a whole.
+#
+# You may:
+# - Recommend adjustments to the fluency definition if misalignment is observed.
+# - Highlight patterns in errors across multiple samples (e.g., facts don't match with the original article yet it receives a higher consistency rating.).
+# - You may recommend harsher or more lenient scoring but you CANNOT tell the exact f1 and accuracy scores in your recommendation.
+# - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
+#  -> Bad example - "Improve coherence definition"
+#  -> Good example - "Revise the coherence instruction to emphasize whether all sentences collectively, to
+#   fit together and sound naturally, and considering the quality of summary as a whole.
+#
+# Be specific, grounded in the provided evidence, and focus on actionable improvements.
+# """
 
 
 def create_recommender_prompt(
@@ -80,26 +80,26 @@ def create_recommender_prompt(
     metrics_text += "\n"
 
   _RECOMMENDER_PROMPT = f"""
-  You are an expert at analyzing performance of instruction. Here is your task:
-  {task_description}
-  
-  The instruction received from the rater LLM is: 
-  {instruction}.
-  
-  The performance of the said instruction is:
-  {metrics_text}
-  
-  Generate only what is asked. Add no other commentary or grammar than what is needed essentially.
-  A format for you: 
-   
-  Recommendations:
-    1. [First recommendation, focusing on metric definitions or instruction clarity.]
-    2. [Second recommendation, addressing observed biases or errors.]
-    ...
+You are an expert at analyzing performance of instruction. Here is your task:
+{task_description}
 
-    Do NOT include:
-    - Any introductory/closing sentences.
-    - Sections like "Instruction Analysis" or "Overall Performance."
+The instruction received from the rater LLM is: 
+{instruction}.
+
+The performance of the said instruction is:
+{metrics_text}
+
+Generate only what is asked. Add no other commentary or grammar than what is needed essentially.
+A format for you: 
+ 
+Recommendations:
+  1. [First recommendation, focusing on metric definitions or instruction clarity.]
+  2. [Second recommendation, addressing observed biases or errors.]
+  ...
+
+  Do NOT include:
+  - Any introductory/closing sentences.
+  - Sections like "Instruction Analysis" or "Overall Performance."
   """
 
   return _RECOMMENDER_PROMPT

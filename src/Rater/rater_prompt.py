@@ -1,16 +1,7 @@
 import pandas as pd
 from src.TopK_Heap.top_k import TopKHeap
 
-#   - Relevance: The rating measures how well the summary captures the key points of
-#   the article. Consider whether all and only the important aspects are contained in
-#   the summary.
-#   - Consistency: The rating measures whether the facts in the summary are consistent
-#   with the facts in the original article. Consider whether the summary does
-#   reproduce all facts accurately and does not make up untrue information.
-#   - Coherence: The rating measures the quality of all sentences collectively, to
-#   fit together and sound naturally. Consider the quality of the summary as a whole.
-#   - Fluency: The rating measures the quality of individual sentences, are they
-#   well-written and grammatically correct. Consider the quality of individual sentences.
+
 
 _TASK_DESCRIPTION = """
   In this task you will evaluate the quality of summaries written for news article.
@@ -21,9 +12,16 @@ _TASK_DESCRIPTION = """
   3. Rate each summary on a scale from 1 (worst) to 5 (best) by its coherence.
   
   Definitions:
-  - Relevance: The rating measures how well the summary captures the key points of
-#   the article. Consider whether all and only the important aspects are contained in
-#   the summary.
+   - Relevance: The rating measures how well the summary captures the key points of
+     the article. Consider whether all and only the important aspects are contained in
+     the summary.
+   - Consistency: The rating measures whether the facts in the summary are consistent
+     with the facts in the original article. Consider whether the summary does
+     reproduce all facts accurately and does not make up untrue information.
+   - Coherence: The rating measures the quality of all sentences collectively, to
+     fit together and sound naturally. Consider the quality of the summary as a whole.
+   - Fluency: The rating measures the quality of individual sentences, are they
+     well-written and grammatically correct. Consider the quality of individual sentences.
 """
 
 
@@ -56,7 +54,7 @@ def create_rater_meta_prompt(
       metrics = prompt_data["metrics"] if prompt_data["metrics"] else {}
 
       metric_lines = []
-      for label in ["relevance",]: # "fluency", "consistency", "relevance", "coherence"
+      for label in ["coherence"]: # "fluency", "consistency", "relevance", "coherence"
         label_metrics = metrics.get(label, {})
         acc = label_metrics.get("accuracy", 0.0)
         f1  = label_metrics.get("f1", 0.0)
@@ -70,13 +68,13 @@ def create_rater_meta_prompt(
 
   _RATER_META_PROMPT = f"""
     You are an expert prompt optimizer working on improving summarization quality across 
-    multiple evaluation aspects: relevance.
+    multiple evaluation aspects: fluency, coherence, consistency and relevance.
     
     This is the task description: {task_desc}
     
     Below is a list of previous top K prompts. Each prompt includes: 
     - The instruction given by the prompt.
-    - Scores' difference between the judges and LLM scores of coherence between 0 to 5.
+    - Performance of the instruction in terms of accuracy and weighted f1 score.
     - Recommendations on the basis of previous prompts that will help you find the 
       new instruction.
     
@@ -85,7 +83,7 @@ def create_rater_meta_prompt(
     
     Based on the above, generate a new improved instruction that can be used to guide 
     to judge the summarizations (e.g., "Rate the summary of the article from 1 to 
-    5 based on its relevance of sentences.").
+    5 based on its coherence, relevance, fluency and consistency of sentences.").
     
     Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
     Please adhere to the said output.
@@ -132,16 +130,15 @@ Output the summaries in a JSON Format of the form:
 Format: 
 {{
   "score" : {{
+    "predicted_fluency" : 1|2|3|4|5,
+    "predicted_coherence" : 1|2|3|4|5,
+    "predicted_consistency" : 1|2|3|4|5,
     "predicted_relevance" : 1|2|3|4|5,
   }}
 }}
 
 Do not add any commentary, markdown, or explanation. As this will raise an error.
   """
-
-#     "predicted_coherence" : 1|2|3|4|5,
-#     "predicted_consistency" : 1|2|3|4|5,
-#     "predicted_relevance" : 1|2|3|4|5,
 
   return _RATER_PROMPT
 

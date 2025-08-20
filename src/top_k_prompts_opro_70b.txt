@@ -1,0 +1,27 @@
+
+
+
+--- Top 1 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it captures the key points, reproduces facts accurately, sounds naturally, and is well-written and grammatically correct.
+
+Metrics:
+   fluency:
+       accuracy: 0.2
+       f1: 0.079
+   coherence:
+       accuracy: 0.0
+       f1: 0.0
+   consistency:
+       accuracy: 0.1
+       f1: 0.08
+   relevance:
+       accuracy: 0.0
+       f1: 0.0
+
+Recommendations:
+  1. Revise the coherence instruction to emphasize 'logical transitions between sentences' and provide examples of coherent and incoherent summaries to clarify the metric.
+  2. Emphasize the importance of accuracy in consistency rating by revising the instruction to highlight the difference between reproducing facts accurately and making up untrue information.
+  3. Clarify the fluency instruction by adding examples of well-written and grammatically correct sentences to help the model better understand the quality of individual sentences.
+  4. Rephrase the relevance instruction to focus on the summary capturing 'all and only the important aspects' of the article, and provide examples of relevant and irrelevant summaries.
+  5. Provide additional guidance on how to rate summaries with multiple errors, as the current instruction may be too broad, leading to low accuracy and f1 scores across all metrics.

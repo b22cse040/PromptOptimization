@@ -62,8 +62,8 @@ def call_recommender_llm(instruction: str, metrics: dict, reco_llm_name: str, re
 
 if __name__ == '__main__':
   # optim_llm_name = "google/gemini-2.0-flash-exp:free"
-  rater_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
-  reco_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
+  rater_llm_name = "meta-llama/llama-3.1-8b-instruct"
+  reco_llm_name = "meta-llama/llama-3.1-8b-instruct"
   filepath = "../Dataset/dataset/df_M11_sampled.parquet"
 
   top_k_prompts = TopKHeap(3)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
   print(instruction)
   print('=' * 70)
 
-  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=50, max_workers=20)
+  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=5, max_workers=2)
 
   metrics = calculate_metrics(evals)
   print(metrics)

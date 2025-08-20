@@ -1,0 +1,16 @@
+=== FLUENCY ===
+f1: [0.167]
+accuracy: [0.111]
+
+=== CONSISTENCY ===
+f1: [0.312]
+accuracy: [0.333]
+
+=== RELEVANCE ===
+f1: [0.111]
+accuracy: [0.111]
+
+=== COHERENCE ===
+f1: [0.148]
+accuracy: [0.111]
+

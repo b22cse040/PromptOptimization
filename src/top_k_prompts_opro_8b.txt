@@ -1,0 +1,26 @@
+
+
+
+--- Top 1 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency, considering whether the summary accurately reproduces the key points of the article, sounds natural and well-structured, and is free of grammatical errors.
+
+Metrics:
+   fluency:
+       accuracy: 0.111
+       f1: 0.167
+   coherence:
+       accuracy: 0.111
+       f1: 0.148
+   consistency:
+       accuracy: 0.333
+       f1: 0.312
+   relevance:
+       accuracy: 0.111
+       f1: 0.111
+
+Recommendations:
+  1. Revise the fluency instruction to emphasize evaluating grammatical correctness in addition to "sounds natural".
+  2. Revise the coherence instruction to emphasize "logical transitions between sentences" in addition to "sounds natural and well-structured".
+  3. Clarify the consistency instruction to specifically mention evaluating whether the summary "reproduces all facts accurately and does not make up untrue information".
+  4. Consider revising the relevance instruction to provide examples of "key points" that should be captured in the summary to help the rater better understand the concept.

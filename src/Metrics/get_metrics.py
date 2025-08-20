@@ -22,10 +22,10 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
   df = pd.read_parquet(file_path)
 
   metrics = {
-    #"fluency": {"y_true": [], "y_pred": [], "diffs" : []},
-    # "coherence": {"y_true": [], "y_pred": [], "diffs" : []},
-    # "consistency": {"y_true": [], "y_pred": [], "diffs" : []},
-     "relevance": {"y_true": [], "y_pred": [], "diffs" : []},
+    "fluency": {"y_true": [], "y_pred": [], "diffs" : []},
+    "coherence": {"y_true": [], "y_pred": [], "diffs" : []},
+    "consistency": {"y_true": [], "y_pred": [], "diffs" : []},
+    "relevance": {"y_true": [], "y_pred": [], "diffs" : []},
   }
 
   for i, entry in enumerate(rater_response):
@@ -37,7 +37,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
     score = entry["score"]
     sample = df.iloc[i]
 
-    for metric in ["relevance"]: #  "fluency", "consistency", "relevance", "coherence",
+    for metric in ["fluency", "consistency", "relevance", "coherence",]: #  "fluency", "consistency", "relevance", "coherence",
       try:
         ground_score = int(sample[f"{metric}"])
         predicted_score = int(score[f"predicted_{metric}"])

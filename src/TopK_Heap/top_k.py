@@ -15,11 +15,12 @@ class TopKHeap:
     rank = self._rank(metrics)
     count = next(self.counter)
 
-    # Now each heap item is: (priority, tie-breaker, actual data)
-    heapq.heappush(self.heap, (-rank, count, prompt_data))
+    # Push with rank directly (min-heap will keep smallest at root)
+    heapq.heappush(self.heap, (rank, count, prompt_data))
 
     if len(self.heap) > self.k:
-      heapq.heappop(self.heap)
+        # Pop the smallest → ensures only top-k largest ranks remain
+        heapq.heappop(self.heap)
 
   def get_topK(self):
     return [entry[2] for entry in sorted(self.heap, reverse=True)]
