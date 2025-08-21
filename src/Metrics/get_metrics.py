@@ -1,7 +1,10 @@
 import pandas as pd
 import numpy as np
+import torch
+import torch.nn as nn
 from src.Rater.rater import call_rater_llm_meta_prompt, call_rater_llm_prompt
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, log_loss
+
 
 from src.TopK_Heap.top_k import TopKHeap
 
@@ -14,18 +17,19 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
     :param rater_response: RATER response containing predicted scores
     :return: Dict in format:
              {
-               "fluency": {"accuracy": ..., "f1": ...},
-               "coherence": {"accuracy": ..., "f1": ...},
+               "fluency": {"accuracy": ..., "f1": ..., "CE_fluency" : ...},
+               "coherence": {"accuracy": ..., "f1": ..., "CE_coherence" : ...},
                ...
+               "CE_Total" : Float
              }
   """
   df = pd.read_parquet(file_path)
 
   metrics = {
-    "fluency": {"y_true": [], "y_pred": [], "diffs" : []},
-    "coherence": {"y_true": [], "y_pred": [], "diffs" : []},
-    "consistency": {"y_true": [], "y_pred": [], "diffs" : []},
-    "relevance": {"y_true": [], "y_pred": [], "diffs" : []},
+    "fluency": {"y_true": [], "y_pred": []},
+    "coherence": {"y_true": [], "y_pred": []},
+    "consistency": {"y_true": [], "y_pred": []},
+    "relevance": {"y_true": [], "y_pred": []},
   }
 
   for i, entry in enumerate(rater_response):
@@ -51,24 +55,44 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
       # metrics[metric]["diffs"].append(predicted_score - ground_score)
 
   result = {}
+  ce_values = []
+  ce_loss = nn.CrossEntropyLoss()
   for metric, data in metrics.items():
     y_true = data["y_true"]
     y_pred = data["y_pred"]
-    diffs = data["diffs"]
 
     if not y_true or not y_pred:
-      result[metric] = {"accuracy": 0, "f1": 0,} # "mean_diff": 0}
+      result[metric] = {"accuracy": 0, "f1": 0, f"CE_{metric}" : 0} # "mean_diff": 0}
       continue
 
     acc = accuracy_score(y_true, y_pred)
     f1 = f1_score(y_true, y_pred, average="weighted", zero_division=0)
-    # mean_diff = round(np.mean(diffs), 3) if diffs else 0
+
+    try:
+      y_true_tensor = torch.tensor(y_true, dtype=torch.long)
+      y_pred_tensor = torch.tensor(y_pred, dtype=torch.long)
+
+      num_classes = max(max(y_true), max(y_pred)) + 1
+      logits = torch.zeros((len(y_pred), num_classes))
+      logits[torch.arange(len(y_pred)), y_pred_tensor] = 1.0  # confident prediction
+
+      ce = ce_loss(logits, y_true_tensor).item()
+
+
+    except Exception as e:
+      print(f"Exception while calculating {metric} : {repr(e)}")
+      ce = 0
+
+    ce_values.append(ce)
 
     result[metric] = {
       "accuracy": round(acc, 3),
       "f1": round(f1, 3),
+      f"CE_{metric}": round(ce, 3),
       # "mean_diff": mean_diff
     }
+
+    result["CE_Total"] = round(np.mean(ce_values), 3) if ce_values else 0
 
   return result
 

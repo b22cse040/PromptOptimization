@@ -10,10 +10,8 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   - A string that was the instruction received to the rater LLM to judge summaries
     on 4 metrics: fluency, coherence, consistency, relevance.
   - The performance of the said instruction on different samples.
-  - The performance contains f1-score, accuracy and mean-difference for each metric.
-    -> mean-difference is the average of (predicted_score - ground_truth_score) for all the samples.
-    A positive mean-difference indicates the rater is more lenient than it should be, while a negative
-    mean-difference indicates the rater is less lenient than it should be.
+  - The performance contains f1-score, accuracy, Cross-Entropy Loss for each metric.
+  - The total average cross entropy loss of the said instruction. 
 
   Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 
@@ -32,6 +30,7 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   - Recommend adjustments to metric definitions if misalignment is observed.
   - Highlight patterns in errors across multiple samples (e.g., consistently underrating coherence).
   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
+  - Emphasize recommendation on the metric with the most Cross-Entropy Loss.
    -> Bad example - "Improve coherence definition"
    -> Good example - "Revise the coherence instruction to emphasize 'logical transitions
       between sentences'.
@@ -73,6 +72,10 @@ def create_recommender_prompt(
 
   metrics_text = ""
   for key, value in metrics.items():
+    if key == "CE_Total":
+      metrics_text += f"Average Cross Entropy Loss - {value}\n\n"
+      continue
+
     metrics_text += f"Metric: {key}\n"
 
     for eval_metric, score in value.items():

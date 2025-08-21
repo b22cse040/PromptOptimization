@@ -71,7 +71,7 @@ if __name__ == '__main__':
   print(instruction)
   print('=' * 70)
 
-  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=5, max_workers=2)
+  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=20, max_workers=10)
 
   metrics = calculate_metrics(evals)
   print(metrics)

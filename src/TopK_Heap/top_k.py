@@ -25,15 +25,10 @@ class TopKHeap:
   def get_topK(self):
     return [entry[2] for entry in sorted(self.heap, reverse=True)]
 
-  def _rank(self, metrics : dict):
-    """Compute the average of accuracy and f1-scores across all metric reports."""
-    scores = []
-    for metric_report in metrics.values():
-      accuracy = metric_report.get("accuracy", 0.0)
-      f1 = metric_report.get("f1", 0.0)
-      avg = (accuracy + f1) / 2
-      scores.append(avg)
-    return sum(scores) / len(scores) if len(scores) else 0
+  def _rank(self, metrics: dict):
+    """ Ranking is based solely on CE_Total. """
+    ce_total = metrics.get("CE_Total", 0.0)
+    return float(ce_total)
 
   def __getitem__(self, index):
     topk = self.get_topK()

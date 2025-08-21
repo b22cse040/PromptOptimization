@@ -28,8 +28,12 @@ def save_top_k_prompts(top_k_prompts: TopKHeap, filepath="top_k_prompts_opro.txt
       f.write("Metrics:\n")
       for metric_name, metric_values in metrics.items():
         f.write(f"   {metric_name}:\n")
-        for k, v in metric_values.items():
-          f.write(f"       {k}: {v}\n")
+        if isinstance(metric_values, dict):
+          for k, v in metric_values.items():
+            f.write(f"       {k}: {v}\n")
+        else:
+          # Handles CE_Total which is a float
+          f.write(f"       {metric_name}: {metric_values}\n")
       reco = item.get("recommendation", "")
       f.write(f"\n{reco}\n")
 
@@ -37,7 +41,7 @@ def save_top_k_prompts(top_k_prompts: TopKHeap, filepath="top_k_prompts_opro.txt
 
 def plot_metric_over_epochs(metric_values: dict, save_dir="Plots", model: str = "8b"):
   """
-  Plots f1, accuracy, and mean_diff over epochs for all evaluation metrics
+  Plots f1, accuracy, and CE losses (per-metric) and CE_Total over epochs for all evaluation metrics
   (fluency, coherence, consistency, relevance) in single plots.
 
   :param metric_values: Nested dictionary:
@@ -55,8 +59,8 @@ def plot_metric_over_epochs(metric_values: dict, save_dir="Plots", model: str = 
       smoothed.append(alpha * series[i] + (1 - alpha) * smoothed[-1])
     return smoothed
 
+  eval_metrics = [m for m in metric_values.keys() if m != "CE_Total"] # Split per-metric and CE_Total
   metric_types = ["f1", "accuracy"]
-  eval_metrics = list(metric_values.keys())  # ['fluency', 'coherence', ...]
 
   num_epochs = len(next(iter(metric_values.values()))['f1'])
   epochs = list(range(1, num_epochs + 1))
@@ -78,6 +82,45 @@ def plot_metric_over_epochs(metric_values: dict, save_dir="Plots", model: str = 
     save_path = os.path.join(save_dir, f"{metric_type}_scores_{model}.png")
     plt.savefig(save_path)
     print(f"Saved plot at '{save_path}'")
+    plt.close()
+
+    # Plot all CE metrics + CE_Total together
+    plt.figure()
+
+    # Plot per-metric CE
+    for eval_metric in eval_metrics:
+      values = metric_values[eval_metric][f"CE_{eval_metric}"]
+      smoothed_values = ema(values)
+      plt.plot(
+        epochs,
+        smoothed_values,
+        marker='o',
+        label=f"CE_{eval_metric}"
+      )
+
+    # Plot CE_Total in bold + black
+    if "CE_Total" in metric_values:
+      values = metric_values["CE_Total"]["CE_Total"]
+      smoothed_values = ema(values)
+      plt.plot(
+        epochs,
+        smoothed_values,
+        marker='o',
+        color='black',
+        linewidth=3,
+        label="CE_Total"
+      )
+
+    plt.title("EMA of Cross-Entropy Loss (Per-Metric + Total)")
+    plt.xlabel("Epoch")
+    plt.ylabel("Cross-Entropy Loss")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+
+    save_path = os.path.join(save_dir, f"CE_all_scores_{model}.png")
+    plt.savefig(save_path)
+    print(f"Saved combined plot at '{save_path}'")
     plt.close()
 
 
@@ -103,8 +146,9 @@ def run_opro(
 
   metric_names = ["fluency", "consistency", "relevance","coherence"] # "fluency", "consistency", "relevance","coherence"
   metric_history = {
-    metric : {"f1" : [], "accuracy" : []} for metric in metric_names # , "mean_diff" : []
+    metric : {"f1" : [], "accuracy" : [], f"CE_{metric}" : []} for metric in metric_names
   }
+  metric_history["CE_Total"] = {"CE_Total" : []}
 
   for epoch in range(num_epochs):
     print(f"\n--- Epoch {epoch + 1}/{num_epochs} ---")
@@ -129,7 +173,9 @@ def run_opro(
     for metric in metric_names:
       metric_history[metric]["f1"].append(metrics[metric]["f1"])
       metric_history[metric]["accuracy"].append(metrics[metric]["accuracy"])
+      metric_history[metric][f"CE_{metric}"].append(metrics[metric][f"CE_{metric}"])
       # metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
+    metric_history["CE_Total"]["CE_Total"].append(metrics["CE_Total"])
 
     recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name, reco_temp=reco_temp, reco_top_p=reco_top_p)
     print("Generated recommendation")

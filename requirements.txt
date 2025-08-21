@@ -12,4 +12,5 @@ polars
 pyarrow
 scikit-learn
 seaborn
+torch
 tqdm
