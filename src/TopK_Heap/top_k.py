@@ -16,14 +16,14 @@ class TopKHeap:
     count = next(self.counter)
 
     # Push with rank directly (min-heap will keep smallest at root)
-    heapq.heappush(self.heap, (rank, count, prompt_data))
+    heapq.heappush(self.heap, (-rank, count, prompt_data))
 
     if len(self.heap) > self.k:
-        # Pop the smallest → ensures only top-k largest ranks remain
+        # Pop the worst loss (Highest Loss CE)
         heapq.heappop(self.heap)
 
   def get_topK(self):
-    return [entry[2] for entry in sorted(self.heap, reverse=True)]
+    return [entry[2] for entry in sorted(self.heap, key=lambda x : -x[0])]
 
   def _rank(self, metrics: dict):
     """ Ranking is based solely on CE_Total. """

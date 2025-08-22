@@ -123,6 +123,26 @@ def plot_metric_over_epochs(metric_values: dict, save_dir="Plots", model: str = 
     print(f"Saved combined plot at '{save_path}'")
     plt.close()
 
+def write_replies(processed_replies: list, model: str = "8b") -> None:
+  """
+  Write all processed replies into a readable text format.
+
+  Args:
+      processed_replies (list): List of processed replies, each from one epoch.
+      file_path (str): File path to write the replies.
+  """
+  file_path: str = f"processed_replies_{model}.txt"
+  with open(file_path, "w", encoding="utf-8") as f:
+    for epoch, reply in enumerate(processed_replies, start=1):
+      f.write(f"Epoch {epoch}\n")
+      f.write(f"Instruction: {reply.get('instruction', '').strip()}\n")
+      f.write("Metrics:\n")
+      for metric, value in reply.get("metrics", {}).items():
+        f.write(f"  {metric}: {value}\n")
+      f.write(f"Recommendation: {reply.get('recommendation', '').strip()}\n")
+      f.write("\n\n\n")  # blank lines between epochs
+  print(f"Processed replies successfully written to {file_path}")
+
 
 def run_opro(
   file_path: str = "Dataset/dataset/df_M11_sampled.parquet",
@@ -148,7 +168,8 @@ def run_opro(
   metric_history = {
     metric : {"f1" : [], "accuracy" : [], f"CE_{metric}" : []} for metric in metric_names
   }
-  metric_history["CE_Total"] = {"CE_Total" : []}
+  # metric_history["CE_Total"] = {"CE_Total" : []}
+  processed_replies = [] # Keeps track of all the instruction, their metrics and their recommendations for each epoch
 
   for epoch in range(num_epochs):
     print(f"\n--- Epoch {epoch + 1}/{num_epochs} ---")
@@ -175,17 +196,19 @@ def run_opro(
       metric_history[metric]["accuracy"].append(metrics[metric]["accuracy"])
       metric_history[metric][f"CE_{metric}"].append(metrics[metric][f"CE_{metric}"])
       # metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
-    metric_history["CE_Total"]["CE_Total"].append(metrics["CE_Total"])
+    # metric_history["CE_Total"]["CE_Total"].append(metrics["CE_Total"])
 
     recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name, reco_temp=reco_temp, reco_top_p=reco_top_p)
     print("Generated recommendation")
 
     processed_reply = process_reply(instruction=instruction, recommendation=recommendation, heap=top_k_prompts, metrics=metrics)
+    processed_replies.append(processed_reply)
     print("Processed Reply")
 
   for metric in metric_names:
     plot_metric_over_epochs(metric_values=metric_history, model=model)
 
+  write_replies(processed_replies, model)
   return {
     "metric_histories": metric_history,
     "top_k_prompts": top_k_prompts,
@@ -195,7 +218,7 @@ if __name__ == "__main__":
   rater_llm_name_8b = "meta-llama/llama-3.1-8b-instruct"
   reco_llm_name_8b = "meta-llama/llama-3.1-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
-  opro_results_8b = run_opro(file_path=filepath, top_k=10, num_epochs=30,
+  opro_results_8b = run_opro(file_path=filepath, top_k=10, num_epochs=40,
                           rater_llm_name=rater_llm_name_8b, reco_llm_name=reco_llm_name_8b,
                           calls_per_minute=60, max_workers=20, num_examples=100,
                           rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95, model="8b")
@@ -212,7 +235,7 @@ if __name__ == "__main__":
 
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
-  opro_results_70b = run_opro(file_path=filepath, top_k=10, num_epochs=30,
+  opro_results_70b = run_opro(file_path=filepath, top_k=10, num_epochs=40,
                               rater_llm_name=rater_llm_name_70b, reco_llm_name=reco_llm_name_70b,
                               calls_per_minute=60, max_workers=20, num_examples=100,
                               rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95, model="70b")

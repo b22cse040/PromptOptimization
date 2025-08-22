@@ -3,317 +3,429 @@
 
 --- Top 1 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points',
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing examples of accurate and inaccurate reproduction of factual information,
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'logical transitions between sentences' and 'overall flow of the summary',
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level grammar and syntax' and 'clarity' and 'conciseness' in addition to grammatical correctness.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear are the individual sentences, with a focus on sentence-level clarity, avoiding ambiguity, ensuring subject-verb agreement, and prioritizing ease of understanding, while also considering the use of active voice and proper sentence structure, and emphasizing clarity over concision;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing logical connections between sentences, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing accuracy and reliability, maintaining consistency in tone and style, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.253
+       accuracy: 0.21
+       f1: 0.138
+       CE_fluency: 1.834
    coherence:
-       accuracy: 0.2
-       f1: 0.161
+       accuracy: 0.28
+       f1: 0.233
+       CE_coherence: 1.764
    consistency:
-       accuracy: 0.16
-       f1: 0.186
+       accuracy: 0.29
+       f1: 0.299
+       CE_consistency: 1.754
    relevance:
-       accuracy: 0.37
-       f1: 0.28
+       accuracy: 0.28
+       f1: 0.209
+       CE_relevance: 1.764
 
 Recommendations:
-  1. Revise the coherence instruction to emphasize 'logical sentence connections that create a clear and concise narrative' and provide examples of summaries that achieve this, to help the model better capture the essence of coherence.
-  2. Refine the consistency definition to focus on 'fact-to-fact correspondence between the summary and the article' rather than just 'reproducing factual information accurately', to improve model accuracy on this metric.
-  3. Provide clearer guidance on what constitutes 'crucial information' and 'key points' in the relevance instruction, using concrete examples to illustrate the differences, to help the model better align with expert annotators on relevance.
-  4. Emphasize ' sentence-level clarity' in the fluency instruction, in addition to grammatical correctness, to address the low accuracy and f1-score observed on this metric.
+  1. Revise the fluency instruction to emphasize 'clarity over concision' by providing specific examples of clear sentence structures and concise language to help the model better distinguish between the two.
+  2. Refine the relevance instruction to provide more specific guidelines on what constitutes "key points" and "essential aspects" to reduce inconsistencies in ratings.
+  3. Emphasize the importance of logical connections in the coherence instruction by adding more weight to transitions between sentences and how they contribute to the overall narrative flow.
+  4. Update the consistency instruction to provide clearer guidelines on evaluating reasonable inferences and implied facts to reduce ambiguity and improve model performance.
+  5. Consider adding a separate evaluation criterion for tone and style to reduce the burden on the consistency metric and improve overall performance.
 
 
 
 --- Top 2 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points', and emphasizing the importance of excluding irrelevant information, 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing specific examples of accurate and inaccurate reproduction of factual information, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'logical sentence connections that create a clear and concise narrative', 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level clarity' in addition to grammatical correctness, and considering the distinction between grammatical correctness and clarity, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect, and emphasizing the importance of evaluating each metric independently to ensure accurate and nuanced assessments of summary quality.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and concise are the individual sentences, with a focus on sentence-level clarity, avoiding ambiguity, ensuring subject-verb agreement, and prioritizing ease of understanding, while also considering the use of active voice and proper sentence structure, and emphasizing clarity over concision;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing logical connections between sentences, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing accuracy and reliability, maintaining consistency in tone and style, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.31
-       f1: 0.274
+       accuracy: 0.2
+       f1: 0.107
+       CE_fluency: 1.844
    coherence:
-       accuracy: 0.18
-       f1: 0.133
+       accuracy: 0.28
+       f1: 0.227
+       CE_coherence: 1.764
    consistency:
-       accuracy: 0.18
-       f1: 0.207
+       accuracy: 0.3
+       f1: 0.264
+       CE_consistency: 1.744
    relevance:
-       accuracy: 0.33
-       f1: 0.25
+       accuracy: 0.27
+       f1: 0.204
+       CE_relevance: 1.774
 
 Recommendations:
-  1. Revise the coherence instruction to further emphasize the distinction between 'logical sentence connections' and 'grammatical correctness', as the current instruction may be causing the model to conflate the two, leading to low accuracy and f1 scores for coherence.
-  2. Clarify the definition of 'crucial information' and 'key points' in the relevance instruction, as the model's relatively low accuracy and f1 scores for relevance suggest potential misalignment with expert annotators.
-  3. Strengthen the instruction on consistency by providing more specific examples of accurate and inaccurate reproduction of factual information, potentially including examples of subtle inconsistencies or inaccuracies that the model may be missing.
-  4. Refine the fluency instruction to place more emphasis on sentence-level clarity and precision, as the current instruction's focus on grammatical correctness may not be sufficient to capture the nuances of well-written sentences.
-  5. Emphasize the importance of evaluating each metric independently in the instruction, potentially by providing examples of summaries that excel in one metric but struggle in another, to help the model avoid biases and ensure accurate assessments of summary quality.
+ 
+  1. Revise the fluency instruction to place more emphasis on grammatical correctness and sentence structure, as the current definition's focus on clarity and concision may be leading to low accuracy and f1-score.
+
+  2. Provide more specific examples of cohesive narrative structures in the coherence instruction, as the current definition's emphasis on logical connections may be causing inconsistency in evaluation.
+
+  3. Consider rephrasing the consistency instruction to prioritize fact-checking and verification over tone and style consistency, as the current definition's broad scope may be leading to relatively low accuracy and f1-score.
+
+  4. Emphasize the importance of balancing relevance and concision in the relevance instruction, as the current definition's focus on key points and essential aspects may be leading to overemphasis on relevance at the expense of fluency and coherence.
+
+  5. Revise the overall instruction to provide more guidance on addressing potential biases, such as consistently evaluating each aspect based on its unique definition, and providing a nuanced assessment that reflects the strengths and weaknesses of the summary.
+
+  6. Consider adding a note to the instruction to evaluate summaries that excel in one or more aspects but may falter in others, as the current instruction's emphasis on balance may be leading to inconsistent evaluation.
 
 
 
 --- Top 3 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points', and emphasizing the importance of excluding irrelevant information, 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing specific examples of accurate and inaccurate reproduction of factual information, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with sentence-level connections that create a clear and concise narrative, and emphasizing the importance of logical sentence connections that enhance the overall flow of the summary, 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of sentence-level clarity in addition to grammatical correctness, and considering the distinction between grammatical correctness and clarity, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and concise are the individual sentences, with a focus on sentence-level clarity, avoiding ambiguity, ensuring subject-verb agreement, and prioritizing grammatical correctness and proper sentence structure;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing logical connections between sentences, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing accuracy and reliability, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.29
-       f1: 0.258
+       accuracy: 0.21
+       f1: 0.125
+       CE_fluency: 1.834
    coherence:
-       accuracy: 0.19
-       f1: 0.149
+       accuracy: 0.26
+       f1: 0.183
+       CE_coherence: 1.784
    consistency:
-       accuracy: 0.18
-       f1: 0.219
+       accuracy: 0.23
+       f1: 0.224
+       CE_consistency: 1.814
    relevance:
-       accuracy: 0.33
-       f1: 0.246
+       accuracy: 0.26
+       f1: 0.183
+       CE_relevance: 1.784
 
 Recommendations:
-  1. Revise the coherence instruction to emphasize 'logical transitions between sentences that enhance the overall flow of the summary' and provide examples of summaries with clear and concise connections between ideas.
-  2. Refine the fluency instruction to focus on clarity and precision in addition to grammatical correctness, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect.
-  3. Consider adding explicit guidance on evaluating relevance in cases where the summary includes unnecessary details or omits vital information, to reduce inconsistencies in relevance ratings.
-  4. Emphasize the importance of precise and error-free representation of facts in the consistency instruction, providing additional examples of accurate and inaccurate reproduction of factual information to reduce observed errors.
-  5. Revise the instruction to explicitly state that ratings should be based on the summary's ability to capture the article's main ideas, rather than just focusing on the presence or absence of individual key points, to improve relevance ratings.
+  1. Revise the fluency instruction to explicitly emphasize the importance of grammatical correctness and proper sentence structure, as the current performance suggests a lack of clarity on these aspects, with a low accuracy of 0.21 and high Cross-Entropy Loss of 1.834.
+  2. Emphasize the distinction between coherence and consistency in the instruction, as the similar performance metrics for both (accuracy: 0.26, f1: 0.183, CE: 1.784) suggest potential confusion between the two aspects.
+  3. Provide more specific examples of what constitutes "key points" and "essential aspects" in the relevance instruction, as the moderate performance (accuracy: 0.26, f1: 0.183) suggests room for improvement in identifying the most important information.
+  4. Add guiding principles to address potential biases when evaluating summaries that excel in one or more aspects but falter in others, as the instruction currently emphasizes balancing prioritization, but the performance metrics suggest inconsistencies in evaluation.
+  5. Consider revising the consistency instruction to prioritize fact-checking and verification, as the moderate performance (accuracy: 0.23, f1: 0.224) suggests room for improvement in ensuring accuracy and reliability.
 
 
 
 --- Top 4 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures the article's main ideas by including all and only the most crucial key points, excluding irrelevant information, and providing a complete and accurate representation of the article's central arguments and findings, with clear guidance on what constitutes 'crucial information' and 'key points', 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing specific examples of accurate and inaccurate reproduction of factual information, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'logical sentence connections that create a clear and concise narrative', 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level clarity' in addition to grammatical correctness, and considering the distinction between grammatical correctness and clarity, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and grammatically correct are the individual sentences, with a focus on sentence-level clarity, avoiding ambiguity, ensuring subject-verb agreement, and prioritizing proper sentence structure;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing logical connections between sentences, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing accuracy and reliability, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.29
-       f1: 0.251
+       accuracy: 0.25
+       f1: 0.198
+       CE_fluency: 1.794
    coherence:
-       accuracy: 0.21
-       f1: 0.156
+       accuracy: 0.25
+       f1: 0.216
+       CE_coherence: 1.794
    consistency:
-       accuracy: 0.18
-       f1: 0.21
+       accuracy: 0.27
+       f1: 0.277
+       CE_consistency: 1.774
    relevance:
-       accuracy: 0.33
-       f1: 0.233
+       accuracy: 0.3
+       f1: 0.22
+       CE_relevance: 1.744
 
 Recommendations:
- 
-  1. Revise the coherence instruction to emphasize 'logical transitions between sentences' by providing more specific examples of cohesive summaries, highlighting the importance of connecting ideas, and illustrating how to identify breaks in logical flow.
-
-  2. Emphasize the distinction between grammatical correctness and clarity in the fluency instruction, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect, to help the model better capture sentence-level clarity.
-
-  3. Revise the consistency instruction to focus on specific examples of accurate and inaccurate reproduction of factual information, providing clear guidance on how to identify contradictions and inaccuracies, and highlighting the importance of precise representation of facts.
-
-  4. Provide additional guidance on the relevance instruction to help the model better capture the distinction between crucial and non-crucial information, providing more specific examples of complete and accurate representations of an article's central arguments and findings.
+  1. Revise the coherence instruction to focus on sentence-to-sentence connections, specifically highlighting the importance of transitional phrases and cohesive devices to ensure a logical flow of ideas.
+  2. Emphasize the distinction between coherence and consistency by providing additional examples of how to evaluate each aspect independently, particularly for summaries that excel in one but falter in the other.
+  3. Refine the fluency instruction to prioritize sentence-level clarity and grammatical correctness, providing explicit guidance on evaluating subject-verb agreement, proper sentence structure, and avoiding ambiguity.
+  4. Clarify the relevance instruction by providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, and critical information.
+  5. Consider rephrasing the instruction to reduce overlap between coherence and consistency, and to provide more distinct guidance on evaluating the logical connections between sentences and the accuracy of facts.
 
 
 
 --- Top 5 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points', and emphasizing the importance of excluding irrelevant information,
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing examples of accurate and inaccurate reproduction of factual information,
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'logical sentence connections that create a clear and concise narrative',
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level clarity' in addition to grammatical correctness.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and grammatically correct are the individual sentences, with a focus on sentence-level clarity, avoiding ambiguity, ensuring subject-verb agreement, and prioritizing proper sentence structure, while also considering the use of active voice and proper sentence structure;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing logical connections between sentences, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing accuracy and reliability, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts, with a focus on factual accuracy over tone and style consistency;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative, with a balance between relevance and concision.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.26
-       f1: 0.213
+       accuracy: 0.24
+       f1: 0.187
+       CE_fluency: 1.804
    coherence:
-       accuracy: 0.2
-       f1: 0.151
+       accuracy: 0.27
+       f1: 0.22
+       CE_coherence: 1.774
    consistency:
-       accuracy: 0.14
-       f1: 0.172
+       accuracy: 0.3
+       f1: 0.27
+       CE_consistency: 1.744
    relevance:
-       accuracy: 0.41
-       f1: 0.311
+       accuracy: 0.25
+       f1: 0.18
+       CE_relevance: 1.794
 
 Recommendations:
- 
-  1. Revise the coherence instruction to clarify the importance of sentence-level connections and logical flow, potentially by adding examples of summaries with good and poor coherence.
-
-  2. Emphasize in the fluency instruction the need to assess sentence-level clarity in addition to grammatical correctness, to better align with expert annotators.
-
-  3. Add more guidance to the consistency instruction on how to identify and penalize inconsistencies, including examples of accurate and inaccurate reproduction of factual information.
-
-  4. Revise the relevance instruction to provide clearer definitions of 'crucial information' and 'key points', and consider adding examples of summaries with good and poor relevance.
-
-  5. Highlight the importance of logical transitions between sentences in the coherence instruction to improve performance on this metric.
+  1. Revise the coherence instruction to prioritize "overall narrative flow" and provide examples of how to evaluate sentence transitions in context, rather than solely focusing on logical connections between sentences.
+  2. Emphasize the importance of "factual accuracy" in the consistency definition, and provide specific guidance on how to verify information and evaluate the use of proper nouns, dates, and statistics.
+  3. Clarify the fluency definition to focus on "sentence-level clarity and grammatical correctness" rather than "avoiding ambiguity," as the current instruction may lead to overemphasis on ambiguity detection.
+  4. Add a guiding principle to address potential biases in summaries that excel in one or more aspects but falter in others, such as evaluating each aspect separately before providing a final score.
+  5. Revise the relevance instruction to provide more specific examples of "key points" and "essential aspects," such as main events, key quotes, and critical information, to help the model better capture the main idea of the article.
 
 
 
 --- Top 6 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points', and emphasizing the importance of excluding irrelevant information, 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing examples of accurate and inaccurate reproduction of factual information, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'logical sentence connections that create a clear and concise narrative', 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level clarity' in addition to grammatical correctness.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and grammatically correct are the individual sentences, with a focus on sentence-level clarity, avoiding ambiguity, ensuring subject-verb agreement, and prioritizing proper sentence structure;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing logical connections between sentences, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing accuracy and reliability, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.243
+       accuracy: 0.26
+       f1: 0.214
+       CE_fluency: 1.784
    coherence:
-       accuracy: 0.17
-       f1: 0.142
-   consistency:
-       accuracy: 0.2
-       f1: 0.234
-   relevance:
-       accuracy: 0.32
+       accuracy: 0.29
        f1: 0.25
+       CE_coherence: 1.754
+   consistency:
+       accuracy: 0.24
+       f1: 0.253
+       CE_consistency: 1.804
+   relevance:
+       accuracy: 0.3
+       f1: 0.206
+       CE_relevance: 1.744
 
 Recommendations:
-  1. Revise the coherence instruction to specifically highlight the importance of paragraph-level coherence, in addition to sentence-level connections, to help the model better evaluate the overall flow and organization of the summary.
-  2. Emphasize in the fluency instruction the distinction between grammatical correctness and clarity, providing examples of sentences that are grammatically correct but unclear, to help the model better recognize and penalize unclear writing.
-  3. Provide more guidance in the consistency instruction on how to handle cases where the summary omits important information or includes incomplete facts, to help the model better evaluate the accuracy and completeness of the summary.
-  4. Consider rephrasing the relevance instruction to focus on the summary's ability to capture the main ideas and key points of the article, rather than just "crucial information", to help the model better understand the scope of the task.
+ 
+  1. Revise the fluency instruction to provide more specific examples of "sentence-level clarity" and "proper sentence structure" to help the model better distinguish between clear and unclear sentences.
+ 
+  2. Emphasize the importance of evaluating each aspect independently in the instruction, as the model's performance suggests it is struggling to balance the prioritization of coherence, consistency, fluency, and relevance, particularly in summaries that excel in one or more aspects but may falter in others.
+ 
+  3. Add guiding principles to the instruction to help the model better understand what constitutes "logical connections" in coherence evaluation, such as providing examples of cohesive devices and transition phrases.
+ 
+  4. Clarify the distinction between consistency and relevance in the instruction, as the model's performance suggests some overlap in evaluation, by providing examples of how to evaluate accuracy and reliability in consistency and how to identify key points and essential aspects in relevance.
+ 
+  5. Consider revising the instruction to provide more guidance on how to evaluate summaries that lack clear transitions between sentences but still convey the main idea, to improve the model's performance on coherence and fluency.
+ 
+  6. Provide more specific examples of what constitutes "key points" and "essential aspects" in the relevance instruction, such as main events, key quotes, and critical information, to help the model better capture the main idea of the article.
 
 
 
 --- Top 7 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points', and emphasizing the importance of excluding irrelevant information, 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing specific examples of accurate and inaccurate reproduction of factual information, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'cohesive narrative' and 'logical sentence connections that create a clear and concise narrative', 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level clarity' in addition to grammatical correctness, and considering the distinction between grammatical correctness and clarity, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and grammatically correct are the individual sentences, with a focus on sentence-level clarity, ensuring subject-verb agreement, and prioritizing proper sentence structure, while also considering the use of active voice and proper sentence structure, and providing specific examples of clear and unclear sentences to reduce ambiguity;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing overall narrative flow, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing factual accuracy and reliability over tone and style consistency, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative, with a balance between relevance and concision.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.26
-       f1: 0.22
+       accuracy: 0.23
+       f1: 0.157
+       CE_fluency: 1.814
    coherence:
-       accuracy: 0.2
-       f1: 0.165
+       accuracy: 0.24
+       f1: 0.191
+       CE_coherence: 1.804
    consistency:
-       accuracy: 0.15
-       f1: 0.169
+       accuracy: 0.32
+       f1: 0.294
+       CE_consistency: 1.724
    relevance:
-       accuracy: 0.37
-       f1: 0.284
+       accuracy: 0.29
+       f1: 0.204
+       CE_relevance: 1.754
 
 Recommendations:
-  1. Revise the fluency instruction to place greater emphasis on sentence-level clarity and concision, providing more examples of unclear sentences that are grammatically correct, to help the model better distinguish between grammatical correctness and clarity.
-  2. Revise the coherence instruction to provide more guidance on what constitutes a "cohesive narrative" and "logical sentence connections", including examples of summaries with logical transitions between sentences, to improve the model's ability to recognize coherence.
-  3. Refine the consistency instruction to include more specific examples of accurate and inaccurate reproduction of factual information, and to emphasize the importance of avoiding minor errors in facts, to reduce the observed low accuracy and f1-score in consistency.
-  4. Enhance the relevance instruction to provide clearer guidance on what constitutes "crucial information" and "key points", and to emphasize the importance of excluding both irrelevant and redundant information, to improve the model's ability to capture only the most important information.
-  5. Address the observed leniency bias in coherence and relevance, where the model tends to overrate these metrics, by revising the instructions to provide more examples of summaries with poor coherence and relevance, and to emphasize the importance of critical evaluation in these metrics.
-  6. Revise the instruction to provide more explicit guidance on the relative weights of the four metrics, to help the model better balance its evaluations and reduce the observed inconsistencies across metrics.
+  1. Revise the fluency instruction to focus on the overall clarity and readability of the summary, rather than solely on sentence-level clarity, to reduce the observed discrepancy between accuracy and f1-score.
+  2. Emphasize the importance of active voice and varied sentence structure in the fluency definition to improve the model's ability to distinguish between fluent and non-fluent summaries.
+  3. Clarify the consistency definition by providing more specific examples of factual inaccuracies and contradictions, and by highlighting the importance of evaluating the summary's faithfulness to the original article.
+  4. Provide more guidance on balancing the prioritization of coherence, consistency, fluency, and relevance, such as suggesting a weighted scoring system or a hierarchical evaluation framework.
+  5. Revise the coherence instruction to emphasize the importance of logical transitions between sentences, and provide more examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices.
+  6. Address the observed bias towards underrating coherence by providing more nuanced examples of coherent and incoherent summaries, and by emphasizing the importance of evaluating the summary's overall narrative flow.
 
 
 
 --- Top 8 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and grammatically correct are the individual sentences, with a focus on sentence-level clarity, ensuring subject-verb agreement, and prioritizing proper sentence structure, while also considering the use of active voice and proper sentence structure;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing overall narrative flow, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing factual accuracy and reliability, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative, with a balance between relevance and concision.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.237
+       accuracy: 0.22
+       f1: 0.154
+       CE_fluency: 1.824
    coherence:
-       accuracy: 0.18
-       f1: 0.147
+       accuracy: 0.28
+       f1: 0.235
+       CE_coherence: 1.764
    consistency:
-       accuracy: 0.2
-       f1: 0.247
+       accuracy: 0.27
+       f1: 0.274
+       CE_consistency: 1.774
    relevance:
        accuracy: 0.29
-       f1: 0.223
+       f1: 0.202
+       CE_relevance: 1.754
 
 Recommendations:
-  1. Revise the coherence instruction to emphasize 'logical transitions between sentences' and provide examples of cohesive and well-structured summaries to improve clarity and guidance.
-  2. Emphasize the importance of sentence-level grammar and syntax in the fluency definition to help the model better distinguish between well-written and poorly written sentences.
-  3. Clarify the consistency instruction by providing examples of accurate and inaccurate reproduction of factual information to reduce errors in consistency evaluation.
-  4. Provide additional guidance on relevance by specifying what constitutes 'crucial key points' and 'vital information' to help the model better capture the article's main ideas.
+  1. Revise the coherence instruction to de-emphasize "logical transitions between sentences" and instead focus on the overall narrative flow and how well the summary hangs together as a whole, providing examples of cohesive narrative structures.
+  2. Emphasize in the consistency instruction the importance of fact-checking and verifying information, and provide examples of how to evaluate the use of proper nouns, dates, and statistics to reduce errors.
+  3. Refine the fluency instruction to provide more guidance on evaluating sentence-level clarity, particularly for sentences with complex structures or those that require specific domain knowledge.
+  4. Update the relevance instruction to provide clearer examples of what constitutes "key points" and "essential aspects," and emphasize the balance between relevance and concision to improve accuracy.
+  5. Instruct the model to prioritize consistency and relevance when evaluating summaries that excel in one or more aspects but may falter in others, to address observed biases in accuracy and f1-scores.
 
 
 
 --- Top 9 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures all and only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points', and emphasizing the importance of excluding irrelevant information, 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing specific examples of accurate and inaccurate reproduction of factual information, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'logical sentence connections that create a clear and concise narrative', 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level clarity' in addition to grammatical correctness, and considering the distinction between grammatical correctness and clarity, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and grammatically correct are the individual sentences, with a focus on sentence-level clarity, ensuring subject-verb agreement, and prioritizing proper sentence structure, while also considering the use of active voice and proper sentence structure;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing overall narrative flow, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing factual accuracy and reliability, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts, with a focus on factual accuracy over tone and style consistency;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative, with a balance between relevance and concision.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
-       accuracy: 0.25
-       f1: 0.204
+       accuracy: 0.24
+       f1: 0.17
+       CE_fluency: 1.804
    coherence:
-       accuracy: 0.19
-       f1: 0.147
+       accuracy: 0.26
+       f1: 0.229
+       CE_coherence: 1.784
    consistency:
-       accuracy: 0.17
-       f1: 0.197
+       accuracy: 0.29
+       f1: 0.278
+       CE_consistency: 1.754
    relevance:
-       accuracy: 0.36
-       f1: 0.286
+       accuracy: 0.26
+       f1: 0.198
+       CE_relevance: 1.784
 
 Recommendations:
- 
-1. Revise the instruction to better distinguish between fluency and coherence by providing clear examples that illustrate the difference between sentence-level clarity (fluency) and the logical flow of the summary as a whole (coherence).
- 
-2. Emphasize the importance of consistency in evaluating factual accuracy by adding more specific guidance on what constitutes an "inaccuracy" or "inconsistency" to help the model better detect errors and contradictions in the summary.
- 
-3. Refine the relevance instruction to focus on the key aspects of capturing "crucial key points" by providing more concrete examples of vital information that should be included or excluded, which may help improve the model's accuracy in evaluating relevance.
- 
-4. Consider adding more explicit guidance on how to evaluate summaries with imperfect grammatical correctness but high clarity, to address the observed low performance in fluency evaluation.
+  1. Revise the fluency instruction to specifically define "sentence-level clarity" and provide examples of clear and unclear sentences to reduce ambiguity.
+  2. Emphasize the importance of prioritizing factual accuracy over tone and style consistency in the consistency instruction to address potential biases.
+  3. Clarify the distinction between coherence and consistency by providing more examples of cohesive narrative structures that do not compromise factual accuracy.
+  4. Provide more specific guidance on balancing relevance and concision in the relevance instruction to improve accuracy.
+  5. Consider adding examples of summaries that excel in one or more aspects but falter in others to help the model learn to address potential biases.
+  6. Revise the instruction to encourage more nuanced assessments of summaries, focusing on specific strengths and weaknesses rather than overall scores.
 
 
 
 --- Top 10 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering how well it: 
-- captures only the most crucial key points without omitting vital information or including unnecessary details, providing a complete and accurate representation of the article's main ideas, with clear guidance on what constitutes 'crucial information' and 'key points', and emphasizing the importance of excluding irrelevant information, 
-- reproduces factual information accurately without introducing new or contradictory information, with a focus on precise and error-free representation of facts, and avoiding any inconsistencies or inaccuracies, providing specific examples of accurate and inaccurate reproduction of factual information, 
-- flows logically with clear and concise connections between ideas, forming a cohesive and well-structured whole, with logical transitions between sentences that enhance the overall flow of the summary, and emphasizing the importance of 'logical sentence connections that create a clear and concise narrative', 
-- is well-written at the sentence level, with grammatically correct sentences that are free of errors in grammar, syntax, and punctuation, and are clear, concise, and easy to understand, with a focus on sentence-level grammar and syntax to ensure clarity and precision, and emphasizing the importance of 'sentence-level clarity' in addition to grammatical correctness, and considering the distinction between grammatical correctness and clarity, providing examples of sentences that are grammatically correct but unclear, as well as those that are clear but grammatically incorrect.
+Evaluate the summary of the news article based on four key aspects: fluency, coherence, consistency, and relevance. Assign a score from 1 to 5 for each aspect, considering the following:
+
+fluency - how clear and grammatically correct are the individual sentences, with a focus on sentence-level clarity and grammatical correctness, ensuring subject-verb agreement, and prioritizing proper sentence structure, while also considering the use of active voice and proper sentence structure, and providing specific examples of clear and unclear sentences to reduce ambiguity;
+
+coherence - how logically the sentences transition into each other, forming a cohesive narrative, emphasizing overall narrative flow, ensuring a smooth flow of ideas, and prioritizing logical connections over overall structure, while maintaining a clear distinction from consistency, and providing specific examples of cohesive narrative structures, such as the use of transition phrases and cohesive devices, and evaluating sentence transitions in context;
+
+consistency - how accurately the summary reproduces the facts from the original article, avoiding untrue, contradictory, or unverifiable information, ensuring that all facts are presented in a way that is faithful to the original article, explicitly fact-checking and verifying information, prioritizing factual accuracy and reliability over tone and style consistency, and evaluating the use of proper nouns, dates, and statistics, including reasonable inferences and implied facts;
+
+and relevance - how well the summary captures the key points of the article, including only the most important and essential aspects that convey the main idea, excluding unnecessary details, providing specific examples of what constitutes "key points" and "essential aspects," such as main events, key quotes, critical information, supporting evidence, background information, and relevant examples, anecdotes, and data to support the main idea, and prioritizing the most critical information while maintaining a clear and concise narrative, with a balance between relevance and concision.
+
+When evaluating, balance the prioritization of coherence, consistency, fluency, and relevance, considering the interplay between these aspects, and address potential biases by consistently evaluating each aspect based on its unique definition, especially for summaries that excel in one or more aspects but may falter in others, and provide a nuanced assessment that reflects the strengths and weaknesses of the summary.
 
 Metrics:
    fluency:
+       accuracy: 0.24
+       f1: 0.174
+       CE_fluency: 1.804
+   coherence:
+       accuracy: 0.24
+       f1: 0.171
+       CE_coherence: 1.804
+   consistency:
        accuracy: 0.29
        f1: 0.257
-   coherence:
-       accuracy: 0.15
-       f1: 0.108
-   consistency:
-       accuracy: 0.2
-       f1: 0.237
+       CE_consistency: 1.754
    relevance:
-       accuracy: 0.32
-       f1: 0.229
+       accuracy: 0.27
+       f1: 0.19
+       CE_relevance: 1.774
 
 Recommendations:
-  1. Revise the coherence instruction to emphasize the importance of transitions between sentences and the overall flow of the summary, providing specific examples of logical and illogical sentence connections.
-  2. Refine the consistency instruction to provide clearer guidelines on what constitutes "factual accuracy" and "contradictory information", and include examples of subtle inconsistencies that may be overlooked.
-  3. Emphasize the distinction between grammatical correctness and clarity in the fluency instruction, providing examples of sentences that are grammatically correct but unclear, and those that are clear but grammatically incorrect, to help the model better evaluate sentence-level quality.
-  4. Consider rephrasing the relevance instruction to focus on the summary's ability to capture the article's main ideas, rather than just "crucial key points", to reduce ambiguity and improve alignment with expert annotators.
-  5. Provide more specific guidance on what constitutes "irrelevant information" in the relevance instruction, and include examples of relevant and irrelevant details to help the model better evaluate summary content.
+  
+1. Revise the fluency instruction to emphasize "overall sentence quality" rather than focusing solely on sentence-level clarity and grammatical correctness, providing specific examples of high-quality sentences that balance clarity, concision, and style.
+
+2. Clarify the distinction between consistency and coherence by providing explicit examples of how to evaluate factual accuracy (consistency) versus logical transitions and narrative flow (coherence).
+
+3. Emphasize the importance of balancing relevance and concision in the relevance instruction, providing examples of how to prioritize critical information while maintaining a clear and concise narrative.
+
+4. Consider rephrasing the coherence instruction to focus on "narrative cohesion" rather than "logical transitions," highlighting the importance of evaluating sentence connections in context to form a cohesive narrative.
+
+5. Provide additional guidance on addressing biases when evaluating summaries that excel in one or more aspects but may falter in others, emphasizing the need for nuanced assessments that reflect the strengths and weaknesses of the summary.

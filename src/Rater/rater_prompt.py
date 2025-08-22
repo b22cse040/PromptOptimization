@@ -9,7 +9,7 @@ _TASK_DESCRIPTION = """
   
   1. Carefully read the news article, be aware of the information it contains.
   2. Read the proposed summary.
-  3. Rate each summary on a scale from 1 (worst) to 5 (best) by its coherence.
+  3. Rate each summary on a scale from 1 (worst) to 5 (best) by its fluency, coherence, consistency and relevance.
   
   Definitions:
    - Relevance: The rating measures how well the summary captures the key points of

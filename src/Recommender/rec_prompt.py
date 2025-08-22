@@ -4,6 +4,7 @@ from src.Metrics.get_metrics import calculate_metrics
 from src.TopK_Heap.top_k import TopKHeap
 from typing import Dict
 
+#   - The total average cross entropy loss of the said instruction.
 _TASK_DESCRIPTION_RECOMMENDER = """
 
   You will be given:
@@ -11,7 +12,6 @@ _TASK_DESCRIPTION_RECOMMENDER = """
     on 4 metrics: fluency, coherence, consistency, relevance.
   - The performance of the said instruction on different samples.
   - The performance contains f1-score, accuracy, Cross-Entropy Loss for each metric.
-  - The total average cross entropy loss of the said instruction. 
 
   Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 
@@ -30,7 +30,7 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   - Recommend adjustments to metric definitions if misalignment is observed.
   - Highlight patterns in errors across multiple samples (e.g., consistently underrating coherence).
   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
-  - Emphasize recommendation on the metric with the most Cross-Entropy Loss.
+  - Find a particular recommendation with the objective to minimize all the losses simultaneously.
    -> Bad example - "Improve coherence definition"
    -> Good example - "Revise the coherence instruction to emphasize 'logical transitions
       between sentences'.
@@ -73,7 +73,7 @@ def create_recommender_prompt(
   metrics_text = ""
   for key, value in metrics.items():
     if key == "CE_Total":
-      metrics_text += f"Average Cross Entropy Loss - {value}\n\n"
+      # metrics_text += f"Average Cross Entropy Loss: {value}\n\n"
       continue
 
     metrics_text += f"Metric: {key}\n"

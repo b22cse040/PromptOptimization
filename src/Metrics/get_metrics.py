@@ -92,7 +92,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
       # "mean_diff": mean_diff
     }
 
-    result["CE_Total"] = round(np.mean(ce_values), 3) if ce_values else 0
+    # result["CE_Total"] = round(np.mean(ce_values), 3) if ce_values else 0
 
   return result
 
