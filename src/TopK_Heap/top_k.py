@@ -26,9 +26,20 @@ class TopKHeap:
     return [entry[2] for entry in sorted(self.heap, key=lambda x : -x[0])]
 
   def _rank(self, metrics: dict):
-    """ Ranking is based solely on CE_Total. """
-    ce_total = metrics.get("CE_Total", 0.0)
-    return float(ce_total)
+    """
+    Ranking is based on:
+
+    - CE_Total if present and numeric.
+    - else (CE_fluency + CE_coherence + CE_consistency + CE_relevance) / 4
+    """
+    if "CE_Total" in metrics:
+      return float(metrics["CE_Total"])
+
+    ce_vals = [v for k, v in metrics.items() if k.startswith("CE_")]
+    if ce_vals:
+      return float(sum(ce_vals)) / len(ce_vals)
+
+    return 0.0
 
   def __getitem__(self, index):
     topk = self.get_topK()

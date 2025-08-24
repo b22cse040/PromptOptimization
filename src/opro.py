@@ -214,31 +214,61 @@ def run_opro(
     "top_k_prompts": top_k_prompts,
   }
 
+def main(
+    file_path: str,
+    rater_llm_name: str,
+    reco_llm_name: str,
+    top_k: int = 10,
+    num_epochs: int = 40,
+    rater_temp: float = 0.1,
+    reco_temp: float = 1.0,
+    rater_top_p: float = 0.95,
+    reco_top_p: float = 0.95,
+    calls_per_minute: int = 60,
+    max_workers: int = 20,
+    num_examples: int = 100,
+    model: str = "8b",
+) -> None:
+  opro_results = run_opro(
+    file_path=file_path,
+    rater_llm_name=rater_llm_name,
+    reco_llm_name=reco_llm_name,
+    model=model,
+    top_k=top_k,
+    num_epochs=num_epochs,
+    rater_temp=rater_temp,
+    reco_temp=reco_temp,
+    rater_top_p=rater_top_p,
+    reco_top_p=reco_top_p,
+    calls_per_minute=calls_per_minute,
+    max_workers=max_workers,
+    num_examples=num_examples,
+  )
+
+  metric_history_file_path = f"metric_history_opro_{model}.txt"
+  top_k_prompts_file_path = f"top_k_prompts_opro_{model}.txt"
+
+  save_metric_history(opro_results["metric_histories"], metric_history_file_path)
+  save_top_k_prompts(opro_results["top_k_prompts"], top_k_prompts_file_path)
+  return
+
 if __name__ == "__main__":
   rater_llm_name_8b = "meta-llama/llama-3.1-8b-instruct"
   reco_llm_name_8b = "meta-llama/llama-3.1-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
-  opro_results_8b = run_opro(file_path=filepath, top_k=10, num_epochs=40,
-                          rater_llm_name=rater_llm_name_8b, reco_llm_name=reco_llm_name_8b,
-                          calls_per_minute=60, max_workers=20, num_examples=100,
-                          rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95, model="8b")
 
-  # for i, item in enumerate(opro_results["top_k_prompts"], 1):
-  #   print(f"\n--- Top {i} Prompt ---")
-  #   print(f"Instruction: {item['instruction']}")
-  #   print("Metrics:")
-  #   for metric, value in item['metrics'].items():
-  #     print(f"  {metric}: {value}")
-  #   print(f"Recommendation: {item['recommendation']}")
-  save_metric_history(opro_results_8b["metric_histories"], "metric_history_opro_8b.txt")
-  save_top_k_prompts(opro_results_8b["top_k_prompts"], "top_k_prompts_opro_8b.txt")
+  main(
+    file_path=filepath, rater_llm_name=rater_llm_name_8b,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=40,
+    rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95,
+    calls_per_minute=60, max_workers=20, num_examples=100, model="8b",
+  )
 
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
-  opro_results_70b = run_opro(file_path=filepath, top_k=10, num_epochs=40,
-                              rater_llm_name=rater_llm_name_70b, reco_llm_name=reco_llm_name_70b,
-                              calls_per_minute=60, max_workers=20, num_examples=100,
-                              rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95, model="70b")
-
-  save_metric_history(opro_results_70b["metric_histories"], "metric_history_opro_70b.txt")
-  save_top_k_prompts(opro_results_70b["top_k_prompts"], "top_k_prompts_opro_70b.txt")
+  main(
+    file_path=filepath, rater_llm_name=rater_llm_name_70b,
+    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=40,
+    rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95,
+    calls_per_minute=60, max_workers=20, num_examples=100, model="70b",
+  )

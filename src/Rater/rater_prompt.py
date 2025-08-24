@@ -81,9 +81,9 @@ def create_rater_meta_prompt(
     Previous top {len(prev_top_k_prompts)} prompts: 
     {prev_top_k_prompts_text}
     
-    Based on the above, generate a new improved instruction that can be used to guide 
-    to judge the summarizations (e.g., "Rate the summary of the article from 1 to 
-    5 based on its coherence, relevance, fluency and consistency of sentences.").
+    Based on the above previous top-{len(prev_top_k_prompts)} prompt's recommendations, 
+    generate a new improved instruction that can be used to guide to judge the summarizations 
+    (e.g., "Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency and consistency of sentences.").
     
     Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
     Please adhere to the said output.
