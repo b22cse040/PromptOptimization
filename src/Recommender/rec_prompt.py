@@ -30,7 +30,7 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   - Recommend adjustments to metric definitions if misalignment is observed.
   - Highlight patterns in errors across multiple samples (e.g., consistently underrating coherence).
   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
-  - Find a particular recommendation with the objective to minimize all the losses simultaneously.
+  - Find a particular recommendation with the objective to minimize the loss with the maximum values.
    -> Bad example - "Improve coherence definition"
    -> Good example - "Revise the coherence instruction to emphasize 'logical transitions
       between sentences'.
@@ -38,6 +38,7 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   Be specific, grounded in the provided evidence, and focus on actionable improvements.
 """
 
+#   - Find a particular recommendation with the objective to minimize all the losses simultaneously.
 # _TASK_DESCRIPTION_RECOMMENDER = """
 #
 # You will be given:

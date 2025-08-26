@@ -11,7 +11,7 @@ def call_openrouter(
     llm_name: str = 'meta-llama/llama-3-8b-instruct',
     temperature: float = 1.0,
     top_p: float = 0.95,
-    retries: int = 5,
+    retries: int = 10,
     backoff: float = 1.0,
     jitter: float = 0.25,
 ) -> str:

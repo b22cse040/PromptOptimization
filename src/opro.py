@@ -257,18 +257,19 @@ if __name__ == "__main__":
   reco_llm_name_8b = "meta-llama/llama-3.1-8b-instruct"
   filepath = "Dataset/dataset/df_M11_sampled.parquet"
 
-  main(
-    file_path=filepath, rater_llm_name=rater_llm_name_8b,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=40,
-    rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95,
-    calls_per_minute=60, max_workers=20, num_examples=100, model="8b",
-  )
-
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
+
   main(
     file_path=filepath, rater_llm_name=rater_llm_name_70b,
-    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=40,
+    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=1,
     rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95,
-    calls_per_minute=60, max_workers=20, num_examples=100, model="70b",
+    calls_per_minute=75, max_workers=25, num_examples=10, model="70b",
   )
+
+  # main(
+  #   file_path=filepath, rater_llm_name=rater_llm_name_70b,
+  #   reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=40,
+  #   rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95,
+  #   calls_per_minute=75, max_workers=25, num_examples=100, model="70b_run2",
+  # )
