@@ -83,6 +83,7 @@ def create_rater_meta_prompt(
     
     Based on the above previous top-{len(prev_top_k_prompts)} prompt's recommendations, 
     generate a new improved instruction that can be used to guide to judge the summarizations 
+    such that the Cross-Entropy Loss across each metric will minimize
     (e.g., "Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency and consistency of sentences.").
     
     Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.

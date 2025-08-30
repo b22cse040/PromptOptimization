@@ -96,6 +96,9 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
 
   return result
 
+def find_most_imformative_points(rater_response: list[dict], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet") -> dict:
+  pass
+
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   file_path = "../Dataset/dataset/df_M11_sampled.csv"

@@ -261,10 +261,10 @@ if __name__ == "__main__":
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
 
   main(
-    file_path=filepath, rater_llm_name=rater_llm_name_70b,
-    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=1,
-    rater_temp=0.1, reco_temp=1.0, rater_top_p=0.95, reco_top_p=0.95,
-    calls_per_minute=75, max_workers=25, num_examples=10, model="70b",
+    file_path=filepath, rater_llm_name=rater_llm_name_8b,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=70,
+    rater_temp=0.01, reco_temp=0.01, rater_top_p=0.95, reco_top_p=0.95,
+    calls_per_minute=75, max_workers=25, num_examples=100, model="8b",
   )
 
   # main(
