@@ -1,6 +1,6 @@
 import os
 from src.Recommender.recommender import call_recommender_llm, process_reply
-from src.Metrics.get_metrics import calculate_metrics
+from src.Metrics.get_metrics import calculate_metrics, find_most_imformative_points
 from src.Rater.rater import call_rater_llm_meta_prompt, call_rater_llm_prompt
 from src.TopK_Heap.top_k import TopKHeap
 import matplotlib
@@ -157,6 +157,7 @@ def run_opro(
   reco_temp: float = 1.0,
   rater_top_p: float = 0.95,
   reco_top_p: float = 0.95,
+  top_k_most_imp_points: int = 10,
   model: str = "8b",
 ) -> dict:
 
@@ -191,6 +192,9 @@ def run_opro(
     metrics = calculate_metrics(evals, file_path=file_path)
     print("Calculated metrics")
 
+    top_points = find_most_imformative_points(evals, file_path=file_path, top_k=top_k_most_imp_points)
+    print("Found most informative points")
+
     for metric in metric_names:
       metric_history[metric]["f1"].append(metrics[metric]["f1"])
       metric_history[metric]["accuracy"].append(metrics[metric]["accuracy"])
@@ -198,7 +202,7 @@ def run_opro(
       # metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
     # metric_history["CE_Total"]["CE_Total"].append(metrics["CE_Total"])
 
-    recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name, reco_temp=reco_temp, reco_top_p=reco_top_p)
+    recommendation = call_recommender_llm(instruction, metrics, file_path=file_path, reco_llm_name=reco_llm_name, top_points=top_points, reco_temp=reco_temp, reco_top_p=reco_top_p)
     print("Generated recommendation")
 
     processed_reply = process_reply(instruction=instruction, recommendation=recommendation, heap=top_k_prompts, metrics=metrics)
@@ -262,9 +266,9 @@ if __name__ == "__main__":
 
   main(
     file_path=filepath, rater_llm_name=rater_llm_name_8b,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=70,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=3,
     rater_temp=0.01, reco_temp=0.01, rater_top_p=0.95, reco_top_p=0.95,
-    calls_per_minute=75, max_workers=25, num_examples=100, model="8b",
+    calls_per_minute=75, max_workers=25, num_examples=30, model="8b",
   )
 
   # main(

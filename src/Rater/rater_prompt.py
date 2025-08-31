@@ -86,6 +86,12 @@ def create_rater_meta_prompt(
     such that the Cross-Entropy Loss across each metric will minimize
     (e.g., "Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency and consistency of sentences.").
     
+    PLEASE NOTE:
+    In the recommendation, you may notice some terms:
+     - CE_[metric] indicates the Cross-Entropy Loss for the particular metric.
+     - mean_diff is predicted_score - ground truth_score. A positive score means that
+     you are too lenient while a positive score means you are too harsh, calibrate instructions properly.
+    
     Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
     Please adhere to the said output.
   """
