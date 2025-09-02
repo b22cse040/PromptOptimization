@@ -134,7 +134,7 @@ Generate only what is asked. Add no other commentary or grammar than what is nee
 A format for you: 
  
 Recommendations:
-  1. [First Recommendation, suggesting current scores are lenient or harsh and modify ratings accordingly]
+  1. [First Recommendation, suggesting current scores are lenient or harsh and modify ratings accordingly. e.g., If the rater is lenient in fluency, suggest harsher rating for fluency metric]
   2. [Second recommendation, focusing on metric definitions or instruction clarity.]
   3. [Third recommendation, addressing observed biases or errors.]
   ...
