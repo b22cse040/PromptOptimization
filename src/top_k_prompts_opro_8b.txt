@@ -3,504 +3,328 @@
 
 --- Top 1 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.224
-       CE_fluency: 1.764
+       accuracy: 0.305
+       f1: 0.233
+       CE_fluency: 1.739
    coherence:
-       accuracy: 0.05
-       f1: 0.025
-       CE_coherence: 1.994
+       accuracy: 0.085
+       f1: 0.112
+       CE_coherence: 1.959
    consistency:
-       accuracy: 0.29
-       f1: 0.223
-       CE_consistency: 1.754
+       accuracy: 0.305
+       f1: 0.184
+       CE_consistency: 1.739
    relevance:
-       accuracy: 0.23
-       f1: 0.148
-       CE_relevance: 1.814
+       accuracy: 0.121
+       f1: 0.071
+       CE_relevance: 1.922
 
 Recommendations:
 
-1. The rater is lenient in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. To address this, recommend a harsher rating for these metrics to ensure a more accurate evaluation.
-2. The instruction could be revised to provide more specific criteria for evaluating "key points" in the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-3. The instruction could be revised to emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance, to avoid leniency in evaluation.
-4. The instruction could be revised to provide more nuanced evaluation criteria for coherence, taking into account the complexity and coherence of the summary rather than just its length.
-5. The instruction could be revised to provide more specific guidance on evaluating the logical transitions between sentences for coherence, such as considering the use of transitional phrases and sentence structure.
-6. The instruction could be revised to provide more specific guidance on evaluating the grammatical correctness, sentence structure, and vocabulary usage in the summary for fluency, such as considering the use of active voice and clear sentence structure.
-7. The instruction could be revised to provide more specific guidance on verifying the accuracy of facts and information presented in the summary for consistency, such as considering the use of credible sources and fact-checking.
+1. The rater is lenient in their judgments, as indicated by the positive mean_diff scores for all metrics. To address this, recommend harsher ratings for fluency, coherence, consistency, and relevance metrics to ensure a more balanced evaluation.
+2. Revise the instruction to clarify the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. This will help the rater focus on the essential information and avoid leniency in coherence ratings.
+3. The current instruction emphasizes the importance of accuracy and fairness in evaluation, but it may not be sufficient to address the observed biases. Recommend revising the instruction to include specific guidelines for evaluating the quality of individual sentences for fluency, such as considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation.
+4. The instruction does not provide clear guidance on how to evaluate the relevance of a summary. Recommend revising the instruction to include specific criteria for evaluating relevance, such as considering whether the summary captures the main points of the article, including the main arguments, key findings, and supporting evidence.
+5. The current instruction does not address the issue of consistency in the summary. Recommend revising the instruction to include specific guidelines for evaluating consistency, such as considering whether the summary accurately reproduces all facts from the original article without introducing any new or contradictory information.
 
 
 
 --- Top 2 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores.
 
 Metrics:
    fluency:
-       accuracy: 0.263
-       f1: 0.199
-       CE_fluency: 1.781
+       accuracy: 0.241
+       f1: 0.203
+       CE_fluency: 1.803
    coherence:
-       accuracy: 0.091
-       f1: 0.056
-       CE_coherence: 1.953
+       accuracy: 0.076
+       f1: 0.079
+       CE_coherence: 1.968
    consistency:
-       accuracy: 0.263
-       f1: 0.22
-       CE_consistency: 1.781
+       accuracy: 0.354
+       f1: 0.242
+       CE_consistency: 1.689
    relevance:
-       accuracy: 0.212
-       f1: 0.139
-       CE_relevance: 1.831
+       accuracy: 0.11
+       f1: 0.058
+       CE_relevance: 1.934
 
 Recommendations:
 
-1. The rater is lenient in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. To address this, recommend a harsher rating for these metrics to ensure a more accurate evaluation of the summaries.
-2. The instruction could be revised to provide more specific criteria for evaluating "key points" in the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article. This would help the rater provide more accurate and consistent ratings.
-3. The coherence instruction could be revised to emphasize the importance of "logical transitions between sentences" and provide more guidance on how to evaluate the coherence of the summary, such as considering the flow of ideas and the connection between sentences.
-4. The instruction could be revised to provide more nuanced evaluation criteria for fluency, such as considering the complexity of the summary and the use of vocabulary, in addition to grammatical correctness and sentence structure.
-5. The instruction could be revised to provide more guidance on how to evaluate consistency, such as considering the accuracy of facts and information presented in the summary and the alignment with the original article.
-6. The instruction could be revised to provide more specific criteria for evaluating the quality of the summary as a whole, such as considering the overall coherence and flow of ideas, in addition to the individual metrics.
+1. The current instruction is being lenient in fluency, coherence, consistency, and relevance metrics, as indicated by the high mean_diff scores (2.0, 2.5, 1.5, and 2.25, respectively). To address this, recommend harsher ratings for these metrics to ensure a balanced evaluation.
+2. Revise the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. This can be achieved by rephrasing the instruction to focus on the importance of capturing key points of the article, reproducing facts accurately, and evaluating the quality of individual sentences.
+3. The current instruction does not provide clear guidance on how to evaluate the relevance metric. To address this, recommend revising the instruction to emphasize the importance of considering the article's purpose, audience, and tone when evaluating the summary's relevance.
+4. The instruction does not provide clear guidance on how to evaluate the coherence metric. To address this, recommend revising the instruction to emphasize the importance of considering whether all and only the important aspects are contained in the summary, and whether the summary reproduces facts accurately without introducing any inconsistencies.
+5. The current instruction does not provide clear guidance on how to evaluate the consistency metric. To address this, recommend revising the instruction to emphasize the importance of considering whether the facts in the summary are consistent with the facts in the original article, and whether the summary reproduces all facts accurately without introducing any new or contradictory information.
 
 
 
 --- Top 3 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation.
 
 Metrics:
    fluency:
-       accuracy: 0.3
-       f1: 0.234
-       CE_fluency: 1.744
+       accuracy: 0.2
+       f1: 0.177
+       CE_fluency: 1.844
    coherence:
-       accuracy: 0.09
-       f1: 0.049
-       CE_coherence: 1.954
+       accuracy: 0.107
+       f1: 0.066
+       CE_coherence: 1.937
    consistency:
-       accuracy: 0.26
-       f1: 0.223
-       CE_consistency: 1.784
+       accuracy: 0.253
+       f1: 0.189
+       CE_consistency: 1.79
    relevance:
-       accuracy: 0.23
-       f1: 0.146
-       CE_relevance: 1.814
+       accuracy: 0.11
+       f1: 0.058
+       CE_relevance: 1.934
 
 Recommendations:
 
-1. Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. This suggests that the current ratings are lenient, and a more stringent evaluation approach is necessary to accurately reflect the quality of the summaries.
-
-2. Revise the coherence instruction to emphasize "logical transitions between sentences" and consider the context and content of the summary when evaluating its quality. This will help the model better understand the importance of coherence in a summary and provide more accurate ratings.
-
-3. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. This can be achieved by providing specific criteria or examples to help evaluate the "key points" of the article, such as considering the main ideas, supporting evidence, and key points from the article.
-
-4. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. This can be achieved by verifying the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-5. Consider the CE_[metric] score and aim to minimize it for each metric, rather than solely relying on Cross-Entropy Loss scores. This will help the model provide more accurate and nuanced ratings that take into account the complexity and coherence of the summary.
+1. The rater is lenient in all metrics, as indicated by the high mean_diff scores (1.5, 1.75, 1.5, and 2.25). To address this, recommend harsher ratings for fluency, coherence, consistency, and relevance metrics to ensure a balanced evaluation.
+2. The instruction could be revised to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. This could be achieved by rephrasing the instruction to focus on the importance of capturing key points of the article, reproducing facts accurately, and providing specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence.
+3. The current instruction may be contributing to the observed leniency in ratings. To address this, recommend revising the instruction to emphasize the importance of considering the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate.
 
 
 
 --- Top 4 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation.
 
 Metrics:
    fluency:
-       accuracy: 0.268
-       f1: 0.213
-       CE_fluency: 1.776
+       accuracy: 0.276
+       f1: 0.228
+       CE_fluency: 1.767
    coherence:
-       accuracy: 0.093
-       f1: 0.058
-       CE_coherence: 1.951
+       accuracy: 0.079
+       f1: 0.066
+       CE_coherence: 1.965
    consistency:
-       accuracy: 0.247
-       f1: 0.201
-       CE_consistency: 1.796
+       accuracy: 0.303
+       f1: 0.221
+       CE_consistency: 1.741
    relevance:
-       accuracy: 0.227
-       f1: 0.157
-       CE_relevance: 1.817
+       accuracy: 0.13
+       f1: 0.086
+       CE_relevance: 1.914
 
 Recommendations:
 
-1. Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. This suggests that the current ratings are lenient, and a more stringent evaluation approach is needed to accurately reflect the quality of the summaries.
-
-2. Revise the coherence instruction to emphasize 'logical transitions between sentences' and consider the context and content of the summary when evaluating its quality. This will help to better align the metric definition with the rater's evaluation approach.
-
-3. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. This can be achieved by providing specific criteria or examples to help evaluate the "key points" of the article, such as considering the main ideas, supporting evidence, and key points from the article.
-
-4. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. This can be achieved by emphasizing the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-5. Consider the CE_[metric] score and aim to minimize it for each metric, rather than solely relying on Cross-Entropy Loss scores. This will help to ensure that the rater's evaluation approach is more nuanced and takes into account the complexity and coherence of the summary.
+1. The current instruction is being lenient in its evaluation, as indicated by the positive mean_diff scores for all metrics. To address this, recommend revising the instruction to emphasize the importance of providing harsher ratings when necessary to ensure a balanced evaluation.
+2. The instruction could be clarified to provide more specific guidance on what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. This could include providing examples or definitions to help raters understand the expectations.
+3. The current instruction prioritizes accuracy and fairness in evaluation, but it may be beneficial to add more specific guidance on how to evaluate the summary's ability to convey the article's main points in a concise and clear manner. This could include considering the article's purpose, audience, and tone when evaluating the summary's relevance and coherence.
+4. The instruction could be revised to emphasize the importance of considering the article's purpose, audience, and tone when evaluating the summary's relevance and coherence. This could help raters better understand the context and provide more accurate evaluations.
+5. The current instruction does not provide specific guidance on how to evaluate the summary's ability to convey the article's main points in a concise and clear manner. To address this, recommend revising the instruction to include more specific guidance on this aspect, such as considering the summary's ability to capture the key points of the article and convey them in a clear and concise manner.
 
 
 
 --- Top 5 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation.
 
 Metrics:
    fluency:
-       accuracy: 0.25
-       f1: 0.203
-       CE_fluency: 1.794
+       accuracy: 0.216
+       f1: 0.159
+       CE_fluency: 1.827
    coherence:
-       accuracy: 0.06
-       f1: 0.025
-       CE_coherence: 1.984
+       accuracy: 0.149
+       f1: 0.093
+       CE_coherence: 1.895
    consistency:
-       accuracy: 0.26
-       f1: 0.208
-       CE_consistency: 1.784
+       accuracy: 0.284
+       f1: 0.23
+       CE_consistency: 1.76
    relevance:
-       accuracy: 0.2
-       f1: 0.126
-       CE_relevance: 1.844
+       accuracy: 0.112
+       f1: 0.063
+       CE_relevance: 1.931
 
 Recommendations:
 
-1. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. The current mean_diff score of 1.5 for the worst classified point suggests leniency in the judgement of the LLM. Consider revising the instruction to emphasize the importance of including all essential information from the article without introducing new or false information.
-
-2. Revise the coherence instruction to emphasize 'logical transitions between sentences' and 'cohesive narrative' to better align with expert annotators. The current instruction focuses on 'clear and cohesive narrative' but does not provide specific criteria for evaluating logical transitions.
-
-3. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. The current mean_diff score of 1.75 for the worst classified point suggests leniency in the judgement of the LLM. Consider revising the instruction to emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-4. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. The current instruction focuses on minimizing CE_[metric] scores but does not provide guidance on how to consider the context and content of the summary.
+1. The rater is lenient in all metrics, as indicated by the high mean_diff scores (1.75-2.75). To address this, recommend harsher ratings for fluency, coherence, consistency, and relevance metrics to ensure a more balanced evaluation.
+2. The instruction could be revised to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. This can be achieved by rephrasing the instruction to focus on the importance of capturing key points, reproducing facts accurately, and evaluating the quality of individual sentences and the summary as a whole.
+3. The current instruction emphasizes the importance of capturing key points and reproducing facts accurately, but it does not provide clear guidance on what constitutes a well-written and grammatically correct sentence for fluency, or a coherent and well-structured summary for coherence. To address this, recommend revising the instruction to provide specific examples or criteria for evaluating these metrics, such as "A well-written sentence should be clear, concise, and free of grammatical errors" or "A coherent summary should have a clear structure, logical flow, and relevant supporting details."
+4. The instruction could be revised to address the observed bias towards leniency in the evaluation of relevance, consistency, and coherence metrics. For example, the instruction could be rephrased to emphasize the importance of evaluating the summary's ability to capture the article's main points, reproduce facts accurately, and convey the article's tone and purpose.
+5. The instruction could be revised to provide more specific guidance on how to evaluate the summary's ability to convey the article's main points, such as "Evaluate the summary's ability to identify the article's main arguments, key findings, and supporting evidence" or "Assess the summary's ability to convey the article's tone, purpose, and audience."
 
 
 
 --- Top 6 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation.
 
 Metrics:
    fluency:
-       accuracy: 0.25
-       f1: 0.192
-       CE_fluency: 1.794
+       accuracy: 0.276
+       f1: 0.214
+       CE_fluency: 1.767
    coherence:
-       accuracy: 0.09
-       f1: 0.075
-       CE_coherence: 1.954
+       accuracy: 0.092
+       f1: 0.039
+       CE_coherence: 1.951
    consistency:
-       accuracy: 0.26
-       f1: 0.204
-       CE_consistency: 1.784
+       accuracy: 0.303
+       f1: 0.249
+       CE_consistency: 1.741
    relevance:
-       accuracy: 0.22
-       f1: 0.157
-       CE_relevance: 1.824
+       accuracy: 0.11
+       f1: 0.058
+       CE_relevance: 1.934
 
 Recommendations:
-
-1. Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. This suggests that the current ratings are lenient, and a more stringent evaluation approach is necessary to accurately assess the summaries.
-2. Revise the coherence instruction to emphasize 'logical transitions between sentences' and consider the complexity and coherence of the summary, rather than just its length. This will help the model better understand the importance of coherence in a summary.
-3. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. This can be achieved by providing specific criteria or examples to help evaluate the "key points" of the article for relevance.
-4. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. This can be achieved by emphasizing the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-5. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. This will help the model better understand the nuances of the summary and provide more accurate ratings.
-6. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance. This can be achieved by providing clear guidelines and examples to help the model understand the importance of these metrics.
-7. Minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. This will help the model provide more accurate and consistent ratings across different summaries.
+1. The rater is lenient in all metrics, as indicated by the positive mean_diff scores. To address this, recommend harsher ratings for fluency, coherence, consistency, and relevance metrics to ensure a balanced evaluation.
+2. Revise the instruction to clarify the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. This will help the model better understand the nuances of coherence and provide more accurate ratings.
+3. The model seems to be struggling with evaluating the relevance of the summary, as indicated by the high Cross-Entropy Loss for this metric. Recommend revising the instruction to provide more specific examples of what constitutes a relevant summary, such as including all the main points of the article, including the main arguments, key findings, and supporting evidence.
+4. The model is lenient in evaluating the fluency of individual sentences, as indicated by the high Cross-Entropy Loss for this metric. Recommend revising the instruction to provide specific examples of what constitutes a well-written and grammatically correct sentence, such as proper grammar, syntax, and overall clarity.
+5. The model is lenient in evaluating the consistency of the summary, as indicated by the high Cross-Entropy Loss for this metric. Recommend revising the instruction to provide more specific examples of what constitutes a consistent summary, such as accurately reproducing all facts from the original article without introducing any new or contradictory information.
 
 
 
 --- Top 7 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores.
 
 Metrics:
    fluency:
-       accuracy: 0.26
-       f1: 0.197
-       CE_fluency: 1.784
+       accuracy: 0.212
+       f1: 0.154
+       CE_fluency: 1.831
    coherence:
-       accuracy: 0.08
-       f1: 0.037
-       CE_coherence: 1.964
+       accuracy: 0.061
+       f1: 0.042
+       CE_coherence: 1.983
    consistency:
-       accuracy: 0.25
-       f1: 0.206
-       CE_consistency: 1.794
+       accuracy: 0.318
+       f1: 0.204
+       CE_consistency: 1.725
    relevance:
-       accuracy: 0.24
-       f1: 0.168
-       CE_relevance: 1.804
+       accuracy: 0.14
+       f1: 0.095
+       CE_relevance: 1.904
 
 Recommendations:
-
-1. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. The current performance suggests leniency in evaluating relevance, with a mean_diff score of 1.75. Consider revising the instruction to emphasize the importance of capturing all essential information from the article without introducing new or false information.
-2. Revise the coherence instruction to emphasize "logical transitions between sentences" and "cohesive narrative" more explicitly. The current instruction is clear, but the performance suggests that the rater may be lenient in evaluating coherence, with a mean_diff score of 1.75. Consider adding specific criteria or examples to help evaluate the logical transitions between sentences.
-3. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. The current performance suggests leniency in evaluating consistency, with a mean_diff score of 1.75. Consider revising the instruction to emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-4. Consider revising the fluency instruction to emphasize the importance of grammatical correctness, sentence structure, and vocabulary usage. The current performance suggests leniency in evaluating fluency, with a mean_diff score of 1.75. Consider adding specific criteria or examples to help evaluate the quality of individual sentences.
-5. To minimize the loss with the maximum values, consider revising the instruction to emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance. The current performance suggests that the rater may be lenient in evaluating these metrics, with mean_diff scores of 1.75 and 1.5, respectively.
+1. The rater is lenient in their judgments, as indicated by the high mean_diff scores across all metrics. To address this, recommend harsher ratings for fluency, coherence, consistency, and relevance metrics to ensure a more balanced evaluation.
+2. Revise the instruction to clarify the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. This will help the rater focus on the essential information and avoid leniency in coherence ratings.
+3. The rater's emphasis on "harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary" may lead to inconsistent evaluations. Suggest revising the instruction to provide specific guidelines for when harsher ratings are warranted, such as when the summary contains significant factual errors or lacks essential information.
+4. The instruction's focus on minimizing the difference between predicted and ground-truth scores may lead to overemphasis on accuracy at the expense of other important aspects of the summary. Recommend revising the instruction to balance accuracy with other evaluation criteria, such as relevance and coherence.
+5. The rater's evaluation of individual sentences for fluency may be too narrow, as it only considers grammar, syntax, and overall clarity. Suggest revising the instruction to also evaluate the relevance and coherence of individual sentences in the context of the summary as a whole.
 
 
 
 --- Top 8 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation.
 
 Metrics:
    fluency:
-       accuracy: 0.26
-       f1: 0.2
-       CE_fluency: 1.784
+       accuracy: 0.2
+       f1: 0.145
+       CE_fluency: 1.844
    coherence:
-       accuracy: 0.09
-       f1: 0.061
-       CE_coherence: 1.954
+       accuracy: 0.053
+       f1: 0.027
+       CE_coherence: 1.99
    consistency:
-       accuracy: 0.26
-       f1: 0.198
-       CE_consistency: 1.784
+       accuracy: 0.28
+       f1: 0.199
+       CE_consistency: 1.764
    relevance:
-       accuracy: 0.21
-       f1: 0.146
-       CE_relevance: 1.834
+       accuracy: 0.152
+       f1: 0.107
+       CE_relevance: 1.892
 
 Recommendations:
 
-1. The rater is lenient in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. To address this, recommend a harsher rating for these metrics to ensure a more accurate evaluation.
-2. The instruction could be revised to provide more specific criteria for evaluating "key points" in the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-3. The coherence instruction could be revised to emphasize "logical transitions between sentences" more explicitly, as this seems to be a crucial aspect of coherence that is not clearly defined in the current instruction.
-4. The instruction could be revised to provide more guidance on how to evaluate the "context and content" of the summary, as this seems to be an important factor in evaluating the quality of the summary.
-5. The instruction could be revised to provide more specific criteria for evaluating "accuracy and consistency" in the summary, such as considering the accuracy of facts and information presented in the summary, and the consistency of the summary with the original article.
+1. The current instruction is being lenient in its evaluation, as indicated by the positive mean_diff scores (1.5, 1.5, 1.25, 1.75, 1.75, 0.75, 1.5, 2.75, 2.25). To address this, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Specifically, suggest harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation.
+
+2. Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered. The current instruction focuses on the quality of individual sentences, but the coherence metric should also consider how well the sentences fit together to form a cohesive summary.
+
+3. The current instruction does not provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. To address this, recommend adding specific examples or guidelines to help the model better understand these metrics.
+
+4. The current instruction does not consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence. To address this, recommend adding a clause that encourages the model to consider these factors when evaluating the summary's relevance and coherence.
+
+5. The current instruction does not provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To address this, recommend adding a clause that encourages the model to provide feedback on areas that need improvement, even if the summary is not entirely accurate or coherent.
+
+6. The current instruction does not consider the potential biases or errors in the model's evaluation. To address this, recommend adding a clause that encourages the model to be aware of its own biases and errors, and to strive for fairness and accuracy in its evaluation.
+
+7. The current instruction does not provide guidance on how to handle cases where the summary is partially accurate or partially inaccurate. To address this, recommend adding a clause that encourages the model to consider the context and nuances of the article and summary when evaluating their accuracy and coherence.
+
+8. The current instruction does not provide guidance on how to handle cases where the summary is incomplete or missing important information. To address this, recommend adding a clause that encourages the model to consider the completeness and accuracy of the summary, and to provide feedback on areas that need improvement.
+
+9. The current instruction does not provide guidance on how to handle cases where the summary is overly long or verbose. To address this, recommend adding a clause that encourages the model to consider the concision and clarity of the summary, and to provide feedback on areas that need improvement.
+
+10. The current instruction does not provide guidance on how to handle cases where the summary is overly simplistic or lacking in depth. To address this, recommend adding a clause that encourages the model to consider the complexity and depth of the summary, and to provide feedback on areas that need improvement.
 
 
 
 --- Top 9 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation.
 
 Metrics:
    fluency:
-       accuracy: 0.27
-       f1: 0.211
-       CE_fluency: 1.774
+       accuracy: 0.291
+       f1: 0.231
+       CE_fluency: 1.752
    coherence:
-       accuracy: 0.07
-       f1: 0.029
-       CE_coherence: 1.974
+       accuracy: 0.051
+       f1: 0.02
+       CE_coherence: 1.993
    consistency:
-       accuracy: 0.23
-       f1: 0.189
-       CE_consistency: 1.814
+       accuracy: 0.367
+       f1: 0.3
+       CE_consistency: 1.677
    relevance:
-       accuracy: 0.24
-       f1: 0.149
-       CE_relevance: 1.804
+       accuracy: 0.105
+       f1: 0.059
+       CE_relevance: 1.938
 
 Recommendations:
 
-1. Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. This suggests that the current ratings are lenient, and a more stringent evaluation approach is necessary to accurately assess the summaries.
-2. Revise the coherence instruction to emphasize "logical transitions between sentences" and consider the complexity and coherence of the summary, rather than just its length. This will help the model better understand the importance of coherence in a summary.
-3. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. This can be achieved by providing specific criteria or examples to help evaluate the "key points" of the article, such as considering the main ideas, supporting evidence, and key points from the article.
-4. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. This can be achieved by verifying the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-5. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. This will help the model better understand the nuances of the summary and provide more accurate ratings.
-6. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance. This can be achieved by providing clear guidelines on what constitutes accurate and consistent summaries.
-7. Minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. This will help the model provide more accurate and consistent ratings.
+1. The current instruction is being lenient in evaluating fluency, coherence, consistency, and relevance metrics. To ensure a balanced evaluation, recommend harsher ratings for these metrics when necessary.
+2. Revise the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence.
+3. The current instruction emphasizes the importance of capturing key points of the article in the coherence metric. However, it does not provide clear guidance on how to assess the quality of individual sentences for fluency. Recommend revising the instruction to provide more explicit guidance on evaluating fluency, such as considering grammar, syntax, and overall clarity.
+4. The current instruction does not provide clear guidance on how to assess the article's purpose, audience, and tone when evaluating the summary's relevance and coherence. Recommend revising the instruction to provide more explicit guidance on considering these factors when evaluating the summary.
+5. The current instruction does not provide clear guidance on how to handle cases where the summary is partially accurate or partially inaccurate. Recommend revising the instruction to provide more explicit guidance on how to provide feedback on areas that need improvement in such cases.
 
 
 
 --- Top 10 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency, and consistency of sentences, considering that a high score indicates a well-crafted summary that accurately captures the key points of the article without introducing new or inaccurate information. To achieve this, carefully evaluate the logical transitions between sentences for coherence, ensuring that the summary presents a clear and cohesive narrative. Consider the CE_coherence score (< 0.1) and aim to minimize it. A well-crafted summary should have a logical flow of ideas, with each sentence building on the previous one to create a cohesive narrative.
-
-For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies. Consider the CE_relevance score (< 0.05) and aim to minimize it. A relevant summary should include all the essential information from the article, without introducing new or false information. To achieve this, evaluate the summary's ability to capture the main ideas, supporting evidence, and key points from the article, while avoiding minor omissions or inaccuracies. Provide specific criteria or examples to help evaluate the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-
-For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand. Consider the CE_fluency score (< 0.15) and aim to minimize it. A fluent summary should have grammatically correct sentences, a clear structure, and a suitable vocabulary that facilitates easy comprehension. To achieve this, assess the summary's grammatical correctness, sentence structure, and vocabulary usage, ensuring that it is well-written and easy to understand.
-
-For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information. Consider the CE_consistency score (< 0.2) and aim to minimize it. A consistent summary should accurately represent the facts and information from the article, without introducing any inaccuracies or new information. To achieve this, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of "logical transitions between sentences" for coherence. Use a more nuanced evaluation approach that takes into account the complexity and coherence of the summary, rather than just its length. Consider the CE_[metric] score and aim to minimize it for each metric. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance. Be more thorough in verifying the accuracy of facts and information presented in the summary for consistency. Consider the context and content of the summary when evaluating its quality, rather than relying solely on Cross-Entropy Loss scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-
-To achieve a well-crafted summary, consider the following specific criteria:
-
-- For coherence, evaluate the logical transitions between sentences, ensuring a clear and cohesive narrative.
-- For relevance, assess the summary's ability to capture key points and supporting evidence from the article, while avoiding minor omissions or inaccuracies.
-- For fluency, examine the grammatical correctness, sentence structure, and vocabulary usage in the summary, ensuring that it is well-written and easy to understand.
-- For consistency, verify the accuracy of facts and information presented in the summary, ensuring that it aligns with the original article without introducing new or false information.
-
-Aim to minimize the CE_[metric] score for each metric, and consider the context and content of the summary when evaluating its quality. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
+Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, and fluency of sentences, ensuring that the summary accurately captures the key points of the article, including all relevant information, and reproduces facts accurately without any inconsistencies. Provide harsher ratings for fluency, coherence, consistency, and relevance metrics when necessary to ensure a balanced evaluation. Emphasize the importance of capturing key points of the article in the coherence metric, and consider whether all and only the important aspects are contained in the summary. Prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation. A relevant summary should include all the main points of the article, including the main arguments, key findings, and supporting evidence. A consistent summary should accurately reproduce all facts from the original article, without introducing any new or contradictory information. Ensure that the summary accurately represents the main ideas and key points of the article, with a focus on minimizing the Cross-Entropy Loss for each metric, specifically CE_relevance, CE_consistency, CE_coherence, and CE_fluency. Provide harsher ratings for CE_relevance, CE_consistency, CE_coherence, and CE_fluency when necessary to ensure a balanced evaluation. Consider whether all and only the important aspects are contained in the summary, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. To minimize the loss with the maximum values, recommend revising the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. Provide specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence. Evaluate the quality of individual sentences for fluency by considering grammar, syntax, and overall clarity, and provide harsher ratings for fluency when necessary to ensure a balanced evaluation. Assess how well the sentences fit together to form a cohesive summary, and provide harsher ratings for coherence when necessary to ensure a balanced evaluation. Ensure that the summary accurately reproduces all facts from the original article, without introducing any new or contradictory information, and provide harsher ratings for consistency when necessary to ensure a balanced evaluation. Consider the article's purpose, audience, and tone when evaluating the summary's relevance and coherence, and provide feedback on areas that need improvement in cases where the summary is partially accurate or partially inaccurate. Evaluate the summary's ability to convey the article's main points in a concise and clear manner, without sacrificing accuracy or relevance, and provide harsher ratings for relevance when necessary to ensure a balanced evaluation.
 
 Metrics:
    fluency:
-       accuracy: 0.26
-       f1: 0.199
-       CE_fluency: 1.784
+       accuracy: 0.225
+       f1: 0.189
+       CE_fluency: 1.819
    coherence:
-       accuracy: 0.08
-       f1: 0.054
-       CE_coherence: 1.964
+       accuracy: 0.125
+       f1: 0.082
+       CE_coherence: 1.919
    consistency:
-       accuracy: 0.24
-       f1: 0.192
-       CE_consistency: 1.804
+       accuracy: 0.3
+       f1: 0.212
+       CE_consistency: 1.744
    relevance:
-       accuracy: 0.19
-       f1: 0.131
-       CE_relevance: 1.854
+       accuracy: 0.129
+       f1: 0.079
+       CE_relevance: 1.915
 
 Recommendations:
-  1. Be harsher in evaluating fluency, consistency, and relevance, as indicated by the positive mean_diff scores. Emphasize the importance of accuracy and consistency in the summary, particularly for metrics like consistency and relevance.
-  2. Revise the instruction to provide more specific criteria for evaluating the "key points" of the article for relevance, such as considering the main ideas, supporting evidence, and key points from the article.
-  3. Emphasize the importance of "logical transitions between sentences" for coherence, as the current instruction does not provide enough guidance on this aspect.
-  4. Consider revising the instruction to provide more nuanced evaluation approaches that take into account the complexity and coherence of the summary, rather than just its length.
-  5. Be more accurate in evaluating the summary's ability to capture key points and supporting evidence from the article for relevance, and be more thorough in verifying the accuracy of facts and information presented in the summary for consistency.
+
+1. The current instruction is being lenient in its evaluation, as indicated by the positive mean_diff scores for all metrics. To address this, recommend harsher ratings for fluency, coherence, consistency, and relevance metrics to ensure a more balanced evaluation.
+2. Revise the instruction to prioritize accuracy and fairness in evaluation, and aim to minimize the difference between predicted and ground-truth scores. This can be achieved by rephrasing the instruction to emphasize the importance of capturing key points of the article, reproducing facts accurately, and providing specific examples of what constitutes a well-written and grammatically correct sentence for fluency, and what constitutes a coherent and well-structured summary for coherence.
+3. The current instruction does not provide clear guidance on how to evaluate the quality of individual sentences for fluency. Recommend adding specific examples or criteria for evaluating fluency, such as grammar, syntax, and overall clarity, to ensure consistency in evaluation.
+4. The instruction does not provide clear guidance on how to assess the article's purpose, audience, and tone when evaluating the summary's relevance and coherence. Recommend adding specific examples or criteria for evaluating these aspects to ensure a more comprehensive evaluation.
+5. The current instruction does not provide clear guidance on how to handle cases where the summary is partially accurate or partially inaccurate. Recommend adding specific guidance on how to provide feedback on areas that need improvement in such cases.

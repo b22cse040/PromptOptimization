@@ -9,7 +9,7 @@ _TASK_DESCRIPTION = """
   
   1. Carefully read the news article, be aware of the information it contains.
   2. Read the proposed summary.
-  3. Rate each summary on a scale from 1 (worst) to 5 (best) by its fluency, coherence, consistency and relevance.
+  3. Rate each summary on a scale from 1 (worst) to 5 (best) by its relevance.
   
   Definitions:
    - Relevance: The rating measures how well the summary captures the key points of
@@ -54,46 +54,46 @@ def create_rater_meta_prompt(
       metrics = prompt_data["metrics"] if prompt_data["metrics"] else {}
 
       metric_lines = []
-      for label in ["coherence"]: # "fluency", "consistency", "relevance", "coherence"
-        label_metrics = metrics.get(label, {})
-        acc = label_metrics.get("accuracy", 0.0)
-        f1  = label_metrics.get("f1", 0.0)
-        metric_lines.append(f"{label.title()} - Accuracy: {acc:.3f} - F1: {f1:.3f}")
+      # for label in ["fluency", "consistency", "relevance", "coherence"]: # "fluency", "consistency", "relevance", "coherence"
+      #   label_metrics = metrics.get(label, {})
+      #   acc = label_metrics.get("accuracy", 0.0)
+      #   f1  = label_metrics.get("f1", 0.0)
+      #   metric_lines.append(f"{label.title()} - Accuracy: {acc:.3f} - F1: {f1:.3f}")
 
       prev_top_k_prompts_text += (
         f"Instruction: {instruction}\n"
-        + "\n".join(metric_lines) + "\n"
+        # + "\n".join(metric_lines) + "\n"
         f"Recommendation: {recommendation}\n\n"
       )
 
   _RATER_META_PROMPT = f"""
-    You are an expert prompt optimizer working on improving summarization quality across 
-    multiple evaluation aspects: fluency, coherence, consistency and relevance.
-    
-    This is the task description: {task_desc}
-    
-    Below is a list of previous top K prompts. Each prompt includes: 
-    - The instruction given by the prompt.
-    - Performance of the instruction in terms of accuracy and weighted f1 score.
-    - Recommendations on the basis of previous prompts that will help you find the 
-      new instruction.
-    
-    Previous top {len(prev_top_k_prompts)} prompts: 
-    {prev_top_k_prompts_text}
-    
-    Based on the above previous top-{len(prev_top_k_prompts)} prompt's recommendations, 
-    generate a new improved instruction that can be used to guide to judge the summarizations 
-    such that the Cross-Entropy Loss across each metric will minimize
-    (e.g., "Rate the summary of the article from 1 to 5 based on its coherence, relevance, fluency and consistency of sentences.").
-    
-    PLEASE NOTE:
-    In the recommendation, you may notice some terms:
-     - CE_[metric] indicates the Cross-Entropy Loss for the particular metric.
-     - mean_diff is predicted_score - ground truth_score. A positive score means that
-     you are too lenient while a positive score means you are too harsh, calibrate instructions properly.
-    
-    Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
-    Please adhere to the said output.
+You are an expert prompt optimizer working on improving summarization quality across 
+multiple evaluation aspects: fluency, coherence, relevance and consistency.
+
+This is the task description: {task_desc}
+
+Below is a list of previous top K prompts. Each prompt includes: 
+- The instruction given by the prompt.
+- Performance of the instruction in terms of accuracy and weighted f1 score.
+- Recommendations on the basis of previous prompts that will help you find the 
+  new instruction.
+
+Previous top {len(prev_top_k_prompts)} prompts: 
+{prev_top_k_prompts_text}
+
+Based on the above previous top-{len(prev_top_k_prompts)} prompt's recommendations, 
+generate a new improved instruction that can be used to guide to judge the summarizations 
+such that the Cross-Entropy Loss across each metric will minimize
+(e.g., "Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence and fluency of sentences.").
+
+PLEASE NOTE:
+In the recommendation, you may notice some terms:
+ - CE_[metric] indicates the Cross-Entropy Loss for the particular metric.
+ - mean_diff is predicted_score - ground truth_score. A positive score means that
+ you are too lenient while a positive score means you are too harsh, calibrate instructions properly.
+
+Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
+Please adhere to the said output.
   """
 
   return _RATER_META_PROMPT
@@ -137,16 +137,15 @@ Output the summaries in a JSON Format of the form:
 Format: 
 {{
   "score" : {{
-    "predicted_fluency" : 1|2|3|4|5,
-    "predicted_coherence" : 1|2|3|4|5,
-    "predicted_consistency" : 1|2|3|4|5,
     "predicted_relevance" : 1|2|3|4|5,
   }}
 }}
 
 Do not add any commentary, markdown, or explanation. As this will raise an error.
   """
-
+  # "predicted_fluency": 1 | 2 | 3 | 4 | 5,
+  # "predicted_coherence": 1 | 2 | 3 | 4 | 5,
+  # "predicted_consistency": 1 | 2 | 3 | 4 | 5,
   return _RATER_PROMPT
 
 if __name__ == "__main__":

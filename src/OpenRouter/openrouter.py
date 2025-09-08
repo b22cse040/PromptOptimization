@@ -8,9 +8,9 @@ load_dotenv()
 
 def call_openrouter(
     prompt: str,
-    llm_name: str = 'meta-llama/llama-3-8b-instruct',
-    temperature: float = 1.0,
-    top_p: float = 0.95,
+    llm_name: str,
+    temperature: float,
+    top_p: float,
     retries: int = 10,
     backoff: float = 1.0,
     jitter: float = 0.25,

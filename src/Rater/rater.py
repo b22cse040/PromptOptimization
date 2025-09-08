@@ -25,7 +25,7 @@ def clean_response(reply: str) -> dict:
     # print(f"Cleaned Reply: {data}")
     return {}
 
-def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str, rater_temp: float = 0.1, rater_top_p: float = 0.95) -> str:
+def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str, rater_temp: float, rater_top_p: float) -> str:
   """
   top_k_prompts: Previous top-K performing instructions. (K is a hyperparameter)
   rater_llm_name: Name of the optimizer llm to use.
@@ -60,13 +60,13 @@ def call_rater_llm_prompt_utils(
 
 def call_rater_llm_prompt(
     instruction: str,
+    rater_llm_name : str,
+    rater_temp: float,
+    rater_top_p: float,
     file_path: str = "../Dataset/dataset/df_M11_sampled.parquet",
     num_examples : int = 100,
     max_workers: int = 10,
     calls_per_minute: int = 60, # 60 is the best case as of now.
-    rater_llm_name : str = "meta-llama/llama-3-8b-instruct",
-    rater_temp: float = 0.1,
-    rater_top_p: float = 0.95,
 ) -> list[dict]:
 
   calls_per_second = calls_per_minute / 60
@@ -100,11 +100,11 @@ if __name__ == "__main__":
 
   top_k_prompts = TopKHeap(3)
   print("Calling Optimizer!")
-  new_instruction = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name)
+  new_instruction = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name, rater_temp=0.01, rater_top_p=0.95)
   print(new_instruction)
   print('=' * 100)
 
-  results = call_rater_llm_prompt(new_instruction, rater_llm_name=rater_llm_name, num_examples=num_examples, max_workers=max_concurrent_calls)
+  results = call_rater_llm_prompt(new_instruction, rater_llm_name=rater_llm_name, num_examples=num_examples, max_workers=max_concurrent_calls, rater_temp=0.01, rater_top_p=0.95)
 
   print("\nFinal Results:")
   complete_results = 0

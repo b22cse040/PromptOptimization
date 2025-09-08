@@ -68,11 +68,12 @@ if __name__ == '__main__':
   filepath = "../Dataset/dataset/df_M11_sampled.parquet"
 
   top_k_prompts = TopKHeap(3)
-  instruction = call_rater_llm_meta_prompt(rater_llm_name=rater_llm_name, top_k_prompts=top_k_prompts)
+  instruction = call_rater_llm_meta_prompt(rater_llm_name=rater_llm_name, top_k_prompts=top_k_prompts, rater_temp=0.0, rater_top_p=0.95)
   print(instruction)
   print('=' * 70)
 
-  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=20, max_workers=10)
+  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=20, max_workers=10, rater_temp=0.0, rater_top_p=0.95, rater_llm_name=rater_llm_name)
+  print(evals)
 
   metrics = calculate_metrics(evals)
   print(metrics)
@@ -80,10 +81,10 @@ if __name__ == '__main__':
   print("=" * 70)
 
   top_points = find_most_imformative_points(evals, top_k=5)
-  print("Found most imformative points")
+  print("Found most informative points")
   print(top_points)
 
-  recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name, top_points=top_points)
+  recommendation = call_recommender_llm(instruction, metrics, reco_llm_name=reco_llm_name, top_points=top_points, file_path=filepath)
   # print(f"EVAL_LLM: Generating recommendations")
   print(recommendation)
   print('=' * 70)

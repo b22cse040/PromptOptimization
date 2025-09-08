@@ -129,7 +129,8 @@ def find_most_imformative_points(rater_response: list[dict], file_path: str = ".
     diffs = []
     valid_metrics = 0
 
-    for metric in ["fluency", "consistency", "relevance", "coherence",]:
+    metric_labels = ["fluency", "consistency", "relevance", "coherence",] # "fluency", "consistency", "relevance", "coherence",
+    for metric in metric_labels:
       try:
         ground_score = int(sample[f"{metric}"])
         predicted_score = int(score[f"predicted_{metric}"])
@@ -152,7 +153,7 @@ def find_most_imformative_points(rater_response: list[dict], file_path: str = ".
 
     heapq.heappush(heap, (total_ce, i, {
       "point_idx": i,
-      "LCE": round(total_ce, 3) / 4,
+      "LCE": round(total_ce, 3) / len(metric_labels),
       "mean_diff": round(mean_diff, 3),
     }))
 
@@ -171,12 +172,13 @@ if __name__ == "__main__":
   top_k_prompts = TopKHeap(3)
   # print("Created top_k_prompts:")
   # print("Calling Optimizer!")
-  meta_prompt = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name)
+  meta_prompt = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name, rater_temp=0.01, rater_top_p=0.95)
 
   print(meta_prompt)
   print('=' * 100)
 
-  rater_response = call_rater_llm_prompt(meta_prompt, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20)
+  rater_response = call_rater_llm_prompt(meta_prompt, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20, rater_temp=0.0, rater_top_p=0.95)
+  print(rater_response)
   print("Metrics ->")
 
   metrics = calculate_metrics(rater_response)

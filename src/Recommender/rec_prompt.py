@@ -14,10 +14,11 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   - The performance of the said instruction on different samples.
   - The performance contains f1-score, accuracy, Cross-Entropy Loss for each metric.
   - A list of sample points that are the worst classified points or the ones with the
-    highest Cross-Entropy Loss. You are also given their mean differences where:
-      mean_diff = predicted_score - ground_truth_score,
-      A positive mean_diff score indicates leniency in the Judgement of the LLM, 
-      a negative mean_diff score indicates harshness in the Judgement of the LLM.
+    highest Cross-Entropy Loss. 
+  - You are also given their mean difference across all four metrics where:
+      mean_diff = sum(predicted_score - ground_truth_score) / len(metrics), 
+      A positive mean_diff score indicates leniency in the Judgement of the LLM, so you have to recommend to be harsher 
+      a negative mean_diff score indicates harshness in the Judgement of the LLM, so you have to recommend to be lenient.
 
   Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 
@@ -37,10 +38,9 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   - Highlight whether the current prompt is being lenient or harsh based on the mean_diff scores.
   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
   - Find a particular recommendation with the objective to minimize the loss with the maximum values.
-   -> Bad example - "Improve coherence definition"
-   -> Good example - "Revise the coherence instruction to emphasize 'logical transitions
-      between sentences'.
-  - DO NOT IN ANY DATA FROM THE SAMPLES INTO THE RECOMMENDATION AS THOSE ARE SOLELY FOR YOU.
+   -> Bad example - "Improve relevance definition"
+   -> Good example - "Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered."
+  - DO NOT INPUT ANY DATA FROM THE SAMPLES INTO THE RECOMMENDATION AS THOSE ARE SOLELY FOR YOU.
 
   Be specific, grounded in the provided evidence, and focus on actionable improvements.
 """
@@ -90,17 +90,19 @@ def create_recommender_prompt(
     metrics_text += f"Metric: {key}\n"
 
     for eval_metric, score in value.items():
+      if eval_metric == "accuracy" or eval_metric == "f1": continue
       metrics_text += f"{eval_metric} of {key} : {score}\n"
     metrics_text += "\n"
 
   top_points_text = ""
   if top_points is not None and len(top_points) > 0:
     top_points_text += f"Most important points:\n"
+    i = 0
     for p in top_points:
       point_idx = p.get("point_idx")
       lce = p.get("LCE", "N/A")
       mean_diff = p.get("mean_diff", "N/A")
-
+      i += 1
       ## Pulling sample from dataframe
       try:
         sample = df.iloc[point_idx]
@@ -110,9 +112,10 @@ def create_recommender_prompt(
         text_val, machine_summary_val = f"Error: {e}", "N/A"
 
       top_points_text += (
+        f"## Example: {i}\n"
         f"- text: {text_val}\n"
         f"- machine_summary: {machine_summary_val}\n"
-        f"- lce: {lce}\n"
+        # f"- lce: {lce}\n"
         f"- mean_diff: {mean_diff}\n"
       )
 
@@ -147,15 +150,15 @@ Recommendations:
   return _RECOMMENDER_PROMPT
 
 if __name__ == "__main__":
-  rater_llm_name = "deepseek/deepseek-r1-0528-qwen3-8b:free"
+  rater_llm_name = "meta-llama/llama-3-8b-instruct"
   file_path = "../Dataset/dataset/df_M11_sampled.parquet"
 
   top_k_prompts = TopKHeap(3)
 
-  instruction = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name)
+  instruction = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name, rater_temp=0.0, rater_top_p=0.95)
   print(instruction)
   #
-  evals = call_rater_llm_prompt(instruction, file_path=file_path, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20)
+  evals = call_rater_llm_prompt(instruction, file_path=file_path, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20, rater_top_p=0.95, rater_temp=0.0)
   # print(evals)
 
   metrics = calculate_metrics(evals)

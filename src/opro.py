@@ -214,6 +214,7 @@ def run_opro(
       top_k_prompts_file_path = f"top_k_prompts_opro_{model}.txt"
       save_metric_history(metric_history, metric_history_file_path)
       save_top_k_prompts(top_k_prompts, top_k_prompts_file_path)
+      write_replies(processed_replies)
       print(f"Checkpoint saved at epoch {epoch + 1}")
 
   for metric in metric_names:
@@ -276,13 +277,13 @@ if __name__ == "__main__":
   main(
     file_path=filepath, rater_llm_name=rater_llm_name_8b,
     reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
-    rater_temp=0.01, reco_temp=0.01, rater_top_p=0.95, reco_top_p=0.95,
+    rater_temp=0.0, reco_temp=0.0, rater_top_p=0.95, reco_top_p=0.95,
     calls_per_minute=75, max_workers=25, num_examples=100, model="8b",
   )
 
   main(
     file_path=filepath, rater_llm_name=rater_llm_name_70b,
     reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=50,
-    rater_temp=0.01, reco_temp=0.01, rater_top_p=0.95, reco_top_p=0.95,
+    rater_temp=0.0, reco_temp=0.0, rater_top_p=0.95, reco_top_p=0.95,
     calls_per_minute=75, max_workers=25, num_examples=100, model="70b",
   )
