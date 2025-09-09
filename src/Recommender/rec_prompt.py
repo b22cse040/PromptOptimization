@@ -12,13 +12,7 @@ _TASK_DESCRIPTION_RECOMMENDER = """
   - A string that was the instruction received to the rater LLM to judge summaries
     on 4 metrics: fluency, coherence, consistency, relevance.
   - The performance of the said instruction on different samples.
-  - The performance contains f1-score, accuracy, Cross-Entropy Loss for each metric.
-  - A list of sample points that are the worst classified points or the ones with the
-    highest Cross-Entropy Loss. 
-  - You are also given their mean difference across all four metrics where:
-      mean_diff = sum(predicted_score - ground_truth_score) / len(metrics), 
-      A positive mean_diff score indicates leniency in the Judgement of the LLM, so you have to recommend to be harsher 
-      a negative mean_diff score indicates harshness in the Judgement of the LLM, so you have to recommend to be lenient.
+  - The performance contains Cross-Entropy Loss for each metric.  
 
   Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 
@@ -35,9 +29,8 @@ _TASK_DESCRIPTION_RECOMMENDER = """
 
   You may:
   - Recommend adjustments to metric definitions if misalignment is observed.
-  - Highlight whether the current prompt is being lenient or harsh based on the mean_diff scores.
   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
-  - Find a particular recommendation with the objective to minimize the loss with the maximum values.
+  - Find a particular recommendation with the objective to minimize the loss with the maximum values while also minimize others.
    -> Bad example - "Improve relevance definition"
    -> Good example - "Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered."
   - DO NOT INPUT ANY DATA FROM THE SAMPLES INTO THE RECOMMENDATION AS THOSE ARE SOLELY FOR YOU.
@@ -91,7 +84,7 @@ def create_recommender_prompt(
 
     for eval_metric, score in value.items():
       if eval_metric == "accuracy" or eval_metric == "f1": continue
-      metrics_text += f"{eval_metric} of {key} : {score}\n"
+      metrics_text += f"Cross-Entropy Loss of {key} : {score}\n"
     metrics_text += "\n"
 
   top_points_text = ""
@@ -130,8 +123,6 @@ The instruction received from the rater LLM is:
 The performance of the said instruction is:
 {metrics_text}
 
-The points with the most errors are:
-{top_points_text}
 
 Generate only what is asked. Add no other commentary or grammar than what is needed essentially.
 A format for you: 
@@ -151,7 +142,7 @@ Recommendations:
 
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
-  file_path = "../Dataset/dataset/df_M11_sampled.parquet"
+  file_path = "../Dataset/dataset/cleaned_test_df.parquet"
 
   top_k_prompts = TopKHeap(3)
 

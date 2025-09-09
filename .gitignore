@@ -5,3 +5,12 @@ src/processed_replies_8b.txt
 src/processed_replies_70b.txt
 
 # src/Plots
+
+src/test_performance_70b.txt
+src/test_performance_8b.txt
+
+src/metric_history_opro_70b.txt
+src/metric_history_opro_8b.txt
+
+src/top_k_prompts_opro_8b.txt
+src/top_k_prompts_opro_70b.txt

@@ -68,11 +68,11 @@ if __name__ == '__main__':
   filepath = "../Dataset/dataset/df_M11_sampled.parquet"
 
   top_k_prompts = TopKHeap(3)
-  instruction = call_rater_llm_meta_prompt(rater_llm_name=rater_llm_name, top_k_prompts=top_k_prompts, rater_temp=0.0, rater_top_p=0.95)
+  instruction = call_rater_llm_meta_prompt(rater_llm_name=rater_llm_name, top_k_prompts=top_k_prompts, rater_temp=0.0, rater_top_p=1.0)
   print(instruction)
   print('=' * 70)
 
-  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=20, max_workers=10, rater_temp=0.0, rater_top_p=0.95, rater_llm_name=rater_llm_name)
+  evals = call_rater_llm_prompt(instruction=instruction, file_path=filepath, num_examples=20, max_workers=10, rater_temp=0.0, rater_top_p=1.0, rater_llm_name=rater_llm_name)
   print(evals)
 
   metrics = calculate_metrics(evals)

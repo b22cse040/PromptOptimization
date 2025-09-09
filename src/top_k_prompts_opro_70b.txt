@@ -3,318 +3,300 @@
 
 --- Top 1 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, and the clarity of expression, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.216
-       CE_fluency: 1.764
+       accuracy: 0.625
+       f1: 0.667
+       CE_fluency: 1.419
    coherence:
-       accuracy: 0.05
-       f1: 0.016
-       CE_coherence: 1.994
+       accuracy: 0.306
+       f1: 0.206
+       CE_coherence: 1.737
    consistency:
-       accuracy: 0.28
-       f1: 0.223
-       CE_consistency: 1.764
+       accuracy: 0.738
+       f1: 0.745
+       CE_consistency: 1.306
    relevance:
-       accuracy: 0.25
-       f1: 0.17
-       CE_relevance: 1.794
+       accuracy: 0.369
+       f1: 0.286
+       CE_relevance: 1.675
 
 Recommendations:
-  1. Revise the instruction to emphasize harsher ratings for minor errors in all metrics, as the current mean_diff scores indicate leniency in judgement.
-  2. Clarify the definition of coherence to better distinguish it from relevance, as the current instruction may cause confusion between the two metrics.
-  3. Emphasize the importance of evaluating the summary as a whole in the coherence metric, rather than just individual sentences, to reduce inconsistencies in ratings.
-  4. Provide more specific examples of high and low scores for each metric to guide the judgement and reduce inconsistencies.
-  5. Revise the instruction to provide harsher ratings for summaries that miss crucial information or include irrelevant details in the relevance metric.
-  6. Emphasize the importance of evaluating the summary's ability to capture the main arguments or points of the original article in the relevance metric.
-  7. Clarify the definition of fluency to better distinguish it from coherence, as the current instruction may cause confusion between the two metrics.
-  8. Emphasize the importance of evaluating the quality of individual sentences in the fluency metric, rather than just the overall quality of the summary.
+  1. Revise the fluency instruction to emphasize stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to better distinguish between logical flow and natural connections, providing more specific examples of logical connections and narrative structures.
+  3. Refine the consistency instruction to prioritize factual accuracy above all else, providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions.
+  4. Revise the relevance instruction to emphasize capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning.
+  5. Consider revising the instruction to reduce overlap between coherence and relevance metrics, providing clearer guidelines on what constitutes "key points" and "important aspects" to minimize confusion.
 
 
 
 --- Top 2 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.27
-       f1: 0.207
-       CE_fluency: 1.774
+       accuracy: 0.631
+       f1: 0.671
+       CE_fluency: 1.412
    coherence:
-       accuracy: 0.07
-       f1: 0.026
-       CE_coherence: 1.974
+       accuracy: 0.312
+       f1: 0.22
+       CE_coherence: 1.731
    consistency:
-       accuracy: 0.27
-       f1: 0.212
-       CE_consistency: 1.774
+       accuracy: 0.725
+       f1: 0.741
+       CE_consistency: 1.319
    relevance:
-       accuracy: 0.23
-       f1: 0.162
-       CE_relevance: 1.814
+       accuracy: 0.394
+       f1: 0.314
+       CE_relevance: 1.65
 
 Recommendations:
-  1. Revise the instruction to emphasize harsher ratings for minor errors in all metrics, as the current mean_diff scores indicate leniency in judgement.
-  2. Clarify the definition of coherence to better distinguish it from relevance, as the current instruction may lead to confusion between the two metrics.
-  3. Emphasize the importance of evaluating the summary as a whole in the coherence metric, rather than just individual sentences, to better capture the overall quality of the summary.
-  4. Provide more specific examples of high and low scores for each metric to guide the judgement and reduce inconsistencies.
-  5. Revise the instruction to provide clearer guidance on how to evaluate the tone and sentiment metric, as the current instruction may be too vague.
-  6. Emphasize the importance of evaluating the summary's ability to capture the main arguments or points of the original article in the relevance metric.
-  7. Provide more specific guidance on how to evaluate the fluency metric, including the importance of grammatical correctness, clarity of expression, and overall readability and flow of the summary.
+  1. Revise the fluency instruction to emphasize stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to better distinguish between logical flow and natural connections, providing more specific examples of logical connections and narrative structures.
+  3. Refine the consistency instruction to prioritize factual accuracy above all else, providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions.
+  4. Revise the relevance instruction to emphasize capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning.
 
 
 
 --- Top 3 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.213
-       CE_fluency: 1.764
+       accuracy: 0.613
+       f1: 0.655
+       CE_fluency: 1.431
    coherence:
-       accuracy: 0.06
-       f1: 0.036
-       CE_coherence: 1.984
+       accuracy: 0.281
+       f1: 0.199
+       CE_coherence: 1.762
    consistency:
-       accuracy: 0.29
-       f1: 0.242
-       CE_consistency: 1.754
+       accuracy: 0.719
+       f1: 0.729
+       CE_consistency: 1.325
    relevance:
-       accuracy: 0.25
-       f1: 0.172
-       CE_relevance: 1.794
+       accuracy: 0.406
+       f1: 0.332
+       CE_relevance: 1.637
 
 Recommendations:
-  1. Revise the instruction to emphasize harsher ratings for minor errors in all metrics, as the current mean_diff scores indicate leniency in the Judgement of the LLM.
-  2. Clarify the definition of coherence to better distinguish it from relevance, as the current instruction may cause confusion between the two metrics.
-  3. Emphasize the importance of evaluating the summary as a whole rather than just individual sentences when assessing coherence, to reduce errors in this metric.
-  4. Provide more specific examples of high and low scores for each metric to guide the judgement and reduce inconsistencies.
-  5. Revise the instruction to provide harsher ratings for summaries that miss crucial information or include irrelevant details, as the current instruction may not adequately penalize such errors.
-  6. Emphasize the importance of evaluating the summary's ability to capture the main arguments or points of the original article when assessing relevance, to improve the accuracy of this metric.
+  1. Revise the fluency instruction to prioritize stricter evaluation of sentence-level quality, focusing on harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to emphasize the distinction between logical flow and natural connections, providing more specific examples of logical connections and narrative structures.
+  3. Refine the consistency instruction to provide more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasize the importance of verifying facts against the original article.
+  4. Revise the relevance instruction to provide more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasize the importance of prioritizing essential information over secondary details.
 
 
 
 --- Top 4 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.211
-       CE_fluency: 1.764
+       accuracy: 0.65
+       f1: 0.687
+       CE_fluency: 1.394
    coherence:
-       accuracy: 0.05
-       f1: 0.016
-       CE_coherence: 1.994
+       accuracy: 0.294
+       f1: 0.197
+       CE_coherence: 1.75
    consistency:
-       accuracy: 0.28
-       f1: 0.216
-       CE_consistency: 1.764
+       accuracy: 0.725
+       f1: 0.738
+       CE_consistency: 1.319
    relevance:
-       accuracy: 0.23
-       f1: 0.163
-       CE_relevance: 1.814
+       accuracy: 0.412
+       f1: 0.322
+       CE_relevance: 1.631
 
 Recommendations:
-  1. Revise the instruction to emphasize harsher ratings for minor errors in all metrics, as the current mean_diff scores indicate leniency in judgement.
-  2. Clarify the definition of coherence to better distinguish it from relevance, as the current instruction may lead to confusion between the two metrics.
-  3. Emphasize the importance of evaluating the summary as a whole in the coherence metric, rather than just individual sentences, to better capture the overall quality of the summary.
-  4. Provide more specific examples of high and low scores for each metric to guide the rater's judgement and reduce inconsistencies.
-  5. Revise the instruction to provide clearer guidance on how to evaluate the tone and sentiment metric, as the current instruction may be too vague.
-  6. Emphasize the importance of evaluating the summary's ability to capture the main arguments or points of the original article in the relevance metric.
-  7. Provide more guidance on how to evaluate the fluency metric, including specific examples of well-written and poorly written sentences.
+  1. Revise the fluency instruction to prioritize stricter evaluation of sentence-level quality, focusing on harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to emphasize the distinction between logical flow and natural connections, providing more specific examples to guide the rater's evaluation.
+  3. Refine the consistency instruction to provide more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions.
+  4. Revise the relevance instruction to emphasize capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning.
 
 
 
 --- Top 5 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.28
-       f1: 0.212
-       CE_fluency: 1.764
+       accuracy: 0.619
+       f1: 0.662
+       CE_fluency: 1.425
    coherence:
-       accuracy: 0.05
-       f1: 0.016
-       CE_coherence: 1.994
+       accuracy: 0.306
+       f1: 0.216
+       CE_coherence: 1.737
    consistency:
-       accuracy: 0.29
-       f1: 0.219
-       CE_consistency: 1.754
+       accuracy: 0.731
+       f1: 0.743
+       CE_consistency: 1.312
    relevance:
-       accuracy: 0.24
-       f1: 0.17
-       CE_relevance: 1.804
+       accuracy: 0.394
+       f1: 0.317
+       CE_relevance: 1.65
 
 Recommendations:
-  1. Revise the instruction to emphasize harsher ratings for minor errors in all metrics, as the current mean_diff scores indicate leniency in judgement.
-  2. Clarify the definition of coherence to better distinguish it from relevance, as the current instruction may lead to confusion between the two metrics.
-  3. Emphasize the importance of evaluating the summary as a whole rather than just individual sentences when assessing coherence, to reduce inconsistencies in ratings.
-  4. Provide more specific examples of high and low scores for each metric to guide the rater's judgement and reduce inconsistencies.
-  5. Revise the instruction to provide more guidance on how to evaluate the tone and sentiment of the summary, as this metric appears to be the most challenging for the rater.
+  1. Revise the fluency instruction to prioritize stricter evaluation of sentence-level quality, focusing on harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to emphasize the distinction between logical flow and natural connections, providing more specific examples of logical connections and narrative structures.
+  3. Refine the consistency instruction to provide more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasize the importance of verifying facts against the original article.
+  4. Revise the relevance instruction to provide more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasize the importance of prioritizing essential information over secondary details.
 
 
 
 --- Top 6 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.27
-       f1: 0.207
-       CE_fluency: 1.774
+       accuracy: 0.619
+       f1: 0.662
+       CE_fluency: 1.425
    coherence:
-       accuracy: 0.06
-       f1: 0.021
-       CE_coherence: 1.984
+       accuracy: 0.3
+       f1: 0.212
+       CE_coherence: 1.744
    consistency:
-       accuracy: 0.28
-       f1: 0.218
-       CE_consistency: 1.764
+       accuracy: 0.738
+       f1: 0.745
+       CE_consistency: 1.306
    relevance:
-       accuracy: 0.24
-       f1: 0.167
-       CE_relevance: 1.804
+       accuracy: 0.4
+       f1: 0.324
+       CE_relevance: 1.644
 
 Recommendations:
-  1. Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered, as the current instruction seems to be lenient in this aspect, with a mean_diff score of 2.5 and above in several examples.
-  2. Clarify the definition of fluency to include not only grammatical correctness but also the overall readability and flow of the summary, as the current definition may be too narrow, leading to inconsistent ratings.
-  3. Emphasize the importance of evaluating the summary as a whole rather than just individual sentences in the coherence metric, as the current instruction may lead to an overemphasis on sentence-level evaluation.
-  4. Provide more specific examples of high and low scores for each metric to guide the rater's judgement and reduce inconsistencies, as the current examples may not be sufficient to cover all possible scenarios.
-  5. Consider adding a metric to evaluate the summary's ability to capture the tone and sentiment of the original article, as this aspect is currently only mentioned in the tone and sentiment evaluation, but not explicitly defined as a separate metric.
+  1. Revise the fluency instruction to prioritize stricter evaluation of sentence-level quality, focusing on harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to emphasize the distinction between logical flow and natural connections, providing more specific examples to guide the rater's evaluation.
+  3. Refine the consistency instruction to provide more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions.
+  4. Revise the relevance instruction to emphasize capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning.
 
 
 
 --- Top 7 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.24
-       f1: 0.189
-       CE_fluency: 1.804
+       accuracy: 0.6
+       f1: 0.649
+       CE_fluency: 1.444
    coherence:
-       accuracy: 0.07
-       f1: 0.025
-       CE_coherence: 1.974
+       accuracy: 0.3
+       f1: 0.205
+       CE_coherence: 1.744
    consistency:
-       accuracy: 0.27
-       f1: 0.208
-       CE_consistency: 1.774
+       accuracy: 0.725
+       f1: 0.738
+       CE_consistency: 1.319
    relevance:
-       accuracy: 0.23
-       f1: 0.159
-       CE_relevance: 1.814
+       accuracy: 0.412
+       f1: 0.328
+       CE_relevance: 1.631
 
 Recommendations:
-  1. Revise the instruction to emphasize harsher ratings for minor errors in all metrics, as the current mean_diff scores indicate leniency in the rater's judgments.
-  2. Clarify the definition of coherence to better distinguish it from relevance, as the current instruction may lead to confusion between the two metrics.
-  3. Emphasize the importance of evaluating the summary as a whole in the coherence metric, rather than just individual sentences, to reduce errors in coherence evaluation.
-  4. Provide more specific examples of high and low scores for each metric to guide the rater's judgment and reduce inconsistencies.
-  5. Revise the instruction to provide clearer guidance on evaluating tone and sentiment, as the current instruction may lead to confusion or inconsistent ratings.
+  1. Revise the fluency instruction to prioritize stricter evaluation of sentence-level quality, focusing on harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to emphasize the distinction between logical flow and natural connections, providing more specific examples to guide the rater's evaluation.
+  3. Emphasize the importance of prioritizing factual accuracy over other aspects in the consistency metric, providing more detailed guidelines on identifying and penalizing factual inaccuracies.
+  4. Refine the relevance instruction to provide more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, to help the rater better capture the article's key points.
+  5. Consider revising the instruction to reduce overlap between coherence and relevance metrics, ensuring that each metric has a clear and distinct focus.
 
 
 
 --- Top 8 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.27
-       f1: 0.205
-       CE_fluency: 1.774
+       accuracy: 0.606
+       f1: 0.654
+       CE_fluency: 1.437
    coherence:
-       accuracy: 0.06
-       f1: 0.022
-       CE_coherence: 1.984
+       accuracy: 0.306
+       f1: 0.218
+       CE_coherence: 1.737
    consistency:
-       accuracy: 0.28
-       f1: 0.214
-       CE_consistency: 1.764
+       accuracy: 0.738
+       f1: 0.745
+       CE_consistency: 1.306
    relevance:
-       accuracy: 0.24
-       f1: 0.172
-       CE_relevance: 1.804
+       accuracy: 0.425
+       f1: 0.348
+       CE_relevance: 1.619
 
 Recommendations:
-  1. Revise the instruction to emphasize harsher ratings for minor errors in all metrics, as the current mean_diff scores indicate leniency in judgement.
-  2. Clarify the definition of coherence to better distinguish it from relevance, as the current instruction may lead to confusion between the two metrics.
-  3. Emphasize the importance of evaluating the summary as a whole in the coherence metric, rather than just individual sentences, to better capture the overall quality of the summary.
-  4. Provide more specific examples of high and low scores for each metric to guide the judgement and reduce inconsistencies.
-  5. Revise the instruction to provide clearer guidance on evaluating tone and sentiment, as this metric appears to be the least emphasized in the current instruction.
+  1. Revise the fluency instruction to emphasize stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, to reduce the Cross-Entropy Loss of 1.437.
+  2. Clarify the coherence instruction by providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, to improve the coherence metric's performance.
+  3. Refine the consistency instruction by providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, to reduce the Cross-Entropy Loss of 1.306.
+  4. Revise the relevance instruction to prioritize essential information over secondary details more explicitly, and provide more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, to improve the relevance metric's performance.
 
 
 
 --- Top 9 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.29
-       f1: 0.22
-       CE_fluency: 1.754
+       accuracy: 0.613
+       f1: 0.658
+       CE_fluency: 1.431
    coherence:
-       accuracy: 0.06
-       f1: 0.022
-       CE_coherence: 1.984
+       accuracy: 0.312
+       f1: 0.223
+       CE_coherence: 1.731
    consistency:
-       accuracy: 0.28
-       f1: 0.21
-       CE_consistency: 1.764
+       accuracy: 0.725
+       f1: 0.741
+       CE_consistency: 1.319
    relevance:
-       accuracy: 0.25
-       f1: 0.171
-       CE_relevance: 1.794
+       accuracy: 0.406
+       f1: 0.333
+       CE_relevance: 1.637
 
 Recommendations:
-  1. Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered, as the current instruction seems to be lenient in this aspect, with a mean_diff score of 1.984.
-  2. Clarify the distinction between relevance and coherence in the instruction, as the provided examples suggest some overlap between the two metrics, which may lead to inconsistencies in ratings.
-  3. Emphasize the importance of evaluating the summary as a whole, rather than just individual sentences, in the fluency metric, as the current instruction seems to focus too much on sentence-level evaluation.
-  4. Provide more specific guidance on how to evaluate tone and sentiment, as the current instruction is somewhat vague, and the mean_diff score of 2.0435 suggests some inconsistencies in ratings.
-  5. Consider adding more examples of high and low scores for each metric to guide the rater's judgement and reduce inconsistencies.
-  6. Revise the instruction to provide harsher ratings for minor errors in consistency, as the current instruction seems to be lenient in this aspect, with a mean_diff score of 1.764.
-  7. Emphasize the importance of evaluating the summary's ability to capture the main arguments or points of the original article in the relevance metric, as the current instruction seems to focus too much on penalizing minor errors.
+  1. Revise the fluency instruction to prioritize stricter evaluation of sentence-level quality, focusing on harsher ratings for minor errors that affect clarity and grammatical correctness.
+  2. Clarify the coherence instruction to emphasize the distinction between logical flow and natural connections, providing more specific examples of logical connections and narrative structures.
+  3. Refine the consistency instruction to provide more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasize the importance of verifying facts against the original article.
+  4. Revise the relevance instruction to provide more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasize the importance of prioritizing essential information over secondary details.
 
 
 
 --- Top 10 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence, fluency, and tone and sentiment, ensuring that you accurately capture all and only the key points of the article without overestimating or underestimating their importance, and verify that the summary does not miss crucial information or include irrelevant details. When evaluating relevance, consider the importance of each key point and provide harsher ratings for summaries that miss crucial information or include irrelevant details, with a focus on penalizing minor errors, and evaluate the summary's ability to capture the main arguments or points of the original article, ensuring that all important aspects are covered. Evaluate consistency by meticulously verifying that the summary reproduces facts accurately and does not introduce untrue information, paying close attention to factual accuracy and ensuring that all statements are supported by the original article, with a focus on providing harsher ratings for minor errors in consistency. Assess coherence by considering the overall quality of the summary as a whole, ensuring that sentences fit together logically, sound natural, and form a cohesive narrative, while avoiding confusion with relevance, and providing harsher ratings for minor errors in coherence, with a focus on evaluating the summary as a whole rather than just individual sentences. Judge fluency by evaluating the quality of individual sentences, considering both grammatical correctness, the nuances of well-written sentences, the clarity of expression, and the overall readability and flow of the summary, avoiding overly simplistic assessments and ensuring that each sentence contributes to the overall quality of the summary, with a focus on providing harsher ratings for minor errors in fluency, and paying close attention to sentence-level evaluation to ensure accurate assessment of fluency. Evaluate tone and sentiment by considering whether the summary accurately conveys the emotional tone and sentiment of the original article, and provide harsher ratings for summaries that fail to do so. Provide harsher ratings for minor errors in all metrics, and consider the following examples of high and low scores for each metric: for relevance, a high score would be a summary that accurately captures all key points and main arguments, while a low score would be a summary that misses crucial information or includes irrelevant details; for consistency, a high score would be a summary that accurately reproduces facts, while a low score would be a summary that introduces untrue information; for coherence, a high score would be a summary with sentences that fit together logically, while a low score would be a summary with disjointed or confusing sentences; for fluency, a high score would be a summary with well-written and grammatically correct sentences, while a low score would be a summary with poorly written or grammatically incorrect sentences; and for tone and sentiment, a high score would be a summary that accurately conveys the emotional tone and sentiment of the original article, while a low score would be a summary that fails to do so. Provide specific examples of high and low scores for each metric to guide your judgement and reduce inconsistencies.
+Rate the summary of the article from 1 to 5 based on its relevance, ensuring it captures all essential key points and important aspects of the article, such as main events, key findings, and crucial details, while excluding unnecessary information and prioritizing the inclusion of essential information over secondary details, with clear guidelines on what constitutes "essential key points" and "important aspects," including specific examples such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article. Evaluate consistency by verifying that the summary accurately reproduces facts from the article without introducing untrue information, prioritizing factual accuracy above all else, and being vigilant for potential factual inaccuracies, such as misquotations, incorrect dates, or false attributions, with a focus on identifying and penalizing summaries with factual errors, and providing detailed guidelines on identifying and penalizing factual inaccuracies, including specific examples of factual errors to watch out for, such as misinterpretations or omissions of crucial information, and emphasizing the importance of verifying facts against the original article. Assess coherence by judging how well the summary collectively conveys the article's key points, with a focus on capturing key points of the article, ensuring all important aspects are covered, and providing a clear narrative structure that effectively conveys the intended meaning, while strictly distinguishing between logical flow and natural connections, and providing specific examples to guide the rater's evaluation, such as logical connections between sentences and a clear narrative structure, and emphasizing the importance of logical connections between sentences and a clear narrative structure. Finally, rate fluency by evaluating the overall sentence effectiveness in conveying the intended meaning, considering the quality of individual sentences, with a focus on concise and well-structured sentences that prioritize clarity and grammatical correctness, and emphasizing the importance of sentence-level quality, and prioritizing sentences that are free of minor errors and effectively convey the intended meaning, while also considering the impact of minor errors on sentence-level quality, and penalizing minor errors that affect sentence-level quality more harshly, and focusing on the overall sentence effectiveness in conveying the intended meaning, and ensuring that the summary is free of minor errors that affect sentence-level quality, and that the sentences are well-structured and effectively convey the intended meaning, with a focus on stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, and emphasizing the importance of prioritizing factual accuracy over other aspects in the consistency metric, and providing more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, and emphasizing the importance of verifying facts against the original article, and providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, and providing more specific examples of essential key points and important aspects, such as key quotes, statistics, and expert opinions, and emphasizing the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, and that the sentences are well-structured and effectively convey the intended meaning.
 
 Metrics:
    fluency:
-       accuracy: 0.26
-       f1: 0.2
-       CE_fluency: 1.784
+       accuracy: 0.588
+       f1: 0.637
+       CE_fluency: 1.456
    coherence:
-       accuracy: 0.07
-       f1: 0.04
-       CE_coherence: 1.974
+       accuracy: 0.325
+       f1: 0.227
+       CE_coherence: 1.719
    consistency:
-       accuracy: 0.29
-       f1: 0.235
-       CE_consistency: 1.754
+       accuracy: 0.731
+       f1: 0.739
+       CE_consistency: 1.312
    relevance:
-       accuracy: 0.24
-       f1: 0.168
-       CE_relevance: 1.804
+       accuracy: 0.394
+       f1: 0.316
+       CE_relevance: 1.65
 
 Recommendations:
-  1. Be harsher in fluency ratings, as the current scores indicate leniency, with a mean difference of 3.75, 2.25, 2.25, 2.5, 2.75, 2.25, 1.25, 1.75, 1.5, and 2.0 across the examples.
-  2. Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered, as the current instruction may be causing confusion with relevance.
-  3. Provide clearer guidelines for evaluating tone and sentiment, as the current instruction may be leading to inconsistent ratings, with a focus on accurately conveying the emotional tone and sentiment of the original article.
-  4. Emphasize the importance of evaluating the summary as a whole, rather than just individual sentences, in the coherence metric, to reduce errors and inconsistencies.
-  5. Consider adding more specific examples of high and low scores for each metric to guide the rater's judgement and reduce inconsistencies.
+  1. Revise the fluency instruction to emphasize stricter evaluation of sentence-level quality, prioritizing harsher ratings for minor errors that affect clarity and grammatical correctness, to reduce the Cross-Entropy Loss of 1.456.
+  2. Clarify the coherence instruction by providing more specific examples of logical connections and narrative structures, and emphasizing the importance of capturing key points and important aspects of the article, to address the higher Cross-Entropy Loss of 1.719.
+  3. Refine the consistency instruction to prioritize factual accuracy above all else, and provide more detailed guidelines on identifying and penalizing factual inaccuracies, such as misquotations, incorrect dates, or false attributions, to improve the performance on consistency metric with a Cross-Entropy Loss of 1.312.
+  4. Revise the relevance instruction to emphasize the importance of prioritizing essential information over secondary details, and ensuring that the summary covers all important aspects of the article, to address the moderate Cross-Entropy Loss of 1.65.

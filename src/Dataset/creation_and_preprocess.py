@@ -1,5 +1,6 @@
 import pandas as pd
 import ast
+from typing import Tuple
 
 # def convert_encoding(input_path: str, output_path: str, from_encoding: str = 'latin-1', to_encoding: str = 'utf-8'):
 #   with open(input_path, 'r', encoding=from_encoding) as infile:
@@ -85,26 +86,58 @@ def subsample_by_model_id(df: pd.DataFrame, model_id: str = "M11"):
     "coherence",
     "consistency",
     "relevance",
+    "model_id",
   ]].copy()
 
   return result_df
+
+def subsample_dataset(df: pd.DataFrame, split: str = "combined", num_points: int = 40) -> pd.DataFrame:
+  all_samples = []
+  model_ids = df["model_id"].unique()
+
+  for model_id in model_ids:
+    df_model = subsample_by_model_id(df, model_id)
+    sampled = df_model.sample(n=min(num_points, len(df_model)), random_state=42)
+    all_samples.append(sampled)
+
+  final_df = pd.concat(all_samples).reset_index(drop=True)
+  return final_df
+
+def split_dataset(df: pd.DataFrame, test_size : float = 0.3, random_state: int = 42) -> Tuple[pd.DataFrame, pd.DataFrame]:
+  train_parts, test_parts = [], []
+
+  model_ids = df["model_id"].unique()
+  print(len(model_ids))
+  for model_id in model_ids:
+    df_model = df[df["model_id"] == model_id]
+
+    df_model = df_model.sample(frac=1, random_state=random_state).reset_index(drop=True)
+
+    n_test_samples = int(len(df_model) * test_size)
+    test_df_model = df_model[:n_test_samples]
+    train_df_model = df_model[n_test_samples:]
+    train_parts.append(train_df_model)
+    test_parts.append(test_df_model)
+
+  train_df = pd.concat(train_parts).reset_index(drop=True)
+  test_df = pd.concat(test_parts).reset_index(drop=True)
+  return train_df, test_df
 
 if __name__ == '__main__':
   df = pd.read_csv("dataset/cleaned_df.csv")
   # cleaned_df = clean_dataset(df)
 
-  model_id = "M11"
-  subsampled_df = subsample_by_model_id(df, model_id)
-  head = subsampled_df.head()
+  subsampled_df = subsample_dataset(df, num_points=40)
+  train_df, test_df = split_dataset(subsampled_df, test_size=0.75)
 
-  for idx, row in head.iterrows():
-    for col in subsampled_df.columns:
-      print(f"{col} : {row[col]}")
-    print('\n\n')
+  train_df.to_parquet("dataset/cleaned_train_df.parquet", index=False)
+  test_df.to_parquet("dataset/cleaned_test_df.parquet", index=False)
 
-  print("Shape: ",subsampled_df.shape)
+  train_df.to_csv("dataset/train_df.csv", index=False)
+  test_df.to_csv("dataset/test_df.csv", index=False)
 
-  output_path = f"dataset/df_{model_id}_sampled.csv"
-  subsampled_df.to_csv(output_path, encoding='utf-8', index=False)
-  # subsampled_df.to_parquet(output_path, index=False)
-  print(f"Cleaned dataset saved to {output_path}")
+  print("Train shape:", train_df.shape)
+  print("Test shape:", test_df.shape)
+  print("\nTrain head:\n", train_df.head(15))
+  print("\nTest head:\n", test_df.head(15))
+  print("Saved train_df.csv and test_df.csv")

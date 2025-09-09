@@ -74,7 +74,7 @@ This is the task description: {task_desc}
 
 Below is a list of previous top K prompts. Each prompt includes: 
 - The instruction given by the prompt.
-- Performance of the instruction in terms of accuracy and weighted f1 score.
+- Performance of the instruction in terms of cross-entropy loss.
 - Recommendations on the basis of previous prompts that will help you find the 
   new instruction.
 
@@ -89,8 +89,7 @@ such that the Cross-Entropy Loss across each metric will minimize
 PLEASE NOTE:
 In the recommendation, you may notice some terms:
  - CE_[metric] indicates the Cross-Entropy Loss for the particular metric.
- - mean_diff is predicted_score - ground truth_score. A positive score means that
- you are too lenient while a positive score means you are too harsh, calibrate instructions properly.
+
 
 Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
 Please adhere to the said output.
@@ -101,7 +100,7 @@ Please adhere to the said output.
 ## The biggest difference between Meta Prompt and Prompt is that meta-prompt generates
 ## an instruction while Prompt uses that instruction to generate scores
 def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Dataset/dataset/df_M11_sampled.parquet") -> str:
-  df = pd.read_parquet(file_path)
+  df = pd.read_parquet(file_path).drop("model_id", axis=1)
 
   sample_point = df.iloc[run_id]
   sample_point_text = ""
@@ -138,21 +137,22 @@ Format:
 {{
   "score" : {{
     "predicted_relevance" : 1|2|3|4|5,
+    "predicted_fluency": 1|2|3|4|5,
+    "predicted_coherence": 1|2|3|4|5,
+    "predicted_consistency": 1|2|3|4|5,
+    
   }}
 }}
 
 Do not add any commentary, markdown, or explanation. As this will raise an error.
   """
-  # "predicted_fluency": 1 | 2 | 3 | 4 | 5,
-  # "predicted_coherence": 1 | 2 | 3 | 4 | 5,
-  # "predicted_consistency": 1 | 2 | 3 | 4 | 5,
   return _RATER_PROMPT
 
 if __name__ == "__main__":
   prev_top_k = TopKHeap(3)
-
+  train_file_path = "../Dataset/dataset/cleaned_train_df.parquet"
   instruction = "Filler"
-  prompt = create_rater_prompt(instruction, run_id=25)
+  prompt = create_rater_prompt(instruction, file_path=train_file_path, run_id=25)
   print(prompt)
   print('=' * 100)
   print(f"Length of prompt: {len(prompt)}")

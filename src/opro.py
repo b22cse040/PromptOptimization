@@ -224,10 +224,50 @@ def run_opro(
   return {
     "metric_histories": metric_history,
     "top_k_prompts": top_k_prompts,
+    "processed_replies": processed_replies,
+  }
+
+def testing_results(
+  opro_top_k_prompts: list[dict],
+  rater_llm_name: str, rater_temp: float, rater_top_p: float,
+  max_workers: int = 25, calls_per_minute: int = 120, num_examples: int = 480,
+  test_file_path: str = "src/Dataset/dataset/test_df.csv", model: str = "8b"
+):
+  if not opro_top_k_prompts:
+    raise ValueError("opro_top_k_prompts is empty")
+
+  best_prompt = opro_top_k_prompts[0]
+  best_instruction = best_prompt["instruction"]
+  # best_loss = best_prompt["loss"]
+
+  print("Using the instruction to test: ", best_instruction)
+
+  evals = call_rater_llm_prompt(
+    instruction=best_instruction, file_path=test_file_path,
+    rater_llm_name=rater_llm_name, rater_top_p=rater_top_p,
+    rater_temp=rater_temp,max_workers=max_workers, calls_per_minute=calls_per_minute,
+    num_examples=num_examples,
+  )
+
+  test_metrics = calculate_metrics(evals, file_path=test_file_path)
+  print("Calculated metrics")
+
+  output_file_path = f"test_performance_{model}.txt"
+  with open(output_file_path, "w") as f:
+    f.write(f"Best instruction:\n{best_instruction}\n\n")
+    f.write(f"Test metrics:\n")
+    for metric, values in test_metrics.items():
+      f.write(f"{metric}: {values}\n")
+
+  print(f"Output saved at {output_file_path}")
+  return {
+    "best_instruction": best_instruction,
+    "test_metrics": test_metrics,
   }
 
 def main(
-    file_path: str,
+    train_file_path: str,
+    test_file_path: str,
     rater_llm_name: str,
     reco_llm_name: str,
     top_k: int = 10,
@@ -238,11 +278,12 @@ def main(
     reco_top_p: float = 0.95,
     calls_per_minute: int = 60,
     max_workers: int = 20,
-    num_examples: int = 100,
+    train_num_examples: int = 160,
+    test_num_examples: int = 480,
     model: str = "8b",
 ) -> None:
   opro_results = run_opro(
-    file_path=file_path,
+    file_path=train_file_path,
     rater_llm_name=rater_llm_name,
     reco_llm_name=reco_llm_name,
     model=model,
@@ -254,7 +295,7 @@ def main(
     reco_top_p=reco_top_p,
     calls_per_minute=calls_per_minute,
     max_workers=max_workers,
-    num_examples=num_examples,
+    num_examples=train_num_examples,
   )
 
   metric_history_file_path = f"metric_history_opro_{model}.txt"
@@ -264,26 +305,41 @@ def main(
   print(f"Metrics saved")
   save_top_k_prompts(opro_results["top_k_prompts"], top_k_prompts_file_path)
   print(f"Top K Prompts saved")
+
+  test_results = testing_results(
+    opro_top_k_prompts=opro_results["top_k_prompts"],
+    rater_llm_name=rater_llm_name, test_file_path=test_file_path,
+    rater_top_p=rater_top_p, rater_temp=rater_temp, model=model,
+  )
+
+  print("Test evaluation done")
+  print(f"Best Instruction: {test_results['best_instruction']}")
+  print(f"Test Metrics: {test_results['test_metrics']}")
   return
 
 if __name__ == "__main__":
   rater_llm_name_8b = "meta-llama/llama-3.1-8b-instruct"
   reco_llm_name_8b = "meta-llama/llama-3.1-8b-instruct"
-  filepath = "Dataset/dataset/df_M11_sampled.parquet"
+  test_filepath = "Dataset/dataset/cleaned_test_df.parquet"
+  train_filepath = "Dataset/dataset/cleaned_train_df.parquet"
 
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
 
-  main(
-    file_path=filepath, rater_llm_name=rater_llm_name_8b,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
-    rater_temp=0.0, reco_temp=0.0, rater_top_p=0.95, reco_top_p=0.95,
-    calls_per_minute=75, max_workers=25, num_examples=100, model="8b",
-  )
+  # main(
+  #   train_file_path=train_filepath, test_file_path=test_filepath,
+  #   rater_llm_name=rater_llm_name_8b,
+  #   reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
+  #   rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
+  #   calls_per_minute=75, max_workers=25, train_num_examples=160, model="8b",
+  #   test_num_examples=480,
+  # )
 
   main(
-    file_path=filepath, rater_llm_name=rater_llm_name_70b,
-    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=50,
-    rater_temp=0.0, reco_temp=0.0, rater_top_p=0.95, reco_top_p=0.95,
-    calls_per_minute=75, max_workers=25, num_examples=100, model="70b",
+    train_file_path=train_filepath, test_file_path=test_filepath,
+    rater_llm_name=rater_llm_name_70b, reco_llm_name=reco_llm_name_70b,
+    top_k=10, num_epochs=50,
+    rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
+    calls_per_minute=75, max_workers=25, train_num_examples=160, model="70b",
+    test_num_examples=480,
   )
