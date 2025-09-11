@@ -94,8 +94,7 @@ such that the given Loss across each metric will minimize
 
 PLEASE NOTE:
 In the recommendation, you may notice some terms:
- - CE_[metric] indicates the Cross-Entropy Loss for the particular metric. OR
- - MAE_[metric] indicates the Mean Absolute Error for the particular metric. 
+ - CE_[metric] indicates the Cross-Entropy Loss for the particular metric. 
 
 
 Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.

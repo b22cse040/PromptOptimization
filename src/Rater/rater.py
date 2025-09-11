@@ -25,12 +25,12 @@ def clean_response(reply: str) -> dict:
     # print(f"Cleaned Reply: {data}")
     return {}
 
-def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str, rater_temp: float, rater_top_p: float) -> str:
+def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, metric_names: list[str], rater_llm_name: str, rater_temp: float, rater_top_p: float) -> str:
   """
   top_k_prompts: Previous top-K performing instructions. (K is a hyperparameter)
   rater_llm_name: Name of the optimizer llm to use.
   """
-  rater_meta_prompt = create_rater_meta_prompt(prev_top_k_prompts=top_k_prompts)
+  rater_meta_prompt = create_rater_meta_prompt(prev_top_k_prompts=top_k_prompts, metric_names=metric_names)
   # print(optim_meta_prompt)
 
   # No need to clean the response as it returns a string.
@@ -39,6 +39,7 @@ def call_rater_llm_meta_prompt(top_k_prompts: TopKHeap, rater_llm_name: str, rat
 
 def call_rater_llm_prompt_utils(
     instruction: str,
+    metric_names: list[str],
     run_id: int = 0,
     file_path : str = "../Dataset/dataset/df_M11_sampled.parquet",
     rater_llm_name: str = "deepseek/deepseek-r1-0528-qwen3-8b:free",
@@ -47,7 +48,7 @@ def call_rater_llm_prompt_utils(
 ) -> dict:
   # Forming Prompt : returns a str containing the prompt for rater LLM
   # print(f"Run {run_id}: LLM Prompt formation")
-  rater_prompt = create_rater_prompt(instruction, run_id=run_id, file_path=file_path)
+  rater_prompt = create_rater_prompt(instruction, run_id=run_id, file_path=file_path, metric_names=metric_names)
 
   # Generating JSON Response by the Rater LLM
   # print(f"Run {run_id}: LLM Calling")
@@ -60,6 +61,7 @@ def call_rater_llm_prompt_utils(
 
 def call_rater_llm_prompt(
     instruction: str,
+    metric_names: list[str],
     rater_llm_name : str,
     rater_temp: float,
     rater_top_p: float,
@@ -79,7 +81,7 @@ def call_rater_llm_prompt(
   futures = [
     executor.submit(
       call_rater_llm_prompt_utils,
-      instruction, run_id, file_path, rater_llm_name, rater_temp, rater_top_p,
+      instruction, metric_names, run_id, file_path, rater_llm_name, rater_temp, rater_top_p,
     ) for run_id in range(num_examples)
   ]
   print("Submitted All futures")
@@ -97,14 +99,15 @@ if __name__ == "__main__":
   max_concurrent_calls = 20
   calls_per_minute = 60
   calls_per_second = calls_per_minute / 60
+  metrics = ["fluency", "coherence"]
 
   top_k_prompts = TopKHeap(3)
   print("Calling Optimizer!")
-  new_instruction = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name, rater_temp=0.01, rater_top_p=0.95)
+  new_instruction = call_rater_llm_meta_prompt(top_k_prompts, metric_names=metrics, rater_llm_name=rater_llm_name, rater_temp=0.01, rater_top_p=0.95)
   print(new_instruction)
   print('=' * 100)
 
-  results = call_rater_llm_prompt(new_instruction, rater_llm_name=rater_llm_name, num_examples=num_examples, max_workers=max_concurrent_calls, rater_temp=0.01, rater_top_p=0.95, file_path=train_file_path)
+  results = call_rater_llm_prompt(new_instruction, metric_names=metrics, rater_llm_name=rater_llm_name, num_examples=num_examples, max_workers=max_concurrent_calls, rater_temp=0.01, rater_top_p=0.95, file_path=train_file_path)
 
   print("\nFinal Results:")
   complete_results = 0

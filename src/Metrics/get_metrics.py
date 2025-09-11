@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score, f1_score, log_loss
 from src.TopK_Heap.top_k import TopKHeap
 
 
-def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet") -> dict:
+def calculate_metrics(rater_response: list[dict], metric_names: list[str], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet") -> dict:
   """
     Calculates accuracy and F1-score per metric (fluency, coherence, consistency, relevance).
 
@@ -27,10 +27,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
   df = pd.read_parquet(file_path)
 
   metrics = {
-    #"fluency": {"y_true": [], "y_pred": []},
-    "coherence": {"y_true": [], "y_pred": []},
-    # "consistency": {"y_true": [], "y_pred": []},
-    # "relevance": {"y_true": [], "y_pred": []},
+    metric_name : {"y_true": [], "y_pred": []} for metric_name in metric_names
   }
 
   for i, entry in enumerate(rater_response):
@@ -42,7 +39,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
     score = entry["score"]
     sample = df.iloc[i]
 
-    for metric in ["coherence",]: #  "fluency", "consistency", "relevance", "coherence",
+    for metric in metric_names: #  "fluency", "consistency", "relevance", "coherence",
       try:
         ground_score = int(sample[f"{metric}"])
         predicted_score = int(score[f"predicted_{metric}"])
@@ -97,7 +94,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
 
   return result
 
-def find_most_imformative_points(rater_response: list[dict], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet", top_k: int = 5) -> list[dict]:
+def find_most_informative_points(rater_response: list[dict], metric_names: list[str], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet", top_k: int = 5) -> list[dict]:
   '''
   Finding the points with the most LCE / MSE, and based on those errors, to
   determine whether the LLM is detecting a harshly or leniently with the help of
@@ -129,8 +126,7 @@ def find_most_imformative_points(rater_response: list[dict], file_path: str = ".
     diffs = []
     valid_metrics = 0
 
-    metric_labels = ["coherence",] # "fluency", "consistency", "relevance", "coherence",
-    for metric in metric_labels:
+    for metric in metric_names:
       try:
         ground_score = int(sample[f"{metric}"])
         predicted_score = int(score[f"predicted_{metric}"])
@@ -153,7 +149,7 @@ def find_most_imformative_points(rater_response: list[dict], file_path: str = ".
 
     heapq.heappush(heap, (total_ce, i, {
       "point_idx": i,
-      "LCE": round(total_ce, 3) / len(metric_labels),
+      "LCE": round(total_ce, 3) / len(metric_names),
       "mean_diff": round(mean_diff, 3),
     }))
 
@@ -172,17 +168,18 @@ if __name__ == "__main__":
   top_k_prompts = TopKHeap(3)
   # print("Created top_k_prompts:")
   # print("Calling Optimizer!")
-  meta_prompt = call_rater_llm_meta_prompt(top_k_prompts, rater_llm_name, rater_temp=0.01, rater_top_p=0.95)
+  metric_names = ["coherence", "consistency", "relevance"]
+  meta_prompt = call_rater_llm_meta_prompt(top_k_prompts, metric_names, rater_llm_name, rater_temp=0.01, rater_top_p=0.95)
 
   print(meta_prompt)
   print('=' * 100)
 
-  rater_response = call_rater_llm_prompt(meta_prompt, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20, rater_temp=0.0, rater_top_p=0.95)
+  rater_response = call_rater_llm_prompt(meta_prompt, metric_names, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20, rater_temp=0.0, rater_top_p=0.95)
   print(rater_response)
   print("Metrics ->")
 
-  metrics = calculate_metrics(rater_response)
+  metrics = calculate_metrics(rater_response, metric_names)
   print(metrics)
 
-  top_points = find_most_imformative_points(rater_response)
+  top_points = find_most_informative_points(rater_response, metric_names, file_path)
   print(top_points)
