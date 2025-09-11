@@ -7,7 +7,7 @@ from typing import Dict
 
 # - The total average cross entropy loss of the said instruction.
 
-def create_task_desc_recommender(metric_names: list[str], optimizer: str) -> str:
+def create_task_desc_recommender(metric_names: list[str], optimizer: str, is_top_points_given: bool) -> str:
   _METRIC_DEFINITIONS = {
     "relevance": """The rating measures how well the summary captures the key points of the article. Consider whether all and only the important aspects are contained in the summary.""",
     "consistency": """The rating measures whether the facts in the summary are consistent with the facts in the original article. Consider whether the summary does reproduce all facts accurately and does not make up untrue information.""",
@@ -33,12 +33,21 @@ def create_task_desc_recommender(metric_names: list[str], optimizer: str) -> str
       f"- {metric_name} : {_METRIC_DEFINITIONS[metric_name]}\n"
     )
 
+  is_top_points_given_text = ""
+  if is_top_points_given:
+    is_top_points_given_text = """
+- Some points with the most cross-entropy loss will also be given, along with their mean-diff scores.
+  mean_diff = predicted_score - ground_truth_score, 
+  A positive mean_diff indicates the model is being lenient in their judgement, while a negative mean_diff indicates the model is being harsh in their judgement.
+      """
+
   _TASK_DESCRIPTION_RECOMMENDER = f"""
 You will be given:
 - A string that was the instruction received to the rater LLM to judge summaries
   on {len(metric_names)} metrics: {", ".join(metric_names)}.
 - The performance of the said instruction on different samples.
 - The performance contains Cross-Entropy Loss for each metric.
+{is_top_points_given_text}
 
 Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 {metrics_text}
@@ -56,12 +65,12 @@ Be specific, grounded in the provided evidence, and focus on actionable improvem
   """
   return _TASK_DESCRIPTION_RECOMMENDER
 
-
 def create_recommender_prompt(
     instruction: str,
     evals: dict,
     metric_names: list[str],
     optimizer: str,
+    reco_format: str,
     top_points: list[dict] | None = None, # Optional Param
     file_path: str = "../Dataset/dataset/df_M11_sampled.parquet",
 ) -> str:
@@ -70,7 +79,8 @@ def create_recommender_prompt(
   df = pd.read_parquet(file_path)
 
   ## Create recommender task description
-  task_description = create_task_desc_recommender(metric_names, optimizer=optimizer)
+  if reco_format == "ours-unnamed": task_description = create_task_desc_recommender(metric_names, optimizer=optimizer, is_top_points_given=True)
+  else: task_description = create_task_desc_recommender(metric_names, optimizer=optimizer, is_top_points_given=False)
 
   evals_text = ""
   for key, value in evals.items():
@@ -110,8 +120,27 @@ def create_recommender_prompt(
         f"- mean_diff: {mean_diff}\n"
       )
 
+  _RECOMMENDER_PROMPT_RECOMMENDATION_FORMAT = {
+    "OPRO": """
+  1. [First Recommendation, focusing on what did the instruction got wrong.]
+  2. [Second recommendation, focusing on metric definitions or instruction clarity.]
+  3. [Third recommendation, addressing observed biases or errors.]""",
 
-  _RECOMMENDER_PROMPT = f"""
+    "ours-unnamed": """
+  1. [First Recommendation, focusing on whether the LLM is being lenient or harsh, and suggesting increasing or decreasing the ratings accordingly.]
+  2. [Second recommendation, focusing on metric definitions or instruction clarity.]
+  3. [Third recommendation, addressing observed biases or errors.]  
+  """
+  }
+
+  if reco_format not in _RECOMMENDER_PROMPT_RECOMMENDATION_FORMAT:
+    raise ValueError(f"Recommender Format {reco_format} is not supported.")
+
+  recommendation_text = _RECOMMENDER_PROMPT_RECOMMENDATION_FORMAT[reco_format]
+
+
+  _RECOMMENDER_PROMPT_TEMPLATE = {
+    "OPRO": f"""
 You are an expert at analyzing performance of instruction. Here is your task:
 {task_description}
 
@@ -125,16 +154,40 @@ The performance of the said instruction is:
 Generate only what is asked. Add no other commentary or grammar than what is needed essentially.
 A format for you:
 
-Recommendations:
-  1. [First Recommendation, focusing on what did the instruction got wrong.]
-  2. [Second recommendation, focusing on metric definitions or instruction clarity.]
-  3. [Third recommendation, addressing observed biases or errors.]
+Recommendations: {recommendation_text}
   ...
 
   Do NOT include:
   - Any introductory/closing sentences.
   - Sections like "Instruction Analysis" or "Overall Performance."
-  """
+  """,
+
+    "ours-unnamed": f"""
+You are an expert at analyzing performance of instruction. Here is your task:
+{task_description}
+
+The instruction received from the rater LLM is:
+{instruction}.
+
+The performance of the said instruction is:
+{evals_text}
+
+The points with the most errors are: 
+{top_points_text}
+
+Generate only what is asked. Add no other commentary or grammar than what is needed essentially.
+A format for you:
+
+Recommendations: {recommendation_text}
+  ...
+
+  Do NOT include:
+  - Any introductory/closing sentences.
+  - Sections like "Instruction Analysis" or "Overall Performance."
+  """,
+  }
+
+  _RECOMMENDER_PROMPT = _RECOMMENDER_PROMPT_TEMPLATE[reco_format]
 
   return _RECOMMENDER_PROMPT
 
@@ -142,24 +195,28 @@ if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   file_path = "../Dataset/dataset/cleaned_test_df.parquet"
   metric_names = ["relevance", "consistency"]
-  _task_recommender = create_task_desc_recommender(metric_names=metric_names, optimizer='min-all')
+  # _task_recommender = create_task_desc_recommender(metric_names=metric_names, optimizer='min-all', is_top_points_given=False)
   # print(_task_recommender)
+  # print('=' * 100)
 
   top_k_prompts = TopKHeap(3)
 
   instruction = call_rater_llm_meta_prompt(top_k_prompts, metric_names=metric_names, rater_llm_name=rater_llm_name, rater_temp=0.0, rater_top_p=0.95)
   print(instruction)
+  print('=' * 100)
   #
   evals = call_rater_llm_prompt(instruction, metric_names=metric_names, file_path=file_path, rater_llm_name=rater_llm_name, num_examples=20, max_workers=20, rater_top_p=0.95, rater_temp=0.0)
   # print(evals)
 
   metrics = calculate_metrics(evals, metric_names=metric_names)
   print(metrics)
+  print('=' * 100)
 
   top_points = find_most_informative_points(evals, metric_names=metric_names)
   print(top_points)
+  print('=' * 100)
 
-  recommender_prompt = create_recommender_prompt(instruction, metrics, metric_names=metric_names, optimizer='min-all', top_points=top_points)
+  recommender_prompt = create_recommender_prompt(instruction, metrics, metric_names=metric_names, optimizer='min-all', reco_format="OPRO", top_points=top_points)
   print(recommender_prompt)
   print('=' * 100)
   print(len(recommender_prompt))
