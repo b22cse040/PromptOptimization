@@ -1,6 +1,6 @@
 import os
 from src.Recommender.recommender import call_recommender_llm, process_reply
-from src.Metrics.get_metrics import calculate_metrics, find_most_imformative_points
+from src.Metrics.get_metrics import calculate_metrics, find_most_informative_points
 from src.Rater.rater import call_rater_llm_meta_prompt, call_rater_llm_prompt
 from src.TopK_Heap.top_k import TopKHeap
 import matplotlib
@@ -145,6 +145,9 @@ def write_replies(processed_replies: list, model: str = "8b") -> None:
 
 
 def run_opro(
+  metric_names: list[str],
+  reco_format: str, ## OPRO or ours-unnamed
+  optimizer: str, ## 'min-all' or 'min-max'
   file_path: str = "Dataset/dataset/df_M11_sampled.parquet",
   top_k: int = 10,
   num_epochs: int = 30,
@@ -165,7 +168,6 @@ def run_opro(
   top_k_prompts = TopKHeap(top_k)
   print(f"Step 1: Created a heap to store top-{top_k} prompts (Successful)")
 
-  metric_names = ["coherence"] # "fluency", "consistency", "relevance","coherence"
   metric_history = {
     metric : {"f1" : [], "accuracy" : [], f"CE_{metric}" : []} for metric in metric_names
   }
@@ -176,6 +178,7 @@ def run_opro(
     print(f"\n--- Epoch {epoch + 1}/{num_epochs} ---")
     instruction = call_rater_llm_meta_prompt(
       top_k_prompts=top_k_prompts,
+      metric_names=metric_names,
       rater_llm_name=rater_llm_name,
       rater_temp=rater_temp, rater_top_p=rater_top_p,
     )
@@ -183,16 +186,17 @@ def run_opro(
 
     evals = call_rater_llm_prompt(
       instruction=instruction, file_path=file_path,
+      metric_names=metric_names,
       rater_llm_name=rater_llm_name, max_workers=max_workers,
       calls_per_minute=calls_per_minute, num_examples=num_examples,
       rater_temp=rater_temp, rater_top_p=rater_top_p,
     )
     print("Generated evals")
 
-    metrics = calculate_metrics(evals, file_path=file_path)
+    metrics = calculate_metrics(evals, file_path=file_path, metric_names=metric_names)
     print("Calculated metrics")
 
-    top_points = find_most_imformative_points(evals, file_path=file_path, top_k=top_k_most_imp_points)
+    top_points = find_most_informative_points(evals, file_path=file_path, top_k=top_k_most_imp_points, metric_names=metric_names)
     print("Found most informative points")
 
     for metric in metric_names:
@@ -202,10 +206,17 @@ def run_opro(
       # metric_history[metric]["mean_diff"].append(metrics[metric]["mean_diff"])
     # metric_history["CE_Total"]["CE_Total"].append(metrics["CE_Total"])
 
-    recommendation = call_recommender_llm(instruction, metrics, file_path=file_path, reco_llm_name=reco_llm_name, top_points=top_points, reco_temp=reco_temp, reco_top_p=reco_top_p)
+    recommendation = call_recommender_llm(
+      instruction, metrics, file_path=file_path, reco_llm_name=reco_llm_name,
+      top_points=top_points, reco_temp=reco_temp, reco_top_p=reco_top_p,
+      optimizer=optimizer, reco_format=reco_format, metric_names=metric_names
+    )
     print("Generated recommendation")
 
-    processed_reply = process_reply(instruction=instruction, recommendation=recommendation, heap=top_k_prompts, metrics=metrics)
+    processed_reply = process_reply(
+      instruction=instruction, recommendation=recommendation,
+      heap=top_k_prompts, metrics=metrics
+    )
     processed_replies.append(processed_reply)
     print("Processed Reply")
 
@@ -228,7 +239,7 @@ def run_opro(
   }
 
 def testing_results(
-  opro_top_k_prompts: list[dict],
+  opro_top_k_prompts: list[dict], metric_names: list[str],
   rater_llm_name: str, rater_temp: float, rater_top_p: float,
   max_workers: int = 25, calls_per_minute: int = 120, num_examples: int = 480,
   test_file_path: str = "src/Dataset/dataset/cleaned_test_df.csv", model: str = "8b"
@@ -246,10 +257,10 @@ def testing_results(
     instruction=best_instruction, file_path=test_file_path,
     rater_llm_name=rater_llm_name, rater_top_p=rater_top_p,
     rater_temp=rater_temp,max_workers=max_workers, calls_per_minute=calls_per_minute,
-    num_examples=num_examples,
+    num_examples=num_examples, metric_names=metric_names
   )
 
-  test_metrics = calculate_metrics(evals, file_path=test_file_path)
+  test_metrics = calculate_metrics(evals, file_path=test_file_path, metric_names=metric_names)
   print("Calculated metrics")
 
   output_file_path = f"test_performance_{model}.txt"
@@ -270,6 +281,9 @@ def main(
     test_file_path: str,
     rater_llm_name: str,
     reco_llm_name: str,
+    reco_format: str,
+    optimizer: str,
+    metric_names: list[str],
     top_k: int = 10,
     num_epochs: int = 40,
     rater_temp: float = 0.1,
@@ -296,6 +310,9 @@ def main(
     calls_per_minute=calls_per_minute,
     max_workers=max_workers,
     num_examples=train_num_examples,
+    optimizer=optimizer,
+    metric_names=metric_names,
+    reco_format=reco_format,
   )
 
   metric_history_file_path = f"metric_history_opro_{model}.txt"
@@ -310,6 +327,7 @@ def main(
     opro_top_k_prompts=opro_results["top_k_prompts"],
     rater_llm_name=rater_llm_name, test_file_path=test_file_path,
     rater_top_p=rater_top_p, rater_temp=rater_temp, model=model, num_examples=test_num_examples,
+    metric_names=metric_names,
   )
 
   print("Test evaluation done")
@@ -326,20 +344,22 @@ if __name__ == "__main__":
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
 
-  main(
-    train_file_path=train_filepath, test_file_path=test_filepath,
-    rater_llm_name=rater_llm_name_8b,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
-    rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-    calls_per_minute=75, max_workers=25, train_num_examples=160, model="8b",
-    test_num_examples=480,
-  )
+  metric_names = ["fluency", "coherence"]
 
   main(
     train_file_path=train_filepath, test_file_path=test_filepath,
-    rater_llm_name=rater_llm_name_70b, reco_llm_name=reco_llm_name_70b,
-    top_k=10, num_epochs=50,
+    rater_llm_name=rater_llm_name_8b, metric_names=metric_names,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=1,
     rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-    calls_per_minute=75, max_workers=25, train_num_examples=160, model="70b",
-    test_num_examples=480,
+    calls_per_minute=75, max_workers=25, train_num_examples=16, model="8b",
+    test_num_examples=48, optimizer="min-all", reco_format="ours-unnamed"
   )
+
+  # main(
+  #   train_file_path=train_filepath, test_file_path=test_filepath,
+  #   rater_llm_name=rater_llm_name_70b, metric_names=metric_names,
+  #   reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=50,
+  #   rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
+  #   calls_per_minute=75, max_workers=25, train_num_examples=160, model="70b",
+  #   test_num_examples=480, optimizer="min-all", reco_format="ours-unnamed"
+  # )
