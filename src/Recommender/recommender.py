@@ -1,6 +1,6 @@
 import json5, re
 from dotenv import load_dotenv
-from src.Metrics.get_metrics import calculate_metrics, find_most_imformative_points
+from src.Metrics.get_metrics import calculate_metrics, find_most_informative_points
 from src.OpenRouter.openrouter import call_openrouter
 from src.Rater.rater import call_rater_llm_prompt, call_rater_llm_meta_prompt
 from src.Recommender.rec_prompt import create_recommender_prompt
@@ -80,7 +80,7 @@ if __name__ == '__main__':
   print(f"Calculated metrics")
   print("=" * 70)
 
-  top_points = find_most_imformative_points(evals, top_k=5)
+  top_points = find_most_informative_points(evals, top_k=5)
   print("Found most informative points")
   print(top_points)
 
