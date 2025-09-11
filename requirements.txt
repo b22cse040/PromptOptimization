@@ -1,7 +1,6 @@
 bokeh
 dotenv
 fastparquet
-ftfy
 hvplot
 ipykernel
 llm-openrouter

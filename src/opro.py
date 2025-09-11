@@ -165,7 +165,7 @@ def run_opro(
   top_k_prompts = TopKHeap(top_k)
   print(f"Step 1: Created a heap to store top-{top_k} prompts (Successful)")
 
-  metric_names = ["fluency", "consistency", "relevance","coherence"] # "fluency", "consistency", "relevance","coherence"
+  metric_names = ["coherence"] # "fluency", "consistency", "relevance","coherence"
   metric_history = {
     metric : {"f1" : [], "accuracy" : [], f"CE_{metric}" : []} for metric in metric_names
   }
@@ -231,7 +231,7 @@ def testing_results(
   opro_top_k_prompts: list[dict],
   rater_llm_name: str, rater_temp: float, rater_top_p: float,
   max_workers: int = 25, calls_per_minute: int = 120, num_examples: int = 480,
-  test_file_path: str = "src/Dataset/dataset/test_df.csv", model: str = "8b"
+  test_file_path: str = "src/Dataset/dataset/cleaned_test_df.csv", model: str = "8b"
 ):
   if not opro_top_k_prompts:
     raise ValueError("opro_top_k_prompts is empty")
@@ -309,7 +309,7 @@ def main(
   test_results = testing_results(
     opro_top_k_prompts=opro_results["top_k_prompts"],
     rater_llm_name=rater_llm_name, test_file_path=test_file_path,
-    rater_top_p=rater_top_p, rater_temp=rater_temp, model=model,
+    rater_top_p=rater_top_p, rater_temp=rater_temp, model=model, num_examples=test_num_examples,
   )
 
   print("Test evaluation done")
@@ -326,14 +326,14 @@ if __name__ == "__main__":
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
 
-  # main(
-  #   train_file_path=train_filepath, test_file_path=test_filepath,
-  #   rater_llm_name=rater_llm_name_8b,
-  #   reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
-  #   rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-  #   calls_per_minute=75, max_workers=25, train_num_examples=160, model="8b",
-  #   test_num_examples=480,
-  # )
+  main(
+    train_file_path=train_filepath, test_file_path=test_filepath,
+    rater_llm_name=rater_llm_name_8b,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
+    rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
+    calls_per_minute=75, max_workers=25, train_num_examples=160, model="8b",
+    test_num_examples=480,
+  )
 
   main(
     train_file_path=train_filepath, test_file_path=test_filepath,

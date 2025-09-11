@@ -3,293 +3,185 @@
 
 --- Top 1 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, and fluency, ensuring that individual sentences are grammatically correct, well-written, precise, concise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point.
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between well-structured summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a well-structured summary that lacks key information is rated 2 or lower, a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and also consider the tone and style of the original article when evaluating the coherence of the summary, and use the following specific criteria to guide your evaluation: a well-structured summary that lacks key information is rated 2 or lower, a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a well-structured summary, a summary that effectively balances structure and content, and a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a well-structured summary and a summary that effectively balances structure and content.
 
 Metrics:
-   fluency:
-       accuracy: 0.641
-       f1: 0.68
-       CE_fluency: 1.403
    coherence:
-       accuracy: 0.239
-       f1: 0.152
-       CE_coherence: 1.804
-   consistency:
-       accuracy: 0.704
-       f1: 0.705
-       CE_consistency: 1.339
-   relevance:
-       accuracy: 0.373
-       f1: 0.251
-       CE_relevance: 1.67
+       accuracy: 0.268
+       f1: 0.199
+       CE_coherence: 1.776
 
 Recommendations:
-1. Revise the fluency instruction to emphasize the importance of precision and concision in language, and provide clear guidelines on distinguishing between redundancy and repetition, as the current Cross-Entropy Loss of 1.403 suggests that the model may be lenient in evaluating fluency.
-2. Revise the coherence instruction to clarify the distinction between well-structured and grammatically correct sentences and the logical flow of the summary, as the Cross-Entropy Loss of 1.804 suggests that the model may be struggling to capture the nuances of coherence.
-3. Revise the consistency instruction to provide more explicit guidelines on maintaining the author's intent, tone, and nuances, as the Cross-Entropy Loss of 1.339 suggests that the model may be inconsistent in evaluating consistency.
-4. Revise the relevance instruction to emphasize the importance of capturing all and only the key points of the article, and provide clear guidelines on evaluating the importance and context of each point, as the Cross-Entropy Loss of 1.67 suggests that the model may be lenient in evaluating relevance.
+1. Revise the instruction to clearly define what constitutes "main points" and "crucial information" to avoid ambiguity and ensure consistency in evaluation.
+2. Emphasize the importance of evaluating the summary's ability to convey the author's intent and tone, and provide specific examples of how to assess this aspect, as it may be a source of confusion for the model.
+3. Clarify the distinction between a well-structured summary and a summary that effectively balances structure and content, as the current instruction may lead to inconsistent ratings.
+4. Consider adding a specific example of a well-structured summary that lacks key information to help the model understand the lower end of the rating scale.
+5. Revise the instruction to prioritize the importance of content over polish, but also acknowledge that a well-written summary can be more effective in conveying the author's intent and tone.
+6. Provide a clear definition of what constitutes a summary that covers all crucial information, and consider adding specific criteria for evaluating this aspect, such as whether the summary includes all key findings, methods, and conclusions.
 
 
 
 --- Top 2 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, and fluency, ensuring that individual sentences are grammatically correct, well-written, precise, concise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point, and minimize the Cross-Entropy Loss of relevance (1.664), coherence (1.844), consistency (1.304), and fluency (1.484).
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between well-structured summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a summary that effectively balances structure and content.
 
 Metrics:
-   fluency:
-       accuracy: 0.721
-       f1: 0.715
-       CE_fluency: 1.322
    coherence:
-       accuracy: 0.264
-       f1: 0.17
-       CE_coherence: 1.779
-   consistency:
-       accuracy: 0.736
-       f1: 0.714
-       CE_consistency: 1.308
-   relevance:
-       accuracy: 0.364
-       f1: 0.203
-       CE_relevance: 1.679
+       accuracy: 0.267
+       f1: 0.195
+       CE_coherence: 1.776
 
 Recommendations:
-1. Revise the fluency instruction to emphasize the importance of precision and concision in language, and provide clear guidelines on distinguishing between redundancy and repetition, as the current instruction focuses more on grammatical correctness and sentence structure.
-2. Revise the coherence instruction to clarify the distinction between well-structured sentences and logical flow, and provide more specific guidance on avoiding redundancy, as the current instruction seems to conflate these concepts.
-3. Revise the consistency instruction to emphasize the importance of accurately reproducing the author's intent, tone, and nuances, and provide more explicit guidance on maintaining the author's voice and style, as the current instruction seems to focus more on factual accuracy.
-4. Revise the relevance instruction to provide more specific guidance on capturing all and only the key points of the article, and clarify the importance of conveying the context and importance of each point, as the current instruction seems to focus more on the breadth of coverage rather than the depth of understanding.
+  1. Revise the instruction to clarify the distinction between "main points" and "crucial information" to ensure raters consistently evaluate summaries based on the same criteria.
+  2. Emphasize the importance of evaluating coherence in the context of the original article's tone and style, and provide concrete examples to guide raters in making this evaluation.
+  3. Consider adding a specific guideline for evaluating summaries that effectively balance structure and content, to help raters distinguish between well-structured summaries that lack key information and those that are less polished but more comprehensive.
+  4. Revise the instruction to prioritize the evaluation of content over polish, and provide clear examples of what constitutes a summary that effectively covers all crucial information.
+  5. Consider adding a metric to evaluate the clarity of the summary's language, to help raters distinguish between summaries that are well-structured but difficult to understand, and those that are less polished but more comprehensible.
 
 
 
 --- Top 3 Prompt ---
 Instruction:
-
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between well-structured summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a well-structured summary that lacks key information is rated 2 or lower, a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and also consider the tone and style of the original article when evaluating the coherence of the summary, and use the following specific criteria to guide your evaluation: a well-structured summary that lacks key information is rated 2 or lower, a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a well-structured summary, a summary that effectively balances structure and content, and a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a well-structured summary and a summary that effectively balances structure and content.
 
 Metrics:
-   fluency:
-       accuracy: 0.293
-       f1: 0.377
-       CE_fluency: 1.751
    coherence:
-       accuracy: 0.236
-       f1: 0.185
-       CE_coherence: 1.808
-   consistency:
-       accuracy: 0.338
-       f1: 0.433
-       CE_consistency: 1.706
-   relevance:
-       accuracy: 0.357
-       f1: 0.303
-       CE_relevance: 1.687
+       accuracy: 0.277
+       f1: 0.196
+       CE_coherence: 1.766
 
-Recommendations:
-  1. Revise the fluency instruction to emphasize the importance of grammatical correctness and sentence structure, as the current Cross-Entropy Loss of 1.751 suggests leniency in evaluating well-written sentences.
-  2. Clarify the consistency instruction to specify that the summary should not only reproduce facts accurately but also provide a clear and concise representation of the original article's content, as the Cross-Entropy Loss of 1.706 indicates room for improvement in this area.
-  3. Refine the coherence instruction to provide more explicit guidance on how to evaluate the quality of individual sentences collectively, as the Cross-Entropy Loss of 1.808 suggests that the current instruction may be too vague or open to interpretation.
-  4. Revise the relevance instruction to emphasize the importance of capturing key points and covering all important aspects of the article, as the Cross-Entropy Loss of 1.687 suggests that the current instruction may be too lenient in evaluating the summary's ability to capture the article's main ideas.
+
 
 
 
 --- Top 4 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, and fluency, ensuring that individual sentences are grammatically correct, well-written, precise, concise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point, and minimize the Cross-Entropy Loss of relevance (1.664), coherence (1.844), consistency (1.304), and fluency (1.484).
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a summary that effectively balances structure and content, and CE_clarity should be maximized.
 
 Metrics:
-   fluency:
-       accuracy: 0.688
-       f1: 0.698
-       CE_fluency: 1.356
    coherence:
-       accuracy: 0.225
-       f1: 0.116
-       CE_coherence: 1.819
-   consistency:
-       accuracy: 0.719
-       f1: 0.708
-       CE_consistency: 1.325
-   relevance:
-       accuracy: 0.381
-       f1: 0.228
-       CE_relevance: 1.662
+       accuracy: 0.257
+       f1: 0.184
+       CE_coherence: 1.787
 
 Recommendations:
-1. Revise the fluency instruction to emphasize the importance of precision and concision in language, and specify that individual sentences should be concise and free of ambiguity, with a clear distinction between redundancy and repetition.
-2. Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered, and consider adding a guideline on maintaining a logical flow and avoiding redundancy.
-3. Revise the consistency instruction to specify that the summary should accurately reproduce facts without introducing new information, and maintain the author's intent, tone, and nuances, with clear guidelines on distinguishing between accurate reproduction and introduction of new information.
-4. Revise the relevance instruction to emphasize that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point, with clear guidelines on distinguishing between key points and non-essential information.
+1. Revise the instruction to clearly define the distinction between "main points" and "crucial information" to avoid ambiguity and ensure raters are evaluating the same aspects of the summary.
+2. Emphasize the importance of considering the original article's tone and style when evaluating coherence, and provide specific examples of how this should be taken into account, such as whether the summary maintains the same level of formality or uses similar language.
+3. Clarify the definition of a summary that effectively balances structure and content, providing concrete examples of what this looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
+4. Consider adding a guideline for handling summaries that are comprehensive but lack polish, to ensure raters are not penalizing these summaries excessively for minor errors in grammar or sentence structure.
+5. Revise the instruction to prioritize CE_content over CE_structure, as the current instruction aims to balance both, which may lead to conflicting objectives.
 
 
 
 --- Top 5 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, with clear guidelines on distinguishing between key points and non-essential information, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, and provides a clear and concise representation of the original article's content, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, with clear guidelines on distinguishing between redundancy and repetition, and fluency, ensuring that individual sentences are concise, precise, and free of ambiguity, with a focus on precision and concision in language and clear distinction between redundancy and repetition.
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between well-structured summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a well-structured summary and a summary that effectively balances structure and content, and CE_clarity should be maximized, and consider the original article's tone and style when evaluating coherence, and provide specific examples of how this should be taken into account, such as whether the summary maintains the same level of formality or uses similar language, and revise the instruction to clearly define the distinction between "main points" and "crucial information" to avoid ambiguity and ensure raters are evaluating the same aspects of the summary, and prioritize CE_content over CE_structure, and consider adding a guideline for handling summaries that are comprehensive but lack polish, and revise the instruction to provide clear examples of what constitutes a summary that effectively covers all crucial information, and clarify the definition of a summary that effectively balances structure and content, and provide concrete examples of what this looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
 
 Metrics:
-   fluency:
-       accuracy: 0.452
-       f1: 0.534
-       CE_fluency: 1.592
    coherence:
-       accuracy: 0.185
-       f1: 0.117
-       CE_coherence: 1.859
-   consistency:
-       accuracy: 0.568
-       f1: 0.627
-       CE_consistency: 1.475
-   relevance:
-       accuracy: 0.377
-       f1: 0.264
-       CE_relevance: 1.667
+       accuracy: 0.229
+       f1: 0.139
+       CE_coherence: 1.814
 
 Recommendations:
-1. Revise the fluency instruction to emphasize the importance of precision and concision in language, as the current instruction focuses more on general sentence quality. This may have led to lenient ratings, contributing to the high Cross-Entropy Loss of 1.592.
-2. Revise the coherence instruction to provide clearer guidelines on distinguishing between redundancy and repetition, as the current instruction may be too vague, leading to inconsistent ratings. This could be achieved by adding specific examples or clarifying the criteria for what constitutes redundancy.
-3. Revise the relevance instruction to provide more specific guidance on what constitutes "key points" and "important aspects," as the current instruction may be too subjective, leading to variability in ratings. This could be achieved by providing concrete examples or a more detailed framework for evaluating relevance.
+  1. Revise the instruction to clearly define the distinction between "main points" and "crucial information" to avoid ambiguity and ensure raters are evaluating the same aspects of the summary.
+  2. Emphasize the importance of prioritizing CE_content over CE_structure to better align with expert annotators' expectations, as the current instruction prioritizes structure and content equally.
+  3. Provide concrete examples of what constitutes a summary that effectively covers all crucial information, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
+  4. Revise the instruction to clarify the definition of a summary that effectively balances structure and content, and provide specific examples of what this looks like in practice.
+  5. Consider adding a guideline for handling summaries that are comprehensive but lack polish, to ensure raters can accurately evaluate these types of summaries.
+  6. Emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide specific examples of how this should be taken into account, such as maintaining the same level of formality or using similar language.
 
 
 
 --- Top 6 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, with clear guidelines on distinguishing between key points and non-essential information, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, and provides a clear and concise representation of the original article's content, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, with clear guidelines on distinguishing between redundancy and repetition, and fluency, ensuring that individual sentences are concise, precise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point.
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a summary that effectively balances structure and content, and CE_clarity should be maximized, and consider the original article's tone and style when evaluating coherence, and provide specific examples of how this should be taken into account, such as whether the summary maintains the same level of formality or uses similar language, and revise the instruction to clearly define the distinction between "main points" and "crucial information" to avoid ambiguity and ensure raters are evaluating the same aspects of the summary, and prioritize CE_content over CE_structure, and consider adding a guideline for handling summaries that are comprehensive but lack polish, and revise the instruction to provide clear examples of what constitutes a summary that effectively covers all crucial information, and clarify the definition of a summary that effectively balances structure and content, and provide concrete examples of what this looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
 
 Metrics:
-   fluency:
-       accuracy: 0.481
-       f1: 0.559
-       CE_fluency: 1.562
    coherence:
-       accuracy: 0.219
-       f1: 0.145
-       CE_coherence: 1.825
-   consistency:
-       accuracy: 0.569
-       f1: 0.624
-       CE_consistency: 1.475
-   relevance:
-       accuracy: 0.388
-       f1: 0.265
-       CE_relevance: 1.656
+       accuracy: 0.331
+       f1: 0.229
+       CE_coherence: 1.712
 
 Recommendations:
-  1. Revise the fluency instruction to emphasize the importance of precision and concision in language, and consider introducing a stricter rating scale for fluency, as the current Cross-Entropy Loss of 1.562 suggests that the model is not accurately capturing the nuances of fluency.
-  2. Clarify the distinction between redundancy and repetition in the coherence instruction, as the current definition may be too broad, leading to inconsistent ratings. Consider providing specific examples or guidelines to help the model understand what constitutes redundancy versus repetition.
-  3. Revise the consistency instruction to emphasize the importance of accurately reproducing facts without introducing new information, and consider introducing a more nuanced rating scale for consistency, as the current Cross-Entropy Loss of 1.475 suggests that the model is not accurately capturing the subtleties of consistency.
-  4. Revise the relevance instruction to emphasize the importance of capturing all and only the key points of the article, and consider introducing a more specific rating scale for relevance, as the current Cross-Entropy Loss of 1.656 suggests that the model is not accurately capturing the nuances of relevance.
+1. Revise the instruction to clearly define the distinction between "main points" and "crucial information" to avoid ambiguity and ensure raters are evaluating the same aspects of the summary.
+2. Emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide specific examples of how this should be taken into account, such as whether the summary maintains the same level of formality or uses similar language.
+3. Prioritize CE_content over CE_structure, as the current instruction seems to balance both equally, which may lead to inconsistent ratings.
+4. Add a guideline for handling summaries that are comprehensive but lack polish, to ensure raters can distinguish between summaries that are less polished but more comprehensive and those that lack key information.
+5. Provide clear examples of what constitutes a summary that effectively covers all crucial information, and clarify the definition of a summary that effectively balances structure and content, including concrete examples of what this looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
 
 
 
 --- Top 7 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, and fluency, ensuring that individual sentences are grammatically correct, well-written, precise, concise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point.
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between well-structured summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a well-structured summary that lacks key information is rated 2 or lower, a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and also consider the tone and style of the original article when evaluating the coherence of the summary, and use the following specific criteria to guide your evaluation: a well-structured summary that lacks key information is rated 2 or lower, a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a well-structured summary, a summary that effectively balances structure and content, and a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a well-structured summary and a summary that effectively balances structure and content.
 
 Metrics:
-   fluency:
-       accuracy: 0.667
-       f1: 0.682
-       CE_fluency: 1.377
    coherence:
-       accuracy: 0.24
-       f1: 0.141
-       CE_coherence: 1.804
-   consistency:
-       accuracy: 0.707
-       f1: 0.705
-       CE_consistency: 1.337
-   relevance:
-       accuracy: 0.38
-       f1: 0.249
-       CE_relevance: 1.664
+       accuracy: 0.233
+       f1: 0.162
+       CE_coherence: 1.811
 
-
+Recommendations:
+1. Revise the instruction to clearly distinguish between "main points" and "crucial information" to avoid ambiguity and ensure raters are evaluating the same aspects of the summary.
+2. Emphasize the importance of considering the original article's tone and style when evaluating coherence, and provide specific examples of how this might impact the rating, such as a summary that accurately captures the author's tone or style.
+3. Clarify the definition of a "well-structured summary" and a "summary that effectively balances structure and content" to ensure raters are evaluating the same criteria, and provide concrete examples of what these look like in practice.
+4. Consider revising the instruction to prioritize the evaluation of content over structure, as the current instruction prioritizes both equally, which may lead to inconsistent ratings.
+5. Provide a clear definition of what constitutes a "summary that covers all crucial information" to ensure raters are evaluating the same criteria, and provide examples of what this looks like in practice.
 
 
 
 --- Top 8 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, and fluency, ensuring that individual sentences are grammatically correct, well-written, precise, concise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point, and minimize the Cross-Entropy Loss of relevance (1.664), coherence (1.844), consistency (1.304), and fluency (1.484).
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a summary that effectively balances structure and content, and CE_clarity should be maximized.
 
 Metrics:
-   fluency:
-       accuracy: 0.677
-       f1: 0.69
-       CE_fluency: 1.366
    coherence:
-       accuracy: 0.228
-       f1: 0.122
-       CE_coherence: 1.816
-   consistency:
-       accuracy: 0.715
-       f1: 0.707
-       CE_consistency: 1.328
-   relevance:
-       accuracy: 0.373
-       f1: 0.217
-       CE_relevance: 1.67
+       accuracy: 0.281
+       f1: 0.207
+       CE_coherence: 1.762
 
 Recommendations:
-1. Revise the fluency instruction to emphasize the importance of precision and concision in language, and specify that individual sentences should be free of ambiguity, with a focus on clear and concise language, to align with the current Cross-Entropy Loss of 1.366, which suggests that the model is lenient in evaluating fluency.
-2. Revise the coherence instruction to provide clear guidelines on distinguishing between redundancy and repetition, and specify that the summary should maintain a logical flow, to address the high Cross-Entropy Loss of 1.816, which indicates that the model may be struggling to capture the nuances of coherence.
-3. Revise the consistency instruction to emphasize the importance of accurately reproducing facts without introducing new information, and specify that the summary should maintain the author's intent, tone, and nuances, to align with the current Cross-Entropy Loss of 1.328, which suggests that the model is lenient in evaluating consistency.
-4. Revise the relevance instruction to emphasize that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point, to address the high Cross-Entropy Loss of 1.67, which indicates that the model may be struggling to capture the essence of relevance.
+1. Revise the instruction to clearly define the distinction between "main points" and "crucial information" to avoid ambiguity and ensure raters are evaluating the same aspects of the summary.
+2. Emphasize the importance of considering the original article's tone and style when evaluating coherence, and provide specific examples of how this should be taken into account, such as whether the summary maintains the same level of formality or uses similar language.
+3. Clarify the definition of a summary that effectively balances structure and content, providing concrete examples of what this looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
+4. Consider adding a guideline for handling summaries that are comprehensive but lack polish, to ensure raters are not penalizing these summaries excessively for minor errors in grammar or sentence structure.
+5. Revise the instruction to prioritize CE_content over CE_structure, as the current instruction aims to balance both, which may lead to conflicting goals.
 
 
 
 --- Top 9 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, with clear guidelines on distinguishing between key points and non-essential information, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, and provides a clear and concise representation of the original article's content, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, with clear guidelines on distinguishing between redundancy and repetition, and fluency, ensuring that individual sentences are concise, precise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point.
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a summary that effectively balances structure and content, and CE_clarity should be maximized, and consider the original article's tone and style when evaluating coherence, and provide specific examples of how this should be taken into account, such as whether the summary maintains the same level of formality or uses similar language, and prioritize CE_content over CE_structure, and consider adding a guideline for handling summaries that are comprehensive but lack polish, and revise the instruction to provide clear examples of what constitutes a summary that effectively covers all crucial information, and clarify the definition of a summary that effectively balances structure and content, and provide concrete examples of what this looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
 
 Metrics:
-   fluency:
-       accuracy: 0.456
-       f1: 0.545
-       CE_fluency: 1.587
    coherence:
-       accuracy: 0.2
-       f1: 0.14
-       CE_coherence: 1.844
-   consistency:
-       accuracy: 0.588
-       f1: 0.637
-       CE_consistency: 1.456
-   relevance:
-       accuracy: 0.4
-       f1: 0.286
-       CE_relevance: 1.644
+       accuracy: 0.268
+       f1: 0.16
+       CE_coherence: 1.776
 
 Recommendations:
-  1. Revise the fluency instruction to emphasize the importance of precise and concise language, and provide clear guidelines on distinguishing between ambiguity and clarity, to encourage more stringent evaluation of individual sentences.
-  2. Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered, to better align with the relevance metric and reduce the Cross-Entropy Loss of coherence.
-  3. Revise the consistency instruction to provide more explicit guidance on maintaining the author's intent, tone, and nuances, and to clarify the distinction between accurate reproduction of facts and introduction of new information.
-  4. Revise the relevance instruction to provide clear guidelines on distinguishing between key points and non-essential information, and to emphasize the importance of capturing all and only the key points of the article, to better align with the coherence metric and reduce the Cross-Entropy Loss of relevance.
+  1. Revise the instruction to provide clear examples of what constitutes a summary that effectively covers all crucial information, and clarify the definition of a summary that effectively balances structure and content, as the current instruction lacks concrete examples to guide the rater's evaluation.
+  2. Emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide specific guidelines on how to maintain or adapt the tone and style in the summary, as the current instruction only mentions this as a consideration without providing clear guidance.
+  3. Prioritize CE_content over CE_structure, as the current instruction aims to balance both, but the performance suggests that CE_content is not being maximized, indicating a potential misalignment in the instruction's goals.
+  4. Consider adding a guideline for handling summaries that are comprehensive but lack polish, as the current instruction focuses on prioritizing content over polish, but does not provide clear guidance on how to evaluate summaries that excel in content but struggle with polish.
+  5. Revise the instruction to clarify the distinction between main points and crucial information, as the current instruction uses these terms interchangeably, which may lead to inconsistent ratings.
 
 
 
 --- Top 10 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its relevance, ensuring that it accurately captures all and only the key points of the article, conveys the importance and context of each point, and covers all important aspects, with clear guidelines on distinguishing between key points and non-essential information, consistency, ensuring that it accurately reproduces facts without introducing new information, maintains the author's intent, tone, and nuances, and provides a clear and concise representation of the original article's content, coherence, ensuring that it presents well-structured and grammatically correct sentences that capture key points of the article, maintain a logical flow, and avoid redundancy, with clear guidelines on distinguishing between redundancy and repetition, and fluency, ensuring that individual sentences are concise, precise, and free of ambiguity, with a focus on precision and concision in language, clear distinction between redundancy and repetition, and accurate reproduction of the author's intent and tone, with clear guidelines on distinguishing between redundancy and repetition, and specifying that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point.
+Rate the summary of the article from 1 to 5 based on its coherence, considering how well the sentences collectively convey the main points of the article, effectively cover all crucial information, and clearly convey the author's intent, with a focus on prioritizing content over polish, and provide a justification for your rating, distinguishing between summaries that lack key information and those that are less polished but more comprehensive, and use the following guidelines to evaluate the summary's ability to cover all crucial information: a summary that covers all crucial information is rated 4 or higher, and a summary that effectively balances structure and content is rated 3, and CE_coherence should be minimized, CE_content should be maximized, and CE_structure should be balanced, and provide clear examples of what constitutes a summary that covers all crucial information, and clarify the distinction between main points and crucial information, and emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide a clear definition of what constitutes a summary that effectively balances structure and content, and CE_clarity should be maximized, and consider the original article's tone and style when evaluating coherence, and provide specific examples of how this should be taken into account, such as whether the summary maintains the same level of formality or uses similar language, and prioritize CE_content over CE_structure, and consider adding a guideline for handling summaries that are comprehensive but lack polish, and revise the instruction to provide clear examples of what constitutes a summary that effectively covers all crucial information, and clarify the definition of a summary that effectively balances structure and content, and provide concrete examples of what this looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas.
 
 Metrics:
-   fluency:
-       accuracy: 0.444
-       f1: 0.537
-       CE_fluency: 1.6
    coherence:
-       accuracy: 0.237
-       f1: 0.167
-       CE_coherence: 1.806
-   consistency:
-       accuracy: 0.625
-       f1: 0.664
-       CE_consistency: 1.419
-   relevance:
-       accuracy: 0.381
-       f1: 0.255
-       CE_relevance: 1.662
+       accuracy: 0.283
+       f1: 0.171
+       CE_coherence: 1.761
 
 Recommendations:
-1. Revise the fluency instruction to emphasize the importance of precise and concise language, and provide clear guidelines on distinguishing between redundancy and repetition, to minimize the Cross-Entropy Loss of fluency (1.6).
-2. Clarify the coherence instruction to specify that the summary should maintain a logical flow and avoid redundancy, and provide examples of well-structured and grammatically correct sentences that capture key points of the article, to improve the Cross-Entropy Loss of coherence (1.806).
-3. Revise the consistency instruction to emphasize the importance of accurately reproducing facts without introducing new information, and provide clear guidelines on maintaining the author's intent, tone, and nuances, to minimize the Cross-Entropy Loss of consistency (1.419).
-4. Revise the relevance instruction to specify that the summary should capture all and only the key points of the article, and accurately convey the importance and context of each point, to minimize the Cross-Entropy Loss of relevance (1.662).
+1. Revise the instruction to provide clear examples of what constitutes a summary that effectively covers all crucial information, and clarify the definition of a summary that effectively balances structure and content, to minimize CE_coherence loss.
+2. Emphasize the importance of considering the tone and style of the original article when evaluating coherence, and provide specific examples of how this should be taken into account, such as maintaining the same level of formality or using similar language, to minimize CE_coherence loss.
+3. Prioritize CE_content over CE_structure, and consider adding a guideline for handling summaries that are comprehensive but lack polish, to minimize CE_coherence loss.
+4. Revise the instruction to provide concrete examples of what a summary that effectively covers all crucial information looks like in practice, such as a summary that clearly organizes key information into logical sections or uses transitional phrases to connect ideas, to minimize CE_coherence loss.
+5. Clarify the distinction between main points and crucial information, and provide clear examples of what constitutes a summary that covers all crucial information, to minimize CE_coherence loss.

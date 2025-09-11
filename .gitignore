@@ -1,6 +1,6 @@
 .env
 
-src/Dataset/dataset
+
 src/processed_replies_8b.txt
 src/processed_replies_70b.txt
 

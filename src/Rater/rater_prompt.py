@@ -1,36 +1,40 @@
 import pandas as pd
 from src.TopK_Heap.top_k import TopKHeap
 
+_METRIC_DEFINITIONS = {
+  "relevance" :          """The rating measures how well the summary captures the key points of the article. Consider whether all and only the important aspects are contained in the summary.""",
+  "consistency" :        """The rating measures whether the facts in the summary are consistent with the facts in the original article. Consider whether the summary does reproduce all facts accurately and does not make up untrue information.""",
+  "fluency" :            """The rating measures the quality of individual sentences, are they well-written and grammatically correct. Consider the quality of individual sentences.""",
+  "coherence":           """The rating measures the quality of all sentences collectively, to fit together and sound naturally. Consider the quality of the summary as a whole."""
+}
 
+def create_task_description(metric_names: list[str], _DEFINITONS: dict[str, str] = _METRIC_DEFINITIONS) -> str:
+  definition_text = ""
+  for metric_name in metric_names:
+    definition_text += (
+      f"- {metric_name} : {_METRIC_DEFINITIONS[metric_name]}\n"
+    )
 
-_TASK_DESCRIPTION = """
-  In this task you will evaluate the quality of summaries written for news article.
-  To correctly solve this task, follow these steps:
-  
-  1. Carefully read the news article, be aware of the information it contains.
-  2. Read the proposed summary.
-  3. Rate each summary on a scale from 1 (worst) to 5 (best) by its relevance.
-  
-  Definitions:
-   - Relevance: The rating measures how well the summary captures the key points of
-     the article. Consider whether all and only the important aspects are contained in
-     the summary.
-   - Consistency: The rating measures whether the facts in the summary are consistent
-     with the facts in the original article. Consider whether the summary does
-     reproduce all facts accurately and does not make up untrue information.
-   - Coherence: The rating measures the quality of all sentences collectively, to
-     fit together and sound naturally. Consider the quality of the summary as a whole.
-   - Fluency: The rating measures the quality of individual sentences, are they
-     well-written and grammatically correct. Consider the quality of individual sentences.
-"""
+  _TASK_DESCRIPTION = f"""
+In this task you will evaluate the quality of summaries written for news article.
+To correctly solve this task, follow these steps:
+
+1. Carefully read the news article, be aware of the information it contains.
+2. Read the proposed summary.
+3. Rate each summary on a scale from 1 (worst) to 5 (best) for each metric.
+
+Definitions:
+{definition_text}
+  """
+  return _TASK_DESCRIPTION
 
 
 ## sample_points: list of dicts
 ## prev_top_k_prompts is a list of dicts, each mapping an instruction string to
 ## a dict of score metrics.
 def create_rater_meta_prompt(
+    metric_names: list[str],
     prev_top_k_prompts : TopKHeap = None,
-    task_desc=_TASK_DESCRIPTION
 ):
   # sample_points_pairs_text = ""
   # for idx, pair in enumerate(sample_points, 1):
@@ -44,6 +48,8 @@ def create_rater_meta_prompt(
   #     # f"Consistency: {pair['consistency']}\n"
   #     # f"Relevance: {pair['relevance']}\n"
   #   )
+
+  task_desc = create_task_description(metric_names)
 
   prev_top_k_prompts_text = ""
   if prev_top_k_prompts:
@@ -67,28 +73,29 @@ def create_rater_meta_prompt(
       )
 
   _RATER_META_PROMPT = f"""
-You are an expert prompt optimizer working on improving summarization quality across 
-multiple evaluation aspects: fluency, coherence, relevance and consistency.
+You are an expert prompt optimizer working on improving summarization quality across
+multiple evaluation aspects: {", ".join(metric_names)}.
 
 This is the task description: {task_desc}
 
-Below is a list of previous top K prompts. Each prompt includes: 
+Below is a list of previous top K prompts. Each prompt includes:
 - The instruction given by the prompt.
-- Performance of the instruction in terms of cross-entropy loss.
-- Recommendations on the basis of previous prompts that will help you find the 
+- Performance of the instruction in terms of a loss function that will be stated to you.
+- Recommendations on the basis of previous prompts that will help you find the
   new instruction.
 
-Previous top {len(prev_top_k_prompts)} prompts: 
+Previous top {len(prev_top_k_prompts)} prompts:
 {prev_top_k_prompts_text}
 
-Based on the above previous top-{len(prev_top_k_prompts)} prompt's recommendations, 
-generate a new improved instruction that can be used to guide to judge the summarizations 
-such that the Cross-Entropy Loss across each metric will minimize
-(e.g., "Rate the summary of the article from 1 to 5 based on its relevance, consistency, coherence and fluency of sentences.").
+Based on the above previous top-{len(prev_top_k_prompts)} prompt's recommendations,
+generate a new improved instruction that can be used to guide to judge the summarizations
+such that the given Loss across each metric will minimize
+(e.g., "Rate the summary of the article from 1 to 5 based on its {", ".join(metric_names)} of sentences.").
 
 PLEASE NOTE:
 In the recommendation, you may notice some terms:
- - CE_[metric] indicates the Cross-Entropy Loss for the particular metric.
+ - CE_[metric] indicates the Cross-Entropy Loss for the particular metric. OR
+ - MAE_[metric] indicates the Mean Absolute Error for the particular metric. 
 
 
 Do not add any commentary, markdown, or explanation. If you include anything else, the system will raise an error.
@@ -99,8 +106,8 @@ Please adhere to the said output.
 
 ## The biggest difference between Meta Prompt and Prompt is that meta-prompt generates
 ## an instruction while Prompt uses that instruction to generate scores
-def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Dataset/dataset/df_M11_sampled.parquet") -> str:
-  df = pd.read_parquet(file_path).drop("model_id", axis=1)
+def create_rater_prompt(instruction: str, metric_names: list[str], run_id: int  = 0, file_path = "../Dataset/dataset/df_M11_sampled.parquet") -> str:
+  df = pd.read_parquet(file_path)
 
   sample_point = df.iloc[run_id]
   sample_point_text = ""
@@ -110,7 +117,8 @@ def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Data
     "fluency",
     "coherence",
     "consistency",
-    "relevance"
+    "relevance",
+    "model_id"
   ]
 
   for col in df.columns:
@@ -120,27 +128,34 @@ def create_rater_prompt(instruction: str, run_id: int  = 0, file_path = "../Data
   sample_point_text += '\n'
   sample_point_text = sample_point_text.strip()
 
+  # Dynamically generate JSON score keys
+  score_lines = []
+  i = 0
+  for metric_name in metric_names:
+    if i == 0:
+      score_lines.append(f""" "predicted_{metric_name}": 1|2|3|4|5 """)
+      i += 1
+      continue
+    score_lines.append(f"""     "predicted_{metric_name}":  1|2|3|4|5""")
+  score_block = ",\n".join(score_lines)
+
   _RATER_PROMPT = f"""
-Your task is written below, kindly complete this and return the output in the 
+Your task is written below, kindly complete this and return the output in the
 correct format.
 
 Instruction : {instruction}
 
-Your sample point that is to be rated is: 
+Your sample point that is to be rated is:
 {sample_point_text}
 
 Output the summaries in a JSON Format of the form:
 - Do not add any commentary, markdown, or explanation. As this will raise an error.
 - Return strictly in a JSON format.
 
-Format: 
+Format:
 {{
   "score" : {{
-    "predicted_relevance" : 1|2|3|4|5,
-    "predicted_fluency": 1|2|3|4|5,
-    "predicted_coherence": 1|2|3|4|5,
-    "predicted_consistency": 1|2|3|4|5,
-    
+    {score_block}
   }}
 }}
 
@@ -152,9 +167,15 @@ if __name__ == "__main__":
   prev_top_k = TopKHeap(3)
   train_file_path = "../Dataset/dataset/cleaned_train_df.parquet"
   instruction = "Filler"
-  prompt = create_rater_prompt(instruction, file_path=train_file_path, run_id=25)
+  metric_names = ["relevance", "consistency", "fluency", "coherence"]
+
+  prompt = create_rater_prompt(instruction, metric_names=metric_names, file_path=train_file_path, run_id=25)
   print(prompt)
   print('=' * 100)
   print(f"Length of prompt: {len(prompt)}")
-  # meta_prompt = create_optim_meta_prompt(prev_top_k)
+
+  # meta_prompt = create_rater_meta_prompt(metric_names, prev_top_k)
   # print(meta_prompt)
+
+  # _task_desc = create_task_description(metric_names)
+  # print(_task_desc)

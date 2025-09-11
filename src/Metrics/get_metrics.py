@@ -27,10 +27,10 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
   df = pd.read_parquet(file_path)
 
   metrics = {
-    "fluency": {"y_true": [], "y_pred": []},
+    #"fluency": {"y_true": [], "y_pred": []},
     "coherence": {"y_true": [], "y_pred": []},
-    "consistency": {"y_true": [], "y_pred": []},
-    "relevance": {"y_true": [], "y_pred": []},
+    # "consistency": {"y_true": [], "y_pred": []},
+    # "relevance": {"y_true": [], "y_pred": []},
   }
 
   for i, entry in enumerate(rater_response):
@@ -42,7 +42,7 @@ def calculate_metrics(rater_response: list[dict], file_path: str = "../Dataset/d
     score = entry["score"]
     sample = df.iloc[i]
 
-    for metric in ["fluency", "consistency", "relevance", "coherence",]: #  "fluency", "consistency", "relevance", "coherence",
+    for metric in ["coherence",]: #  "fluency", "consistency", "relevance", "coherence",
       try:
         ground_score = int(sample[f"{metric}"])
         predicted_score = int(score[f"predicted_{metric}"])
@@ -129,7 +129,7 @@ def find_most_imformative_points(rater_response: list[dict], file_path: str = ".
     diffs = []
     valid_metrics = 0
 
-    metric_labels = ["fluency", "consistency", "relevance", "coherence",] # "fluency", "consistency", "relevance", "coherence",
+    metric_labels = ["coherence",] # "fluency", "consistency", "relevance", "coherence",
     for metric in metric_labels:
       try:
         ground_score = int(sample[f"{metric}"])
@@ -166,7 +166,7 @@ def find_most_imformative_points(rater_response: list[dict], file_path: str = ".
 
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
-  file_path = "../Dataset/dataset/df_M11_sampled.csv"
+  file_path = "../Dataset/dataset/cleaned_test_df.parquet"
 
 
   top_k_prompts = TopKHeap(3)

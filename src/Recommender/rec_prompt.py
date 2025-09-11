@@ -6,63 +6,62 @@ from src.TopK_Heap.top_k import TopKHeap
 from typing import Dict
 
 #   - The total average cross entropy loss of the said instruction.
-_TASK_DESCRIPTION_RECOMMENDER = """
-
-  You will be given:
-  - A string that was the instruction received to the rater LLM to judge summaries
-    on 4 metrics: fluency, coherence, consistency, relevance.
-  - The performance of the said instruction on different samples.
-  - The performance contains Cross-Entropy Loss for each metric.  
-
-  Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
-
-  - Relevance: The rating measures how well the summary captures the key points of
-  the article. Consider whether all and only the important aspects are contained in
-  the summary.
-  - Consistency: The rating measures whether the facts in the summary are consistent
-  with the facts in the original article. Consider whether the summary does
-  reproduce all facts accurately and does not make up untrue information.
-  - Fluency: The rating measures the quality of individual sentences, are they
-  well-written and grammatically correct. Consider the quality of individual sentences.
-  - Coherence: The rating measures the quality of all sentences collectively, to
-  fit together and sound naturally. Consider the quality of the summary as a whole.
-
-  You may:
-  - Recommend adjustments to metric definitions if misalignment is observed.
-  - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
-  - Find a particular recommendation with the objective to minimize the loss with the maximum values while also minimize others.
-   -> Bad example - "Improve relevance definition"
-   -> Good example - "Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered."
-  - DO NOT INPUT ANY DATA FROM THE SAMPLES INTO THE RECOMMENDATION AS THOSE ARE SOLELY FOR YOU.
-
-  Be specific, grounded in the provided evidence, and focus on actionable improvements.
-"""
-
-#   - Find a particular recommendation with the objective to minimize all the losses simultaneously.
 # _TASK_DESCRIPTION_RECOMMENDER = """
 #
-# You will be given:
-# - A string that was the instruction received to the rater LLM to judge summaries
-#   on coherence.
-# - The performance of the said instruction on different samples.
-# - The performance contains f1-score and accuracy.
+#   You will be given:
+#   - A string that was the instruction received to the rater LLM to judge summaries
+#     on 4 metrics: fluency, coherence, consistency, relevance.
+#   - The performance of the said instruction on different samples.
+#   - The performance contains Cross-Entropy Loss for each metric.
 #
-# Each sample is evaluated along the following metric, with score values ranging from 1 to 5:
+#   Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 #
-# - Coherence: The rating measures the quality of all sentences collectively, to
+#   - Relevance: The rating measures how well the summary captures the key points of
+#   the article. Consider whether all and only the important aspects are contained in
+#   the summary.
+#   - Consistency: The rating measures whether the facts in the summary are consistent
+#   with the facts in the original article. Consider whether the summary does
+#   reproduce all facts accurately and does not make up untrue information.
+#   - Fluency: The rating measures the quality of individual sentences, are they
+#   well-written and grammatically correct. Consider the quality of individual sentences.
+#   - Coherence: The rating measures the quality of all sentences collectively, to
 #   fit together and sound naturally. Consider the quality of the summary as a whole.
 #
-# You may:
-# - Recommend adjustments to the fluency definition if misalignment is observed.
-# - Highlight patterns in errors across multiple samples (e.g., facts don't match with the original article yet it receives a higher consistency rating.).
-# - You may recommend harsher or more lenient scoring but you CANNOT tell the exact f1 and accuracy scores in your recommendation.
-# - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
-#  -> Bad example - "Improve coherence definition"
-#  -> Good example - "Revise the coherence instruction to emphasize whether all sentences collectively, to
-#   fit together and sound naturally, and considering the quality of summary as a whole.
+#   You may:
+#   - Recommend adjustments to metric definitions if misalignment is observed.
+#   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
+#   - Find a particular recommendation with the objective to minimize the loss with the maximum values while also minimize others.
+#    -> Bad example - "Improve relevance definition"
+#    -> Good example - "Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered."
+#   - DO NOT INPUT ANY DATA FROM THE SAMPLES INTO THE RECOMMENDATION AS THOSE ARE SOLELY FOR YOU.
 #
-# Be specific, grounded in the provided evidence, and focus on actionable improvements.
+#   Be specific, grounded in the provided evidence, and focus on actionable improvements.
 # """
+
+#  - Find a particular recommendation with the objective to minimize all the losses simultaneously.
+_TASK_DESCRIPTION_RECOMMENDER = """
+
+You will be given:
+- A string that was the instruction received to the rater LLM to judge summaries
+  on coherence.
+- The performance of the said instruction on different samples.
+- The performance contains cross-entropy loss of coherence (CE_coherence)
+
+Each sample is evaluated along the following metric, with score values ranging from 1 to 5:
+
+- Coherence: The rating measures the quality of all sentences collectively, to
+  fit together and sound naturally. Consider the quality of the summary as a whole.
+
+You may:
+You may:
+   - Recommend adjustments to metric definitions if misalignment is observed.
+   - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
+   - Find a particular recommendation with the objective to minimize the loss with the maximum values while also minimize others.
+    -> Bad example - "Improve relevance definition"
+    -> Good example - "Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered."
+
+Be specific, grounded in the provided evidence, and focus on actionable improvements.
+"""
 
 
 def create_recommender_prompt(
@@ -128,7 +127,7 @@ Generate only what is asked. Add no other commentary or grammar than what is nee
 A format for you: 
  
 Recommendations:
-  1. [First Recommendation, suggesting current scores are lenient or harsh and modify ratings accordingly. e.g., If the rater is lenient in fluency, suggest harsher rating for fluency metric]
+  1. [First Recommendation, focusing on what did the instruction got wrong.]
   2. [Second recommendation, focusing on metric definitions or instruction clarity.]
   3. [Third recommendation, addressing observed biases or errors.]
   ...
