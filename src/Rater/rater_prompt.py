@@ -1,14 +1,14 @@
 import pandas as pd
 from src.TopK_Heap.top_k import TopKHeap
 
-_METRIC_DEFINITIONS = {
-  "relevance" :          """The rating measures how well the summary captures the key points of the article. Consider whether all and only the important aspects are contained in the summary.""",
-  "consistency" :        """The rating measures whether the facts in the summary are consistent with the facts in the original article. Consider whether the summary does reproduce all facts accurately and does not make up untrue information.""",
-  "fluency" :            """The rating measures the quality of individual sentences, are they well-written and grammatically correct. Consider the quality of individual sentences.""",
-  "coherence":           """The rating measures the quality of all sentences collectively, to fit together and sound naturally. Consider the quality of the summary as a whole."""
-}
+def create_task_description(metric_names: list[str]) -> str:
+  _METRIC_DEFINITIONS = {
+    "relevance": """The rating measures how well the summary captures the key points of the article. Consider whether all and only the important aspects are contained in the summary.""",
+    "consistency": """The rating measures whether the facts in the summary are consistent with the facts in the original article. Consider whether the summary does reproduce all facts accurately and does not make up untrue information.""",
+    "fluency": """The rating measures the quality of individual sentences, are they well-written and grammatically correct. Consider the quality of individual sentences.""",
+    "coherence": """The rating measures the quality of all sentences collectively, to fit together and sound naturally. Consider the quality of the summary as a whole."""
+  }
 
-def create_task_description(metric_names: list[str], _DEFINITONS: dict[str, str] = _METRIC_DEFINITIONS) -> str:
   definition_text = ""
   for metric_name in metric_names:
     definition_text += (
@@ -74,7 +74,7 @@ def create_rater_meta_prompt(
 
   _RATER_META_PROMPT = f"""
 You are an expert prompt optimizer working on improving summarization quality across
-multiple evaluation aspects: {", ".join(metric_names)}.
+{len(metric_names)} evaluation aspects: {", ".join(metric_names)}.
 
 This is the task description: {task_desc}
 
@@ -166,15 +166,15 @@ if __name__ == "__main__":
   prev_top_k = TopKHeap(3)
   train_file_path = "../Dataset/dataset/cleaned_train_df.parquet"
   instruction = "Filler"
-  metric_names = ["relevance", "consistency", "fluency", "coherence"]
+  metric_names = ["relevance", "consistency"]
 
-  prompt = create_rater_prompt(instruction, metric_names=metric_names, file_path=train_file_path, run_id=25)
-  print(prompt)
-  print('=' * 100)
-  print(f"Length of prompt: {len(prompt)}")
+  # prompt = create_rater_prompt(instruction, metric_names=metric_names, file_path=train_file_path, run_id=25)
+  # print(prompt)
+  # print('=' * 100)
+  # print(f"Length of prompt: {len(prompt)}")
 
-  # meta_prompt = create_rater_meta_prompt(metric_names, prev_top_k)
-  # print(meta_prompt)
+  meta_prompt = create_rater_meta_prompt(metric_names, prev_top_k)
+  print(meta_prompt)
 
   # _task_desc = create_task_description(metric_names)
   # print(_task_desc)

@@ -344,15 +344,38 @@ if __name__ == "__main__":
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
 
-  metric_names = ["fluency", "coherence"]
+  metric_names_fluency = ["fluency",]
 
   main(
     train_file_path=train_filepath, test_file_path=test_filepath,
-    rater_llm_name=rater_llm_name_8b, metric_names=metric_names,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=1,
+    rater_llm_name=rater_llm_name_8b, metric_names=metric_names_fluency,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
     rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-    calls_per_minute=75, max_workers=25, train_num_examples=16, model="8b",
-    test_num_examples=48, optimizer="min-all", reco_format="ours-unnamed"
+    calls_per_minute=75, max_workers=25, train_num_examples=160, model="8b_fluency_min_all_opro",
+    test_num_examples=480, optimizer="min-max", reco_format="OPRO"
+  )
+
+  metric_names_consistency = ["consistency"]
+
+  main(
+    train_file_path=train_filepath, test_file_path=test_filepath,
+    rater_llm_name=rater_llm_name_8b, metric_names=metric_names_consistency,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
+    rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
+    calls_per_minute=75, max_workers=25, train_num_examples=160,
+    model="8b_consistency_min_all_opro",
+    test_num_examples=480, optimizer="min-max", reco_format="OPRO"
+  )
+
+  metric_names_relevance = ["relevance"]
+  main(
+    train_file_path=train_filepath, test_file_path=test_filepath,
+    rater_llm_name=rater_llm_name_8b, metric_names=metric_names_relevance,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
+    rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
+    calls_per_minute=75, max_workers=25, train_num_examples=160,
+    model="8b_relevance_min_all_opro",
+    test_num_examples=480, optimizer="min-max", reco_format="OPRO"
   )
 
   # main(
