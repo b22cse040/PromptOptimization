@@ -94,71 +94,166 @@ def calculate_metrics(rater_response: list[dict], metric_names: list[str], file_
 
   return result
 
-def find_most_informative_points(rater_response: list[dict], metric_names: list[str], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet", top_k: int = 5) -> list[dict]:
-  '''
-  Finding the points with the most LCE / MSE, and based on those errors, to
-  determine whether the LLM is detecting a harshly or leniently with the help of
-  mean difference, i.e. {predicted_score - ground_score}, a negative score indicating
-  model is harsh, while a positive score indicating model is lenient.
+# def find_most_informative_points(rater_response: list[dict], metric_names: list[str], file_path: str = "../Dataset/dataset/df_M11_sampled.parquet", top_k: int = 5) -> list[dict]:
+#   '''
+#   Finding the points with the most LCE / MSE, and based on those errors, to
+#   determine whether the LLM is detecting a harshly or leniently with the help of
+#   mean difference, i.e. {predicted_score - ground_score}, a negative score indicating
+#   model is harsh, while a positive score indicating model is lenient.
+#
+#   Returns: a list of dict where each dict has the following keys:
+#     {
+#       point_idx : int, # indicates the df.iloc[i] of the samples
+#       LCE: float, # indicates the LCE of the sample,
+#       mean_diff: int, # indicates the mean_diff of the sample, indicating whether the sample is harsher.
+#     }
+#   '''
+#   df = pd.read_parquet(file_path)
+#   ce_loss = nn.CrossEntropyLoss()
+#
+#   heap = []
+#
+#   for i, entry in enumerate(rater_response):
+#     if not entry or "score" not in entry or not entry["score"]:
+#       continue
+#     if i >= len(df):
+#       continue
+#
+#     score = entry["score"]
+#     sample = df.iloc[i]
+#
+#     total_ce = 0.0
+#     diffs = []
+#     valid_metrics = 0
+#
+#     for metric in metric_names:
+#       try:
+#         ground_score = int(sample[f"{metric}"])
+#         predicted_score = int(score[f"predicted_{metric}"])
+#       except (KeyError, ValueError, TypeError): continue
+#
+#       if ground_score == 0 or predicted_score == 0: continue
+#
+#       num_classes = max(ground_score, predicted_score) + 1
+#       logits = torch.zeros((1, num_classes))
+#       logits[0, predicted_score] = 1
+#       ce = ce_loss(logits, torch.tensor([ground_score])).item()
+#       total_ce += ce
+#
+#       diffs.append(predicted_score - ground_score)
+#       valid_metrics += 1
+#
+#     if valid_metrics == 0: continue
+#
+#     mean_diff = sum(diffs) / valid_metrics
+#
+#     heapq.heappush(heap, (total_ce, i, {
+#       "point_idx": i,
+#       "LCE": round(total_ce, 3) / len(metric_names),
+#       "mean_diff": round(mean_diff, 3),
+#     }))
+#
+#     if len(heap) > top_k:
+#       heapq.heappop(heap)
+#
+#   top_points = [item for _, _, item in heap]
+#   top_points.sort(key=lambda x: x["LCE"], reverse=True)
+#   return top_points
 
-  Returns: a list of dict where each dict has the following keys:
+def find_most_informative_points(
+  rater_response: list[dict],
+  metric_names: list[str],
+  file_path: str = "../Dataset/dataset/df_M11_sampled.parquet",
+  top_k: int = 5,
+) -> list[dict]:
+  """
+  Return the top-K points with largest average cross-entropy (LCE) across provided metrics.
+
+  Each returned dict has the exact format requested:
     {
-      point_idx : int, # indicates the df.iloc[i] of the samples
-      LCE: float, # indicates the LCE of the sample,
-      mean_diff: int, # indicates the mean_diff of the sample, indicating whether the sample is harsher.
+      "point_idx": i,
+      "diffs": { metric: predicted - ground, ... },
+      "predicted_scores": { "predicted_<metric>": predicted_value, ... },
+      "loss_": float  # average LCE across valid metrics for this sample
     }
-  '''
+  Notes:
+    - A sample is skipped if none of the metrics are valid/present.
+    - loss_ is computed as (sum CE over valid metrics) / valid_metrics.
+  """
   df = pd.read_parquet(file_path)
-  ce_loss = nn.CrossEntropyLoss()
-
+  ce_loss = nn.CrossEntropyLoss()  # used per-metric on a one-hot prediction
   heap = []
+  n_rows = len(df)
 
   for i, entry in enumerate(rater_response):
     if not entry or "score" not in entry or not entry["score"]:
       continue
-    if i >= len(df):
+    if i >= n_rows:
       continue
 
     score = entry["score"]
     sample = df.iloc[i]
 
     total_ce = 0.0
-    diffs = []
+    diffs: dict[str, int] = {}
+    predicted_scores: dict[str, int] = {}
     valid_metrics = 0
 
     for metric in metric_names:
+      ground_key = metric
+      pred_key = f"predicted_{metric}"
+
       try:
-        ground_score = int(sample[f"{metric}"])
-        predicted_score = int(score[f"predicted_{metric}"])
-      except (KeyError, ValueError, TypeError): continue
+        ground_val = sample[ground_key]
+        pred_val = score[pred_key]
+      except (KeyError, TypeError):
+        continue
 
-      if ground_score == 0 or predicted_score == 0: continue
+      # skip NaNs
+      if pd.isna(ground_val) or pd.isna(pred_val):
+        continue
 
+      try:
+        ground_score = int(ground_val)
+        predicted_score = int(pred_val)
+      except (ValueError, TypeError):
+        continue
+
+      # Compute CE: create logits with predicted class probability 1.0
       num_classes = max(ground_score, predicted_score) + 1
       logits = torch.zeros((1, num_classes))
-      logits[0, predicted_score] = 1
-      ce = ce_loss(logits, torch.tensor([ground_score])).item()
+      logits[0, predicted_score] = 1.0
+      target = torch.tensor([ground_score], dtype=torch.long)
+
+      ce = float(ce_loss(logits, target).item())
       total_ce += ce
 
-      diffs.append(predicted_score - ground_score)
+      diffs[metric] = predicted_score - ground_score
+      predicted_scores[pred_key] = predicted_score
       valid_metrics += 1
 
-    if valid_metrics == 0: continue
+    if valid_metrics == 0:
+      continue
 
-    mean_diff = sum(diffs) / valid_metrics
+    loss_avg = total_ce / valid_metrics
 
-    heapq.heappush(heap, (total_ce, i, {
+    details = {
       "point_idx": i,
-      "LCE": round(total_ce, 3) / len(metric_names),
-      "mean_diff": round(mean_diff, 3),
-    }))
+      "diffs": diffs,
+      "predicted_scores": predicted_scores,
+      "loss": float(round(loss_avg, 3)),
+    }
 
+    # Keep top_k highest loss_ values: push and pop smallest when overflow
+    heapq.heappush(heap, (loss_avg, i, details))
     if len(heap) > top_k:
-      heapq.heappop(heap)
+        heapq.heappop(heap)
 
+  # Extract and return sorted by loss_ descending (largest loss first)
   top_points = [item for _, _, item in heap]
-  top_points.sort(key=lambda x: x["LCE"], reverse=True)
+  top_points.sort(key=lambda x: x["loss"], reverse=True)
   return top_points
+
 
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
