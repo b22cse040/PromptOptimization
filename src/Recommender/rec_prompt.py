@@ -16,8 +16,9 @@ def create_task_desc_recommender(metric_names: list[str], optimizer: str, is_top
   }
 
   _OPTIMIZER_STATEMENT = {
-    "min-all" : '''Find a particular recommendation with the objective to minimize all the losses simultaneously.''',
-    "min-max" : '''Find a particular recommendation with the objective to minimize the loss with the maximum values while also minimize others.'''
+    "min-all" : '''Select a recommendation that minimizes all loss functions simultaneously, aiming for the best overall balance across each metric.''',
+    "min-max" : '''Select a recommendation that minimizes the highest (worst) loss value, while also reducing the remaining losses as much as possible.''',
+    "pareto-optimal": '''Select a recommendation that lies on the Pareto frontier, meaning that no metric can be improved without worsening at least one other metric. Prioritize solutions that achieve strong trade-offs across all losses.'''
   }
 
   if optimizer not in _OPTIMIZER_STATEMENT:
@@ -65,12 +66,84 @@ Be specific, grounded in the provided evidence, and focus on actionable improvem
   """
   return _TASK_DESCRIPTION_RECOMMENDER
 
+def top_points_text_formatter(top_points: list[dict], top_points_format: str, df: pd.DataFrame) -> str:
+  """
+  Format the top_points into text according to the given top_points_format.
+  :param top_points: list[dict]
+  :param top_points_format: str ["calibrated", "raw", "calibrated_with_loss"]
+  :param df: pd.DataFrame -> the dataframe to format
+  :return: str -> Formatted string representation of top_points.
+  """
+  if not top_points:
+    return "No informative points available."
+
+  output = "Most important points:\n"
+
+  for idx, p in enumerate(top_points, start=1):
+    point_idx = p.get("point_idx")
+    diffs = p.get("diffs", {})
+    predicted_scores = p.get("predicted_scores") or {}
+    loss = p.get("loss", 0.0)
+
+    try:
+      sample = df.iloc[point_idx]
+      text_val = sample.get("text", "N/A")
+      machine_summary_val = sample.get("machine_summary", "N/A")
+    except Exception as e:
+      text_val, machine_summary_val = f"Error: {e}", "N/A"
+      sample = {}
+
+    if top_points_format == "calibrated":
+      output += (
+        f"## Example {idx}:\n"
+        f"- Text: {text_val}\n"
+        f"- Machine Summary: {machine_summary_val}\n"
+        f"- Task-wise Differences:\n"
+      )
+
+      for metric, delta in diffs.items():
+        output += f"  - {metric.capitalize()}: {delta}\n"
+
+    elif top_points_format == "raw":
+      output += (
+        f"## Example {idx}:\n"
+        f"- Text: {text_val}\n"
+        f"- Machine Summary: {machine_summary_val}\n"
+        f"- Ground Truths:\n"
+      )
+      for metric in diffs.keys():
+        ground_val = sample.get(metric, "N/A")
+        output += f"  - {metric.capitalize()}: {ground_val}\n"
+
+      output += ("\n- Predicted:\n")
+      for pred_metric, pred_val in predicted_scores.items():
+        metric = pred_metric.replace("predicted_", "")
+        output += f"  - {metric.capitalize()}: {pred_val}\n"
+      output +=('\n\n')
+
+    elif top_points_format == "calibrated_with_loss":
+      output += (
+        f"## Example {idx}:\n"
+        f"- Text: {text_val}\n"
+        f"- Machine Summary: {machine_summary_val}\n"
+        f"- Task-wise Differences:\n"
+      )
+      for metric, delta in diffs.items():
+        output += f"  - {metric.capitalize()}: {delta}\n"
+      output += (f"Loss: {loss}\n")
+
+    else:
+      raise ValueError(f"Unknown top_points_format: {top_points_format}")
+
+  return output
+
 def create_recommender_prompt(
     instruction: str,
     evals: dict,
     metric_names: list[str],
     optimizer: str,
     reco_format: str,
+    top_points_format: str | None = None,
     top_points: list[dict] | None = None, # Optional Param
     file_path: str = "../Dataset/dataset/df_M11_sampled.parquet",
 ) -> str:
@@ -95,30 +168,7 @@ def create_recommender_prompt(
       evals_text += f"Cross-Entropy Loss of {key} : {score}\n"
     evals_text += "\n"
 
-  top_points_text = ""
-  if top_points is not None and len(top_points) > 0:
-    top_points_text += f"Most important points:\n"
-    i = 0
-    for p in top_points:
-      point_idx = p.get("point_idx")
-      lce = p.get("LCE", "N/A")
-      mean_diff = p.get("mean_diff", "N/A")
-      i += 1
-      ## Pulling sample from dataframe
-      try:
-        sample = df.iloc[point_idx]
-        text_val = sample.get("text", "N/A")
-        machine_summary_val = sample.get("machine_summary", "N/A")
-      except Exception as e:
-        text_val, machine_summary_val = f"Error: {e}", "N/A"
-
-      top_points_text += (
-        f"## Example: {i}\n"
-        f"- text: {text_val}\n"
-        f"- machine_summary: {machine_summary_val}\n"
-        # f"- lce: {lce}\n"
-        f"- mean_diff: {mean_diff}\n"
-      )
+  top_points_text = top_points_text_formatter(top_points, top_points_format, df=df)
 
   _RECOMMENDER_PROMPT_RECOMMENDATION_FORMAT = {
     "OPRO": """
@@ -127,9 +177,9 @@ def create_recommender_prompt(
   3. [Third recommendation, addressing observed biases or errors.]""",
 
     "ours-unnamed": """
-  1. [First Recommendation, focusing on whether the LLM is being lenient or harsh, and suggesting increasing or decreasing the ratings accordingly.]
-  2. [Second recommendation, focusing on metric definitions or instruction clarity.]
-  3. [Third recommendation, addressing observed biases or errors.]  
+  1. [First recommendation, evaluate if the LLM’s scoring is overly strict or too lenient, and suggest how to adjust ratings (increase, decrease, or keep consistent).]
+  2. [Second recommendation, check whether the metric definitions or task instructions are clear enough, and propose refinements if they may cause confusion.]
+  3. [Third recommendation, identify any systematic biases, recurring mistakes, or misalignments in scoring, and suggest corrective adjustments.]
   """
   }
 
@@ -216,7 +266,24 @@ if __name__ == "__main__":
   print(top_points)
   print('=' * 100)
 
-  recommender_prompt = create_recommender_prompt(instruction, metrics, metric_names=metric_names, optimizer='min-all', reco_format="OPRO", top_points=top_points)
+  # df = pd.read_parquet(file_path)
+  # top_points_text = top_points_text_formatter(top_points, "calibrated", df)
+  # print(top_points_text)
+  # print('=' * 100)
+
+  recommender_prompt = create_recommender_prompt(instruction, metrics, metric_names=metric_names, optimizer='min-all', reco_format="ours-unnamed", top_points=top_points, top_points_format="calibrated")
+  print(recommender_prompt)
+  print('=' * 100)
+  print(len(recommender_prompt))
+
+  print('=' * 100)
+
+  recommender_prompt = create_recommender_prompt(
+    instruction, metrics, metric_names=metric_names,
+    optimizer='min-all', reco_format="ours-unnamed", top_points=top_points,
+    top_points_format="calibrated_with_loss"
+  )
+
   print(recommender_prompt)
   print('=' * 100)
   print(len(recommender_prompt))

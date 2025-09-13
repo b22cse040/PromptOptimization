@@ -1,0 +1,305 @@
+
+
+
+--- Top 1 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries.
+
+Metrics:
+   fluency:
+       accuracy: 0.306
+       f1: 0.406
+       CE_fluency: 1.737
+   coherence:
+       accuracy: 0.244
+       f1: 0.187
+       CE_coherence: 1.8
+   consistency:
+       accuracy: 0.388
+       f1: 0.49
+       CE_consistency: 1.656
+   relevance:
+       accuracy: 0.338
+       f1: 0.286
+       CE_relevance: 1.706
+
+Recommendations:
+  1. The LLM is being lenient in its judgement, as indicated by the positive mean_diff scores for most of the examples. To address this, the instruction could be revised to emphasize strictness in ratings, with a focus on accurately capturing the quality of the summaries. This could be achieved by adding phrases such as "err on the side of caution" or "be more critical in your evaluation."
+  2. The instruction could be revised to clarify the definition of coherence, emphasizing the importance of capturing key points of the article and whether all the important aspects are covered. This could be achieved by adding phrases such as "ensure that the summary accurately reflects the main points of the article" or "evaluate the summary based on its ability to convey the essential information."
+  3. The LLM appears to be inconsistent in its evaluation of consistency, as indicated by the large difference in Cross-Entropy Loss between Example 4 and the other examples. To address this, the instruction could be revised to provide more guidance on what constitutes consistent information, such as "evaluate the summary based on its accuracy and completeness of information, including factual accuracy and consistency with the original article."
+  4. The LLM's evaluation of relevance is often inconsistent with the task-wise differences, as indicated by the large difference in Cross-Entropy Loss between Example 4 and the other examples. To address this, the instruction could be revised to provide more guidance on what constitutes relevant information, such as "evaluate the summary based on its ability to capture the key points of the article and avoid unnecessary information."
+  5. The instruction could be revised to provide more guidance on how to evaluate fluency, such as "evaluate the summary based on its clarity, grammatical correctness, and overall flow, requiring clear and concise language." This could help to reduce the Cross-Entropy Loss for fluency and improve the overall performance of the LLM.
+
+
+
+--- Top 2 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point.
+
+Metrics:
+   fluency:
+       accuracy: 0.344
+       f1: 0.436
+       CE_fluency: 1.7
+   coherence:
+       accuracy: 0.244
+       f1: 0.18
+       CE_coherence: 1.8
+   consistency:
+       accuracy: 0.331
+       f1: 0.439
+       CE_consistency: 1.712
+   relevance:
+       accuracy: 0.4
+       f1: 0.331
+       CE_relevance: 1.644
+
+Recommendations:
+1. The LLM is being lenient in its ratings, as indicated by the positive mean-diff scores for fluency, coherence, consistency, and relevance. To address this, we recommend increasing the ratings to reflect the actual quality of the summaries, particularly for Example 5, where the machine summary received a high coherence score despite lacking key information.
+2. The instruction emphasizes strictness in ratings, but the LLM's performance suggests a lack of clarity in the coherence metric. We recommend revising the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, as well as the logical and well-connected structure of the summary.
+3. The LLM's performance on Example 5 suggests a bias towards relevance over coherence, as the machine summary received a high relevance score despite lacking key information. We recommend revising the relevance instruction to prioritize the importance and relevance of each point, rather than solely focusing on whether the summary captures key points of the article.
+4. The LLM's performance on Example 1 suggests a lack of attention to consistency, as the machine summary failed to capture key information about Gemma's behavior and her relationship with her mother. We recommend revising the consistency instruction to emphasize the accuracy and completeness of information, including factual accuracy and consistency with the original article.
+5. The LLM's performance on Example 2 suggests a lack of attention to fluency, as the machine summary received a low fluency score despite being grammatically correct. We recommend revising the fluency instruction to emphasize the overall flow and clarity of the summary, rather than solely focusing on grammatical correctness.
+
+
+
+--- Top 3 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries.
+
+Metrics:
+   fluency:
+       accuracy: 0.35
+       f1: 0.452
+       CE_fluency: 1.694
+   coherence:
+       accuracy: 0.244
+       f1: 0.194
+       CE_coherence: 1.8
+   consistency:
+       accuracy: 0.381
+       f1: 0.481
+       CE_consistency: 1.662
+   relevance:
+       accuracy: 0.344
+       f1: 0.288
+       CE_relevance: 1.7
+
+Recommendations:
+1. The LLM is being lenient in its ratings, as indicated by the positive mean-diff scores for fluency, coherence, consistency, and relevance. To address this, we recommend increasing the ratings to reflect the actual quality of the summaries, particularly for Example 1 and Example 5, where the machine summaries are significantly different from the ground truth.
+2. The instruction emphasizes strictness in ratings, but the LLM's performance suggests that it is not adhering to this principle. We recommend revising the instruction to clarify that ratings should be strict and not lenient, and that the LLM should aim to accurately capture the quality of the summaries.
+3. The LLM is struggling with coherence, as evident from the high cross-entropy loss and the significant differences in coherence scores across examples. We recommend revising the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, as well as the logical and well-connected structure of the summary.
+4. The LLM is inconsistent in its ratings, as seen in Example 2, where the relevance score is 1, while the other scores are -1. We recommend revising the relevance instruction to clarify that it should be evaluated based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point.
+5. The LLM is biased towards leniency in its ratings, as indicated by the positive mean-diff scores. We recommend revising the instruction to emphasize the importance of accuracy and strictness in ratings, and to provide clear guidelines for evaluating the quality of the summaries.
+
+
+
+--- Top 4 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point.
+
+Metrics:
+   fluency:
+       accuracy: 0.319
+       f1: 0.411
+       CE_fluency: 1.725
+   coherence:
+       accuracy: 0.237
+       f1: 0.172
+       CE_coherence: 1.806
+   consistency:
+       accuracy: 0.344
+       f1: 0.463
+       CE_consistency: 1.7
+   relevance:
+       accuracy: 0.381
+       f1: 0.311
+       CE_relevance: 1.662
+
+Recommendations: 
+  1. The LLM is being lenient in its ratings, as indicated by the negative mean_diff scores for all samples. To address this, the instruction should emphasize the importance of strictness in ratings, with a focus on accurately capturing the quality of the summaries. This can be achieved by revising the instruction to include phrases such as "strictly evaluate the summary's quality" or "provide clear and concise ratings that accurately reflect the summary's quality."
+  2. The instruction could be revised to provide more clarity on the evaluation of coherence. The current instruction emphasizes capturing key points of the article and whether all important aspects are covered, but it could be more specific about the importance of logical and well-connected structure. For example, the instruction could be revised to include phrases such as "evaluate coherence based on the logical flow of ideas and the connection between sentences" or "ensure that the summary presents a clear and cohesive argument."
+  3. The LLM appears to be inconsistent in its evaluation of consistency, as indicated by the high cross-entropy loss for this metric. To address this, the instruction could be revised to provide more clarity on the evaluation of factual accuracy and consistency with the original article. For example, the instruction could be revised to include phrases such as "evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article" or "ensure that all information is accurately reproduced and consistent with the original article."
+  4. The instruction could be revised to provide more clarity on the evaluation of relevance. The current instruction emphasizes capturing key points of the article and avoiding unnecessary information, but it could be more specific about the importance of prioritizing the importance and relevance of each point. For example, the instruction could be revised to include phrases such as "evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured" or "prioritize the most important and relevant information in the summary."
+
+
+
+--- Top 5 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point.
+
+Metrics:
+   fluency:
+       accuracy: 0.237
+       f1: 0.32
+       CE_fluency: 1.806
+   coherence:
+       accuracy: 0.25
+       f1: 0.17
+       CE_coherence: 1.794
+   consistency:
+       accuracy: 0.269
+       f1: 0.365
+       CE_consistency: 1.775
+   relevance:
+       accuracy: 0.325
+       f1: 0.267
+       CE_relevance: 1.719
+
+Recommendations: 
+  1. The LLM is being lenient in its ratings, as indicated by the negative mean-diff scores for all metrics. To address this, the instruction should be revised to emphasize strictness in ratings, with a focus on accurately capturing the quality of the summaries. This can be achieved by adding phrases such as "strictly evaluate" or "be more critical" to the instruction.
+  2. The instruction should be revised to provide clearer definitions for each metric. For example, the coherence metric could be redefined to emphasize the importance of capturing key points of the article and ensuring that all important aspects are covered. This can be achieved by adding phrases such as "evaluate coherence based on the ability to capture key points and ensure all important aspects are covered" to the instruction.
+  3. The LLM appears to be struggling with evaluating consistency, as indicated by the high cross-entropy loss for this metric. To address this, the instruction should be revised to provide clearer guidance on what constitutes consistent information. This can be achieved by adding phrases such as "evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article" to the instruction.
+  4. The instruction should be revised to provide clearer guidance on what constitutes relevant information. This can be achieved by adding phrases such as "evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured" to the instruction.
+
+
+
+--- Top 6 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point. Strictly evaluate the summary's quality, and be more critical in your evaluation. Evaluate coherence based on the logical flow of ideas and the connection between sentences. Ensure that the summary presents a clear and cohesive argument. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article. Ensure that all information is accurately reproduced and consistent with the original article. Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Prioritize the most important and relevant information in the summary.
+
+Metrics:
+   fluency:
+       accuracy: 0.219
+       f1: 0.283
+       CE_fluency: 1.825
+   coherence:
+       accuracy: 0.237
+       f1: 0.158
+       CE_coherence: 1.806
+   consistency:
+       accuracy: 0.212
+       f1: 0.299
+       CE_consistency: 1.831
+   relevance:
+       accuracy: 0.356
+       f1: 0.289
+       CE_relevance: 1.687
+
+Recommendations: 
+  1. The LLM is being lenient in its ratings, as indicated by the positive mean-diff scores for all metrics. To address this, we recommend increasing the ratings for fluency, coherence, consistency, and relevance to reflect the actual quality of the summaries. This can be achieved by revising the instruction to emphasize the importance of strictness in ratings, with a focus on accurately capturing the quality of the summaries.
+  2. The instruction could be revised to clarify the evaluation criteria for each metric. For example, the coherence instruction could be revised to emphasize capturing key points of the article and whether all the important aspects are covered. This would help the LLM better understand the expectations and provide more accurate ratings.
+  3. The LLM appears to be inconsistent in its evaluation of consistency, as indicated by the high cross-entropy loss for this metric. To address this, we recommend revising the instruction to provide more specific guidance on evaluating consistency, such as requiring the LLM to assess the accuracy and completeness of information, including factual accuracy and consistency with the original article.
+  4. The LLM may be biased towards evaluating fluency over coherence, as indicated by the higher cross-entropy loss for coherence. To address this, we recommend revising the instruction to emphasize the importance of coherence in evaluating summaries, and providing more specific guidance on evaluating the logical flow of ideas and the connection between sentences.
+  5. The LLM may be lenient in its evaluation of relevance, as indicated by the lower cross-entropy loss for this metric. To address this, we recommend revising the instruction to emphasize the importance of capturing key points of the article and ensuring that all important aspects are covered, and providing more specific guidance on evaluating the importance and relevance of each point.
+
+
+
+--- Top 7 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point.
+
+Metrics:
+   fluency:
+       accuracy: 0.331
+       f1: 0.432
+       CE_fluency: 1.712
+   coherence:
+       accuracy: 0.237
+       f1: 0.177
+       CE_coherence: 1.806
+   consistency:
+       accuracy: 0.344
+       f1: 0.462
+       CE_consistency: 1.7
+   relevance:
+       accuracy: 0.344
+       f1: 0.285
+       CE_relevance: 1.7
+
+Recommendations:
+1. Decrease the strictness of the ratings for fluency, coherence, consistency, and relevance, as the model is being harsh in its judgments, indicated by the negative mean-diff scores for all samples.
+2. Revise the instruction to clarify the importance of capturing key points of the article in the coherence metric, as the model is struggling to evaluate the logical and well-connected structure of the summary.
+3. Revise the instruction to provide more guidance on evaluating consistency, as the model is not accurately reproducing all facts and information from the original article, indicated by the negative mean-diff scores for consistency.
+4. Revise the instruction to provide more guidance on evaluating relevance, as the model is not prioritizing the importance and relevance of each point, indicated by the negative mean-diff scores for relevance.
+
+
+
+--- Top 8 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point.
+
+Metrics:
+   fluency:
+       accuracy: 0.294
+       f1: 0.389
+       CE_fluency: 1.75
+   coherence:
+       accuracy: 0.206
+       f1: 0.152
+       CE_coherence: 1.837
+   consistency:
+       accuracy: 0.338
+       f1: 0.446
+       CE_consistency: 1.706
+   relevance:
+       accuracy: 0.35
+       f1: 0.287
+       CE_relevance: 1.694
+
+Recommendations:
+1. The LLM is being lenient in its ratings, as indicated by the negative mean-diff scores for all samples. To address this, the instruction should be revised to emphasize strictness in ratings, with a focus on accurately capturing the quality of the summaries. This can be achieved by rephrasing the instruction to "Evaluate the summary based on its ability to accurately capture the quality of the summary, with a focus on strictness in ratings."
+2. The instruction could be clarified to provide more specific guidance on what constitutes "key points" in the article, as this seems to be a source of confusion for the LLM. For example, the instruction could be revised to "Evaluate coherence based on capturing the main arguments, supporting evidence, and key takeaways from the article."
+3. The LLM appears to be struggling with evaluating consistency, as indicated by the high cross-entropy loss and negative mean-diff scores. To address this, the instruction could be revised to provide more specific guidance on what constitutes "factual accuracy" and "consistency with the original article." For example, the instruction could be revised to "Evaluate consistency based on the accuracy of specific facts and events mentioned in the summary, as well as the overall consistency of the summary with the original article."
+4. The instruction could be revised to provide more specific guidance on what constitutes "relevance," as this seems to be a source of confusion for the LLM. For example, the instruction could be revised to "Evaluate relevance based on the summary's ability to capture the most important information from the article, while avoiding unnecessary details and prioritizing the most critical points."
+
+
+
+--- Top 9 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point. Strictly evaluate the summary's quality, and be more critical in your evaluation. Evaluate coherence based on the logical flow of ideas and the connection between sentences. Ensure that the summary presents a clear and cohesive argument. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article. Ensure that all information is accurately reproduced and consistent with the original article. Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Prioritize the most important and relevant information in the summary.
+
+Metrics:
+   fluency:
+       accuracy: 0.225
+       f1: 0.306
+       CE_fluency: 1.819
+   coherence:
+       accuracy: 0.244
+       f1: 0.159
+       CE_coherence: 1.8
+   consistency:
+       accuracy: 0.225
+       f1: 0.313
+       CE_consistency: 1.819
+   relevance:
+       accuracy: 0.369
+       f1: 0.3
+       CE_relevance: 1.675
+
+Recommendations: 
+  1. The LLM is being lenient in its judgement, as indicated by the positive mean_diff scores for most examples. To address this, the instruction could be revised to emphasize strictness in ratings, with a focus on accurately capturing the quality of the summaries. This could be achieved by adding phrases such as "strictly evaluate the summary's quality" or "be more critical in your evaluation."
+  2. The instruction could be revised to clarify the definition of coherence, emphasizing the importance of capturing key points of the article and ensuring that all important aspects are covered. This could be achieved by rephrasing the instruction to read: "Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary."
+  3. The LLM appears to be inconsistent in its evaluation of consistency, with some examples showing a high degree of consistency (e.g., Example 3) and others showing a low degree of consistency (e.g., Example 1). To address this, the instruction could be revised to provide more guidance on what constitutes consistency, such as: "Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensure that all information is accurately reproduced and consistent with the original article."
+  4. The LLM appears to be biased towards evaluating fluency over coherence, as indicated by the high Cross-Entropy Loss for fluency and the low Cross-Entropy Loss for coherence. To address this, the instruction could be revised to emphasize the importance of coherence, such as: "Evaluate coherence as the primary metric, and ensure that the summary captures all key points of the article and presents a clear and cohesive argument."
+  5. The instruction could be revised to provide more guidance on what constitutes relevance, such as: "Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Prioritize the most important and relevant information in the summary."
+
+
+
+--- Top 10 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries. Ensure that the summary captures all key points of the article, without omitting any important information. Evaluate the summary based on its ability to convey the essential information, and prioritize the importance and relevance of each point. Strictly evaluate the summary's quality, and be more critical in your evaluation. Evaluate coherence based on the logical flow of ideas and the connection between sentences. Ensure that the summary presents a clear and cohesive argument. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article. Ensure that all information is accurately reproduced and consistent with the original article. Evaluate relevance based on the importance and relevance of each point, and ensure that all key points are captured. Prioritize the most important and relevant information in the summary.
+
+Metrics:
+   fluency:
+       accuracy: 0.188
+       f1: 0.251
+       CE_fluency: 1.856
+   coherence:
+       accuracy: 0.231
+       f1: 0.149
+       CE_coherence: 1.812
+   consistency:
+       accuracy: 0.212
+       f1: 0.298
+       CE_consistency: 1.831
+   relevance:
+       accuracy: 0.331
+       f1: 0.267
+       CE_relevance: 1.712
+
+Recommendations: 
+  1. Decrease the strictness in ratings, as the LLM is being too harsh in its evaluation, indicated by the negative mean-diff scores in all examples. This could be achieved by revising the instruction to emphasize the importance of capturing the key points of the article, rather than strictly evaluating the summary's quality.
+  2. Revise the coherence instruction to emphasize capturing key points of the article, and whether all the important aspects are covered. This could help the LLM better align with expert annotators and improve the Cross-Entropy Loss of coherence.
+  3. Clarify the instruction to ensure that the LLM is evaluating the summary based on its ability to convey the essential information, rather than just focusing on the importance and relevance of each point. This could help reduce the Cross-Entropy Loss of relevance.
+  4. Consider revising the fluency instruction to provide more guidance on what constitutes clear and concise language, as the current instruction may be too vague. This could help the LLM better evaluate the fluency of the summary.

@@ -148,6 +148,7 @@ def run_opro(
   metric_names: list[str],
   reco_format: str, ## OPRO or ours-unnamed
   optimizer: str, ## 'min-all' or 'min-max'
+  top_points_format: str, # calibrated, raw or calibrated_with_loss
   file_path: str = "Dataset/dataset/df_M11_sampled.parquet",
   top_k: int = 10,
   num_epochs: int = 30,
@@ -160,7 +161,7 @@ def run_opro(
   reco_temp: float = 1.0,
   rater_top_p: float = 0.95,
   reco_top_p: float = 0.95,
-  top_k_most_imp_points: int = 10,
+  top_k_most_imp_points: int = 5,
   model: str = "8b",
 ) -> dict:
 
@@ -209,7 +210,8 @@ def run_opro(
     recommendation = call_recommender_llm(
       instruction, metrics, file_path=file_path, reco_llm_name=reco_llm_name,
       top_points=top_points, reco_temp=reco_temp, reco_top_p=reco_top_p,
-      optimizer=optimizer, reco_format=reco_format, metric_names=metric_names
+      optimizer=optimizer, reco_format=reco_format, metric_names=metric_names,
+      top_points_format=top_points_format
     )
     print("Generated recommendation")
 
@@ -284,6 +286,7 @@ def main(
     reco_format: str,
     optimizer: str,
     metric_names: list[str],
+    top_points_format: str,
     top_k: int = 10,
     num_epochs: int = 40,
     rater_temp: float = 0.1,
@@ -294,6 +297,7 @@ def main(
     max_workers: int = 20,
     train_num_examples: int = 160,
     test_num_examples: int = 480,
+    top_k_most_important_prompts: int = 5,
     model: str = "8b",
 ) -> None:
   opro_results = run_opro(
@@ -313,6 +317,8 @@ def main(
     optimizer=optimizer,
     metric_names=metric_names,
     reco_format=reco_format,
+    top_points_format=top_points_format,
+    top_k_most_imp_points=top_k_most_important_prompts,
   )
 
   metric_history_file_path = f"metric_history_opro_{model}.txt"
@@ -344,45 +350,34 @@ if __name__ == "__main__":
   rater_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
   reco_llm_name_70b = "meta-llama/llama-3.1-70b-instruct"
 
-  metric_names_fluency = ["fluency",]
+  metric_names = ["fluency", "coherence", "consistency", "relevance"]
 
   main(
     train_file_path=train_filepath, test_file_path=test_filepath,
-    rater_llm_name=rater_llm_name_8b, metric_names=metric_names_fluency,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
+    rater_llm_name=rater_llm_name_8b, metric_names=metric_names,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50, top_k_most_important_prompts=5,
     rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-    calls_per_minute=75, max_workers=25, train_num_examples=160, model="8b_fluency_min_all_opro",
-    test_num_examples=480, optimizer="min-max", reco_format="OPRO"
+    calls_per_minute=80, max_workers=25, train_num_examples=160, model="8b_min_max_ours",
+    test_num_examples=480, optimizer="min-max", reco_format="ours-unnamed", top_points_format="calibrated"
   )
 
-  metric_names_consistency = ["consistency"]
-
   main(
     train_file_path=train_filepath, test_file_path=test_filepath,
-    rater_llm_name=rater_llm_name_8b, metric_names=metric_names_consistency,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
+    rater_llm_name=rater_llm_name_70b, metric_names=metric_names,
+    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=50, top_k_most_important_prompts=5,
     rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-    calls_per_minute=75, max_workers=25, train_num_examples=160,
-    model="8b_consistency_min_all_opro",
-    test_num_examples=480, optimizer="min-max", reco_format="OPRO"
-  )
-
-  metric_names_relevance = ["relevance"]
-  main(
-    train_file_path=train_filepath, test_file_path=test_filepath,
-    rater_llm_name=rater_llm_name_8b, metric_names=metric_names_relevance,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
-    rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-    calls_per_minute=75, max_workers=25, train_num_examples=160,
-    model="8b_relevance_min_all_opro",
-    test_num_examples=480, optimizer="min-max", reco_format="OPRO"
+    calls_per_minute=80, max_workers=25, train_num_examples=160, model="70b_min_max_ours",
+    test_num_examples=480, optimizer="min-max", reco_format="ours-unnamed", top_points_format="calibrated"
   )
 
   # main(
   #   train_file_path=train_filepath, test_file_path=test_filepath,
-  #   rater_llm_name=rater_llm_name_70b, metric_names=metric_names,
-  #   reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=50,
+  #   rater_llm_name=rater_llm_name_8b, metric_names=metric_names,
+  #   reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50,
+  #   top_k_most_important_prompts=5,
   #   rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
-  #   calls_per_minute=75, max_workers=25, train_num_examples=160, model="70b",
-  #   test_num_examples=480, optimizer="min-all", reco_format="ours-unnamed"
+  #   calls_per_minute=80, max_workers=25, train_num_examples=160,
+  #   model="70b_pareto_optimal_ours",
+  #   test_num_examples=480, optimizer="pareto-optimal", reco_format="ours-unnamed",
+  #   top_points_format="calibrated"
   # )

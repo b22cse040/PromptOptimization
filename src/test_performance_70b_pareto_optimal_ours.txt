@@ -1,0 +1,8 @@
+Best instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, emphasizing strictness in ratings, with a focus on accurately capturing the quality of the summaries. Evaluate fluency based on clarity, grammatical correctness, and overall flow, requiring clear and concise language, and ensuring that ratings reflect the actual quality of the summary. Evaluate coherence based on capturing key points of the article, whether all the important aspects are covered, and the logical and well-connected structure of the summary. Evaluate consistency based on the accuracy and completeness of information, including factual accuracy and consistency with the original article, and ensuring that all information is accurately reproduced. Evaluate relevance based on whether the summary captures the key points of the article, avoids unnecessary information, and prioritizes the importance and relevance of each point. Provide clear and concise ratings that accurately reflect the summary's quality, and strive for a balanced evaluation that reflects the actual quality of the summaries.
+
+Test metrics:
+fluency: {'accuracy': 0.446, 'f1': 0.543, 'CE_fluency': 1.598}
+coherence: {'accuracy': 0.323, 'f1': 0.251, 'CE_coherence': 1.721}
+consistency: {'accuracy': 0.429, 'f1': 0.541, 'CE_consistency': 1.614}
+relevance: {'accuracy': 0.352, 'f1': 0.286, 'CE_relevance': 1.692}
