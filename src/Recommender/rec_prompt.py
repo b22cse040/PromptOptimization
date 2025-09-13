@@ -53,7 +53,6 @@ You will be given:
 Each sample is evaluated along the following four metrics, with score values ranging from 1 to 5:
 {metrics_text}
 
-
 You may:
 - Recommend adjustments to metric definitions if misalignment is observed.
 - Propose revised instructions or guiding principles that would help the model better align with expert annotators.
@@ -200,7 +199,6 @@ The instruction received from the rater LLM is:
 The performance of the said instruction is:
 {evals_text}
 
-
 Generate only what is asked. Add no other commentary or grammar than what is needed essentially.
 A format for you:
 
@@ -244,7 +242,7 @@ Recommendations: {recommendation_text}
 if __name__ == "__main__":
   rater_llm_name = "meta-llama/llama-3-8b-instruct"
   file_path = "../Dataset/dataset/cleaned_test_df.parquet"
-  metric_names = ["relevance", "consistency"]
+  metric_names = ["relevance", "consistency", "fluency", "coherence"]
   # _task_recommender = create_task_desc_recommender(metric_names=metric_names, optimizer='min-all', is_top_points_given=False)
   # print(_task_recommender)
   # print('=' * 100)
@@ -281,7 +279,7 @@ if __name__ == "__main__":
   recommender_prompt = create_recommender_prompt(
     instruction, metrics, metric_names=metric_names,
     optimizer='min-all', reco_format="ours-unnamed", top_points=top_points,
-    top_points_format="calibrated_with_loss"
+    top_points_format="calibrated"
   )
 
   print(recommender_prompt)

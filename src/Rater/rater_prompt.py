@@ -166,7 +166,7 @@ if __name__ == "__main__":
   prev_top_k = TopKHeap(3)
   train_file_path = "../Dataset/dataset/cleaned_train_df.parquet"
   instruction = "Filler"
-  metric_names = ["relevance", "consistency"]
+  metric_names = ["relevance", "consistency", "fluency", "coherence"]
 
   # prompt = create_rater_prompt(instruction, metric_names=metric_names, file_path=train_file_path, run_id=25)
   # print(prompt)

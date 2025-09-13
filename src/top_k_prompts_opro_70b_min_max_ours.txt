@@ -1,0 +1,307 @@
+
+
+
+--- Top 1 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.269
+       f1: 0.347
+       CE_fluency: 1.775
+   coherence:
+       accuracy: 0.356
+       f1: 0.29
+       CE_coherence: 1.687
+   consistency:
+       accuracy: 0.8
+       f1: 0.776
+       CE_consistency: 1.244
+   relevance:
+       accuracy: 0.4
+       f1: 0.362
+       CE_relevance: 1.644
+
+Recommendations: 
+  1. Revise the fluency instruction to provide clearer guidance on when to penalize for minor errors in grammar or sentence structure, as the model tends to be overly harsh, with a mean-diff score of -1 in multiple examples.
+  2. Refine the coherence instruction to emphasize the importance of logical connections between sentences and the overall flow of the summary, as the model's coherence scores are inconsistent, with both positive and negative mean-diff scores.
+  3. Adjust the relevance instruction to prioritize the capture of key points and important aspects of the article, as the model tends to be lenient, with a mean-diff score of 1 or 3 in some examples, indicating a need for more stringent evaluation.
+  4. Revise the consistency instruction to provide more specific guidance on evaluating factual errors, as the model's consistency scores are inconsistent, with both positive and negative mean-diff scores.
+  5. Emphasize the importance of a holistic approach to evaluating summaries, considering all four metrics, as the model's scores suggest a tendency to focus on individual aspects rather than the summary as a whole.
+
+
+
+--- Top 2 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.25
+       f1: 0.322
+       CE_fluency: 1.794
+   coherence:
+       accuracy: 0.35
+       f1: 0.284
+       CE_coherence: 1.694
+   consistency:
+       accuracy: 0.787
+       f1: 0.768
+       CE_consistency: 1.256
+   relevance:
+       accuracy: 0.406
+       f1: 0.368
+       CE_relevance: 1.637
+
+Recommendations: 
+  1. Revise the coherence instruction to emphasize the logical connections between sentences and the overall flow of the summary, while also considering the capture of key points and important aspects, and provide clearer guidance on when to penalize for minor errors in sentence structure or grammar.
+  2. Refine the consistency metric definition to explicitly state that minor factual errors should not be heavily penalized, and provide examples of minor errors, such as incorrect dates or events, to help the model better understand the nuance of this metric.
+  3. Adjust the relevance instruction to prioritize the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, rather than just listing facts.
+  4. Emphasize the importance of fluency by prioritizing overall sentence quality and providing clearer guidance on when to penalize for minor errors in grammar or sentence structure, specifically penalizing only when errors significantly impact sentence clarity or meaning.
+  5. Consider adding a holistic evaluation approach to assess the summary's overall quality and effectiveness in conveying the original article's content, rather than focusing solely on individual metrics.
+
+
+
+--- Top 3 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.256
+       f1: 0.33
+       CE_fluency: 1.787
+   coherence:
+       accuracy: 0.362
+       f1: 0.291
+       CE_coherence: 1.681
+   consistency:
+       accuracy: 0.781
+       f1: 0.762
+       CE_consistency: 1.262
+   relevance:
+       accuracy: 0.375
+       f1: 0.339
+       CE_relevance: 1.669
+
+Recommendations: 
+  1. Revise the fluency instruction to provide clearer guidance on when to penalize for minor errors in grammar or sentence structure, and emphasize the importance of overall sentence quality, aiming to decrease the CE_Fluency loss.
+  2. Refine the coherence instruction to explicitly define what is meant by "logical connections between sentences" and "overall flow of the summary", and provide more examples to illustrate these concepts, aiming to decrease the CE_Coherence loss.
+  3. Adjust the consistency instruction to provide more specific guidance on how to evaluate factual errors, such as incorrect names, dates, or events, and emphasize the importance of accuracy in reproducing facts from the original article, aiming to maintain the current CE_Consistency loss.
+  4. Revise the relevance instruction to emphasize the importance of capturing the main points and key aspects of the article, and provide more guidance on how to evaluate relevance in relation to coherence and consistency, aiming to decrease the CE_Relevance loss.
+  5. Consider adding more specific guidance on how to balance the evaluation of the four metrics, and provide more examples to illustrate how to prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance.
+
+
+
+--- Top 4 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors, such as incorrect dates or events, should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.225
+       f1: 0.289
+       CE_fluency: 1.819
+   coherence:
+       accuracy: 0.331
+       f1: 0.279
+       CE_coherence: 1.712
+   consistency:
+       accuracy: 0.719
+       f1: 0.731
+       CE_consistency: 1.325
+   relevance:
+       accuracy: 0.419
+       f1: 0.4
+       CE_relevance: 1.625
+
+Recommendations:
+  1. Revise the fluency instruction to emphasize the importance of minor errors in grammar or sentence structure, and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning.
+  2. Refine the coherence instruction to distinguish between logical connections between sentences and the overall flow of the summary, and provide examples to illustrate the nuances of this metric.
+  3. Adjust the consistency instruction to prioritize factual accuracy over minor errors, and provide specific guidance on evaluating factual errors, such as incorrect names, dates, or events.
+  4. Revise the relevance instruction to prioritize the capture of key points and important aspects of the article, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article.
+  5. Emphasize the importance of a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and provide guidelines to ensure a balanced evaluation across all metrics.
+
+
+
+--- Top 5 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors, such as incorrect dates or events, should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.231
+       f1: 0.297
+       CE_fluency: 1.812
+   coherence:
+       accuracy: 0.338
+       f1: 0.271
+       CE_coherence: 1.706
+   consistency:
+       accuracy: 0.75
+       f1: 0.747
+       CE_consistency: 1.294
+   relevance:
+       accuracy: 0.412
+       f1: 0.381
+       CE_relevance: 1.631
+
+Recommendations: 
+  1. Revise the fluency instruction to provide clearer guidance on when to penalize for minor errors in grammar or sentence structure, and emphasize the importance of overall sentence quality, aiming to decrease the CE_Fluency loss.
+  2. Refine the coherence instruction to better distinguish between coherence and relevance, and provide more specific examples to illustrate the nuances of this metric, aiming to decrease the CE_Coherence loss.
+  3. Adjust the consistency instruction to provide more detailed guidance on evaluating factual errors, and emphasize the importance of accuracy in reproducing facts from the original article, aiming to maintain the relatively low CE_Consistency loss.
+  4. Revise the relevance instruction to prioritize the capture of key points and important aspects of the article, and provide more specific guidance on how to evaluate relevance, aiming to decrease the CE_Relevance loss.
+  5. Emphasize the importance of a holistic approach to assessing the summary's overall quality and effectiveness in conveying the original article's content, and provide more guidance on how to balance the evaluation of different metrics.
+
+
+
+--- Top 6 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors, such as incorrect dates or events, should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.25
+       f1: 0.322
+       CE_fluency: 1.794
+   coherence:
+       accuracy: 0.331
+       f1: 0.268
+       CE_coherence: 1.712
+   consistency:
+       accuracy: 0.775
+       f1: 0.762
+       CE_consistency: 1.269
+   relevance:
+       accuracy: 0.375
+       f1: 0.341
+       CE_relevance: 1.669
+
+Recommendations: 
+  1. Revise the coherence instruction to emphasize the importance of logical connections between sentences and the overall flow of the summary, while also considering the capture of key points and important aspects, to reduce the CE_Coherence loss from 1.712 to 1.5 or lower.
+  2. Refine the consistency instruction to provide clearer guidance on evaluating factual errors, such as incorrect names, dates, or events, and emphasize the importance of penalizing significant errors, to reduce the CE_Consistency loss from 1.269 to 1.1 or lower.
+  3. Adjust the fluency instruction to provide more specific guidance on when to penalize for minor errors in grammar or sentence structure, and emphasize the importance of prioritizing overall sentence quality, to reduce the CE_Fluency loss from 1.794 to 1.4 or lower.
+  4. Revise the relevance instruction to prioritize the capture of the article's main points and key aspects, and provide clearer guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, to reduce the CE_Relevance loss from 1.669 to 1.5 or lower.
+
+
+
+--- Top 7 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.256
+       f1: 0.33
+       CE_fluency: 1.787
+   coherence:
+       accuracy: 0.356
+       f1: 0.292
+       CE_coherence: 1.687
+   consistency:
+       accuracy: 0.794
+       f1: 0.776
+       CE_consistency: 1.25
+   relevance:
+       accuracy: 0.362
+       f1: 0.33
+       CE_relevance: 1.681
+
+Recommendations: 
+  1. Revise the coherence instruction to emphasize the importance of logical connections between sentences and the overall flow of the summary, while also considering the capture of key points and important aspects, to reduce the Cross-Entropy Loss of coherence from 1.687 to 1.5 or lower.
+  2. Refine the fluency definition to provide clearer guidance on when to penalize for minor errors in grammar or sentence structure, specifically emphasizing that only significant errors impacting sentence clarity or meaning should be penalized, to reduce the Cross-Entropy Loss of fluency from 1.787 to 1.4 or lower.
+  3. Adjust the consistency instruction to prioritize the accuracy of facts in the summary, explicitly comparing them to the original article, and provide specific guidance on evaluating factual errors, such as incorrect names, dates, or events, to maintain the low Cross-Entropy Loss of consistency at 1.25 or lower.
+  4. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, to reduce the Cross-Entropy Loss of relevance from 1.681 to 1.5 or lower.
+
+
+
+--- Top 8 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors, such as incorrect dates or events, should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.25
+       f1: 0.322
+       CE_fluency: 1.794
+   coherence:
+       accuracy: 0.35
+       f1: 0.283
+       CE_coherence: 1.694
+   consistency:
+       accuracy: 0.769
+       f1: 0.757
+       CE_consistency: 1.275
+   relevance:
+       accuracy: 0.388
+       f1: 0.358
+       CE_relevance: 1.656
+
+Recommendations: 
+  1. Revise the coherence instruction to emphasize the importance of logical connections between sentences and the overall flow of the summary, while also considering the capture of key points and important aspects, to reduce the CE_Coherence loss from 1.694 to 1.5 or lower.
+  2. Refine the consistency instruction to provide clearer guidance on evaluating factual errors, such as incorrect names, dates, or events, and specify the level of penalty for significant errors, to reduce the CE_Consistency loss from 1.275 to 1.1 or lower.
+  3. Adjust the fluency instruction to provide more specific guidance on when to penalize for minor errors in grammar or sentence structure, and emphasize the importance of minor errors in sentence clarity or meaning, to reduce the CE_Fluency loss from 1.794 to 1.4 or lower.
+  4. Revise the relevance instruction to prioritize the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, to reduce the CE_Relevance loss from 1.656 to 1.5 or lower.
+
+
+
+--- Top 9 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.5 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors, such as incorrect dates or events, should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.25
+       f1: 0.322
+       CE_fluency: 1.794
+   coherence:
+       accuracy: 0.369
+       f1: 0.303
+       CE_coherence: 1.675
+   consistency:
+       accuracy: 0.756
+       f1: 0.75
+       CE_consistency: 1.287
+   relevance:
+       accuracy: 0.419
+       f1: 0.384
+       CE_relevance: 1.625
+
+Recommendations: 
+  1. Revise the coherence instruction to emphasize the importance of capturing key points and logical connections between sentences, while also considering the overall flow and accuracy of facts, aiming to reduce the CE_Coherence loss from 1.675 to 1.4 or lower.
+  2. Refine the consistency instruction to provide clearer guidance on evaluating factual errors, such as incorrect names, dates, or events, and emphasize the importance of penalizing significant errors, aiming to reduce the CE_Consistency loss from 1.287 to 1.1 or lower.
+  3. Adjust the fluency instruction to prioritize overall sentence quality and provide clearer guidance on when to penalize for minor errors in grammar or sentence structure, aiming to reduce the CE_Fluency loss from 1.794 to 1.4 or lower.
+  4. Revise the relevance instruction to emphasize the importance of capturing the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, aiming to reduce the CE_Relevance loss from 1.625 to 1.5 or lower.
+  5. Emphasize the importance of a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and provide guidance on how to balance the evaluation of coherence, consistency, fluency, and relevance.
+
+
+
+--- Top 10 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, ensuring that the summary accurately reproduces facts from the original article and captures its key points, while also evaluating the quality of individual sentences and the summary as a whole. When evaluating coherence, prioritize the logical connections between sentences and the overall flow of the summary, ensuring that it sounds natural and cohesive, while also considering the capture of key points and important aspects, and use examples or illustrations to illustrate the nuances of this metric, aiming for a CE_Coherence of 1.4 or lower. For consistency, explicitly compare the accuracy of facts in the summary to the original article, and consider factual errors such as incorrect names, dates, or events, penalizing more heavily for significant errors, and provide specific guidance on evaluating factual errors, such as: incorrect names (e.g., person, organization, location), incorrect dates (e.g., day, month, year), and incorrect events (e.g., actions, outcomes), aiming for a CE_Consistency of 1.1 or lower, and note that minor factual errors, such as incorrect dates or events, should not be heavily penalized. When rating fluency, prioritize overall sentence quality and be lenient towards minor errors in grammar or sentence structure, considering them as part of the evaluation but not penalizing for minor mistakes, such as: minor punctuation errors, slight grammatical errors, or minor sentence structure issues, but emphasize the importance of minor errors in grammar or sentence structure and provide clearer guidance on when to penalize for such mistakes, specifically penalizing only when errors significantly impact sentence clarity or meaning, aiming for a CE_Fluency of 1.4 or lower. Emphasize the importance of relevance by prioritizing the capture of the article's main points and key aspects, and provide specific guidance on how to evaluate relevance by focusing on the summary's ability to convey the essence of the original article, and evaluate the summary as a whole, rather than focusing on individual sentences, to ensure coherence and consistency, and consider how well the summary captures the logical connections between sentences, the overall flow, and the accuracy of facts, using a holistic approach to assess the summary's overall quality and effectiveness in conveying the original article's content, and prioritize the capture of key points and important aspects of the article, aiming for a CE_Relevance of 1.5 or lower, and use the following guidelines to ensure a balanced evaluation: prioritize coherence and consistency when the summary is well-structured and accurate, but lacks relevance; prioritize relevance when the summary captures the main points and key aspects, but lacks coherence and consistency; and prioritize fluency when the summary is well-written and clear, but lacks coherence, consistency, and relevance.
+
+Metrics:
+   fluency:
+       accuracy: 0.362
+       f1: 0.455
+       CE_fluency: 1.681
+   coherence:
+       accuracy: 0.375
+       f1: 0.329
+       CE_coherence: 1.669
+   consistency:
+       accuracy: 0.775
+       f1: 0.76
+       CE_consistency: 1.269
+   relevance:
+       accuracy: 0.362
+       f1: 0.333
+       CE_relevance: 1.681
+
+Recommendations: 
+  1. Revise the fluency instruction to provide clearer guidance on when to penalize for minor errors in grammar or sentence structure, as the model tends to be overly harsh, with a mean-diff score of -1 in multiple examples.
+  2. Refine the coherence instruction to emphasize the importance of logical connections between sentences and the overall flow of the summary, as the model's coherence scores are inconsistent, with mean-diff scores ranging from -3 to 3.
+  3. Adjust the relevance instruction to prioritize the capture of key points and important aspects of the article, as the model tends to be too lenient, with mean-diff scores of -1 and -3 in examples where the summary lacks relevance.
+  4. Revise the consistency instruction to provide clearer guidance on evaluating factual errors, as the model tends to be overly harsh, with mean-diff scores of -3 and -1 in examples where the summary contains minor factual errors.
+  5. Emphasize the importance of a holistic approach to evaluating summaries, considering all four metrics, as the model tends to focus too much on individual metrics, leading to inconsistent scores.

@@ -3,188 +3,302 @@
 
 --- Top 1 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency, CE_coherence, CE_consistency, and CE_relevance.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Increase the threshold for fluency to better capture significant grammatical errors and unclear sentence structures.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies.
+- Adjust the relevance metric definition to emphasize the inclusion of all and only the important aspects of the article.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, but also consider adding more specific guidelines on how to identify and evaluate factual accuracy.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes a well-written sentence, such as proper grammar, clear vocabulary, and logical structure.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric, such as checking for consistency with the original text, verifying facts through external sources, and avoiding assumptions.
+- Emphasize the importance of capturing key points and including all relevant information in the coherence metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
 
 Metrics:
    fluency:
-       accuracy: 0.625
-       f1: 0.663
-       CE_fluency: 1.419
+       accuracy: 0.094
+       f1: 0.062
+       CE_fluency: 1.95
    coherence:
-       accuracy: 0.244
-       f1: 0.149
-       CE_coherence: 1.8
+       accuracy: 0.263
+       f1: 0.18
+       CE_coherence: 1.781
    consistency:
-       accuracy: 0.656
-       f1: 0.692
-       CE_consistency: 1.387
+       accuracy: 0.212
+       f1: 0.295
+       CE_consistency: 1.831
    relevance:
-       accuracy: 0.381
-       f1: 0.253
-       CE_relevance: 1.662
+       accuracy: 0.344
+       f1: 0.286
+       CE_relevance: 1.7
 
-Recommendations:
-  1. Adjust the scoring to be less lenient on fluency, as the LLM tends to give high scores (e.g., Example 2 has a fluency score of 2, which is relatively high considering the summary is not entirely fluent). Consider decreasing the threshold for fluency scores to better reflect the quality of individual sentences.
-  2. Refine the coherence instruction to emphasize the importance of capturing key points and including all relevant information in the summary. The current instruction may be too broad, leading to inconsistent scoring (e.g., Example 3 has a coherence score of 4, which is high, while Example 1 has a coherence score of -1, which is low). Consider adding specific examples or guidelines to clarify what constitutes a coherent summary.
-  3. Identify and address the systematic bias in scoring consistency. The LLM tends to be harsh on consistency scores, particularly when the summary is not entirely accurate (e.g., Example 1 has a consistency score of -1, while Example 5 has a consistency score of 3). Consider increasing the threshold for consistency scores to better reflect the quality of the summary's factual accuracy.
-  4. Revise the relevance instruction to provide clearer guidelines on what constitutes a relevant summary. The current instruction may be too vague, leading to inconsistent scoring (e.g., Example 2 has a relevance score of 1, while Example 5 has a relevance score of 2). Consider adding specific examples or guidelines to clarify what makes a summary relevant to the original article.
+Recommendations: 
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text. This can be achieved by reducing the threshold for fluency or providing more specific guidelines on what constitutes a well-written sentence.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered. This can be done by adding more specific guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies. This can be achieved by adding more specific guidelines on how to identify and evaluate factual accuracy, such as checking for consistency with the original text and verifying facts through external sources.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric. This can be done by adding more specific guidelines on what constitutes relevant information, such as including all and only the important aspects of the article.
+  5. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task. This can be achieved by including more detailed explanations of each metric and providing examples of summaries that meet the desired criteria.
 
 
 
 --- Top 2 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction, and CE_relevance by providing clearer guidelines on what constitutes a relevant summary.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Increase the threshold for fluency to better capture significant grammatical errors and unclear sentence structures.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies.
+- Adjust the relevance metric definition to emphasize the inclusion of all and only the important aspects of the article.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, but also consider adding more specific guidelines on how to identify and evaluate factual accuracy.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes a well-written sentence, such as proper grammar, clear vocabulary, and logical structure.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric, such as checking for consistency with the original text, verifying facts through external sources, and avoiding assumptions.
+- Emphasize the importance of capturing key points and including all relevant information in the coherence metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
+1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+6. Focus on more significant errors or clarity issues in the fluency metric.
+7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+10. Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
+Recommendation: 
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+  6. Focus on more significant errors or clarity issues in the fluency metric.
+  7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+  8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+  9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
 
 Metrics:
    fluency:
-       accuracy: 0.194
-       f1: 0.237
-       CE_fluency: 1.85
+       accuracy: 0.069
+       f1: 0.025
+       CE_fluency: 1.975
    coherence:
-       accuracy: 0.181
-       f1: 0.092
-       CE_coherence: 1.862
+       accuracy: 0.25
+       f1: 0.18
+       CE_coherence: 1.794
    consistency:
-       accuracy: 0.163
-       f1: 0.214
-       CE_consistency: 1.881
+       accuracy: 0.269
+       f1: 0.367
+       CE_consistency: 1.775
    relevance:
-       accuracy: 0.331
-       f1: 0.221
-       CE_relevance: 1.712
+       accuracy: 0.356
+       f1: 0.3
+       CE_relevance: 1.687
 
 Recommendations: 
-  1. Adjust the fluency metric to be less strict, as the LLM is penalizing grammatical errors and unclear sentence structures too harshly, resulting in high CE_fluency loss. Consider revising the instruction to focus on clarity and coherence rather than strict grammatical correctness.
-  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, as the current instruction may be causing confusion. This could help reduce the high CE_coherence loss.
-  3. Increase the threshold for accurate factual reproduction in the consistency metric, as the LLM is being too lenient in its judgments, resulting in high CE_consistency loss. Consider revising the instruction to require more precise and accurate factual reproduction.
-  4. Provide clearer guidelines on what constitutes a relevant summary in the relevance metric, as the current instruction may be causing confusion. This could help reduce the high CE_relevance loss and improve the overall accuracy of the LLM's judgments.
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+  6. Focus on more significant errors or clarity issues in the fluency metric.
+  7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+  8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+  9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
 
 
 
 --- Top 3 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction, and CE_relevance by emphasizing the inclusion of all and only the important aspects.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Increase the threshold for fluency to better capture significant grammatical errors and unclear sentence structures.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies.
+- Adjust the relevance metric definition to emphasize the inclusion of all and only the important aspects of the article.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, but also consider adding more specific guidelines on how to identify and evaluate factual accuracy.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes a well-written sentence, such as proper grammar, clear vocabulary, and logical structure.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric, such as checking for consistency with the original text, verifying facts through external sources, and avoiding assumptions.
+- Emphasize the importance of capturing key points and including all relevant information in the coherence metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
+1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+6. Focus on more significant errors or clarity issues in the fluency metric.
+7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+10. Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
 
 Metrics:
    fluency:
-       accuracy: 0.175
-       f1: 0.215
-       CE_fluency: 1.869
+       accuracy: 0.062
+       f1: 0.011
+       CE_fluency: 1.981
    coherence:
-       accuracy: 0.163
-       f1: 0.113
-       CE_coherence: 1.881
+       accuracy: 0.281
+       f1: 0.195
+       CE_coherence: 1.762
    consistency:
-       accuracy: 0.15
-       f1: 0.199
-       CE_consistency: 1.894
+       accuracy: 0.188
+       f1: 0.264
+       CE_consistency: 1.856
    relevance:
-       accuracy: 0.362
-       f1: 0.292
-       CE_relevance: 1.681
+       accuracy: 0.331
+       f1: 0.278
+       CE_relevance: 1.712
 
-Recommendations:
-1. Adjust the instruction to emphasize the importance of capturing key points in the coherence metric, as the current instruction may be too broad. This could be achieved by adding a phrase such as "and whether all the important aspects are covered" to the coherence instruction.
-2. Refine the consistency metric definition to clarify that it measures the accuracy of facts in the summary, rather than the overall consistency of the summary. This could be achieved by rephrasing the instruction to focus on "the accuracy of facts in the summary" rather than "the overall natural flow".
-3. Consider revising the relevance metric definition to emphasize the importance of including all and only the important aspects, as the current instruction may be too vague. This could be achieved by adding a phrase such as "and excluding any unnecessary information" to the relevance instruction.
-4. Review the task-wise differences for each example to identify any systematic biases or recurring mistakes in scoring. For example, the machine summary for Example 4 has a high coherence score despite missing key information, suggesting that the model may be too lenient in its coherence scoring.
+Recommendations: 
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text. This can be achieved by reducing the threshold for fluency or providing more specific guidelines on what constitutes a well-written sentence.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary. This can help the LLM better understand the task and reduce the cross-entropy loss for coherence.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy. This can help the LLM better evaluate the consistency of the summaries and reduce the cross-entropy loss for consistency.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary. This can help the LLM better understand the task and reduce the cross-entropy loss for relevance.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text. This can help the LLM better understand the task and reduce the cross-entropy loss for all metrics.
 
 
 
 --- Top 4 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction, and CE_relevance by emphasizing the inclusion of all and only the important aspects, and excluding any unnecessary information.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Increase the threshold for fluency to better capture significant grammatical errors and unclear sentence structures.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies.
+- Adjust the relevance metric definition to emphasize the inclusion of all and only the important aspects of the article.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, but also consider adding more specific guidelines on how to identify and evaluate factual accuracy.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes a well-written sentence, such as proper grammar, clear vocabulary, and logical structure.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric, such as checking for consistency with the original text, verifying facts through external sources, and avoiding assumptions.
+- Emphasize the importance of capturing key points and including all relevant information in the coherence metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
 
 Metrics:
    fluency:
-       accuracy: 0.188
-       f1: 0.251
-       CE_fluency: 1.856
+       accuracy: 0.075
+       f1: 0.037
+       CE_fluency: 1.968
    coherence:
-       accuracy: 0.212
-       f1: 0.143
-       CE_coherence: 1.831
+       accuracy: 0.277
+       f1: 0.201
+       CE_coherence: 1.767
    consistency:
-       accuracy: 0.169
-       f1: 0.223
-       CE_consistency: 1.875
+       accuracy: 0.239
+       f1: 0.325
+       CE_consistency: 1.805
    relevance:
-       accuracy: 0.362
-       f1: 0.288
-       CE_relevance: 1.681
+       accuracy: 0.333
+       f1: 0.273
+       CE_relevance: 1.71
 
-Recommendations:
-1. Adjust the scoring to be less lenient for fluency, as the LLM tends to give high scores to summaries with minor grammatical errors, such as Example 1 and Example 2, where the machine summaries have a fluency score of -1 despite containing errors like "inexplicably took the 10th minute kick" and "better and better all the time".
-2. Refine the coherence instruction to emphasize the importance of capturing key points and including all relevant information, as the LLM seems to prioritize coherence over relevance, as seen in Example 3 and Example 5, where the machine summaries have high coherence scores despite missing important information.
-3. Increase the threshold for consistency, as the LLM tends to penalize summaries for minor factual inaccuracies, such as Example 1 and Example 4, where the machine summaries have a consistency score of -1 despite not containing major factual errors.
-4. Emphasize the importance of including all and only the important aspects in the summary, as the LLM tends to prioritize relevance over coherence, as seen in Example 2 and Example 3, where the machine summaries have high relevance scores despite missing important information.
+Recommendations: 
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text. This can be achieved by reducing the threshold for fluency or providing more specific guidelines on what constitutes a well-written sentence.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered. This can be done by adding more specific guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, but also consider adding more specific guidelines on how to identify and evaluate factual accuracy. This can be achieved by providing examples or guidelines on how to verify facts through external sources and avoid assumptions.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric. This can be done by adding more specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details.
+  5. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task. This can be achieved by including examples of well-written summaries that capture key points, include all relevant information, and exclude unnecessary details.
 
 
 
 --- Top 5 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures and grammatical errors, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction and penalizing minor factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Decrease the threshold for fluency to better capture the nuances of machine-generated summaries.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task, such as including examples of well-written summaries that capture key points, include all relevant information, and exclude unnecessary details.
+- Focus on more significant errors or clarity issues in the fluency metric, rather than penalizing minor errors.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
 
 Metrics:
    fluency:
-       accuracy: 0.231
-       f1: 0.311
-       CE_fluency: 1.812
+       accuracy: 0.094
+       f1: 0.078
+       CE_fluency: 1.95
    coherence:
-       accuracy: 0.237
-       f1: 0.157
-       CE_coherence: 1.806
-   consistency:
        accuracy: 0.231
-       f1: 0.314
-       CE_consistency: 1.812
+       f1: 0.14
+       CE_coherence: 1.812
+   consistency:
+       accuracy: 0.188
+       f1: 0.258
+       CE_consistency: 1.856
    relevance:
-       accuracy: 0.356
-       f1: 0.27
-       CE_relevance: 1.687
+       accuracy: 0.338
+       f1: 0.267
+       CE_relevance: 1.706
 
 Recommendations:
-  1. Adjust the scoring to be less lenient on fluency and consistency, as the current instruction may be too focused on penalizing minor errors. Consider increasing the threshold for accurate factual reproduction and grammatical correctness.
-  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, as the current definition may be too broad. Consider adding specific examples or guidelines to clarify the expected output.
-  3. Revise the relevance instruction to focus on the inclusion of all and only the important aspects, as the current definition may be too vague. Consider adding specific criteria or guidelines to clarify the expected output.
-  4. Consider revising the instruction to provide more guidance on how to handle minor factual inaccuracies, as the current instruction may be too focused on penalizing major errors.
+1. Decrease the threshold for fluency to better capture the nuances of machine-generated summaries, as the current threshold may be too strict, resulting in a high Cross-Entropy Loss of 1.95.
+2. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions.
+3. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details.
+4. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+5. Focus on more significant errors or clarity issues in the fluency metric, rather than penalizing minor errors, to reduce the Cross-Entropy Loss of 1.95.
+6. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task, such as including examples of well-written summaries that capture key points, include all relevant information, and exclude unnecessary details.
 
 
 
 --- Top 6 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures and grammatical errors, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction and penalizing minor factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being less lenient on fluency and consistency, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary.
-
-Metrics:
-   fluency:
-       accuracy: 0.113
-       f1: 0.107
-       CE_fluency: 1.931
-   coherence:
-       accuracy: 0.237
-       f1: 0.149
-       CE_coherence: 1.806
-   consistency:
-       accuracy: 0.069
-       f1: 0.073
-       CE_consistency: 1.975
-   relevance:
-       accuracy: 0.344
-       f1: 0.237
-       CE_relevance: 1.7
-
-Recommendations:
-1. Adjust the fluency instruction to emphasize the importance of grammatical accuracy and sentence structure, while also considering the overall flow and readability of the summary. This can be achieved by increasing the threshold for fluency scores, making it more challenging for the model to achieve high scores.
-2. Refine the coherence instruction to provide clearer guidelines on what constitutes a coherent summary, such as emphasizing the inclusion of key points, the use of transitional phrases, and the overall logical flow of the summary. This can help reduce the high coherence loss value and improve the model's ability to capture the essence of the original text.
-3. Revise the consistency instruction to focus on the accuracy of factual information, rather than minor inaccuracies. This can be achieved by increasing the threshold for consistency scores, making it more challenging for the model to achieve high scores, and providing clearer guidelines on what constitutes factual accuracy.
-4. Emphasize the importance of relevance in the instruction, highlighting the need for the summary to capture all and only the important aspects of the original text. This can be achieved by increasing the threshold for relevance scores, making it more challenging for the model to achieve high scores, and providing clearer guidelines on what constitutes relevant information.
-5. Consider adding a guideline to the instruction that encourages the model to provide a balanced summary, taking into account both the positive and negative aspects of the original text. This can help reduce the high relevance loss value and improve the model's ability to capture the nuances of the original text.
-
-
-
---- Top 7 Prompt ---
-Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures and grammatical errors, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction and penalizing minor factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being less lenient on fluency and consistency, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Decrease the threshold for fluency to better capture the nuances of machine-generated summaries.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details.
+- Focus on more significant errors or clarity issues in the fluency metric, rather than penalizing minor errors.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
 
 Metrics:
    fluency:
@@ -192,112 +306,254 @@ Metrics:
        f1: 0.084
        CE_fluency: 1.944
    coherence:
-       accuracy: 0.225
-       f1: 0.155
-       CE_coherence: 1.819
+       accuracy: 0.287
+       f1: 0.158
+       CE_coherence: 1.756
    consistency:
-       accuracy: 0.075
-       f1: 0.075
-       CE_consistency: 1.969
+       accuracy: 0.138
+       f1: 0.177
+       CE_consistency: 1.906
    relevance:
-       accuracy: 0.356
-       f1: 0.256
-       CE_relevance: 1.687
+       accuracy: 0.306
+       f1: 0.203
+       CE_relevance: 1.737
 
 Recommendations: 
-  1. Adjust the fluency metric to be less lenient, as the current instruction may be too focused on penalizing unclear sentence structures and grammatical errors. Consider revising the instruction to emphasize the importance of clear and concise writing, while also allowing for some flexibility in sentence structure.
-  2. Refine the coherence instruction to provide clearer guidelines on what constitutes a coherent summary. Consider adding specific examples or criteria to help the model understand what is expected in terms of capturing key points and including all relevant information.
-  3. Re-evaluate the consistency metric to ensure it is not too focused on minor factual inaccuracies. Consider revising the instruction to emphasize the importance of accurate factual reproduction, while also allowing for some flexibility in minor errors.
-  4. Adjust the relevance metric to be more specific about what constitutes relevant information. Consider revising the instruction to emphasize the importance of including all and only the important aspects, while also providing clearer guidelines on what is considered "important" information.
-  5. Consider revising the instruction to provide more guidance on how to balance the different metrics, as the current instruction may be too focused on minimizing individual metric losses.
+  1. Decrease the threshold for fluency to better capture the nuances of machine-generated summaries, as the current threshold may be too strict, resulting in a high Cross-Entropy Loss of 1.944. Consider revising the fluency metric to focus on more significant errors or clarity issues, rather than penalizing minor errors.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, as the current instruction may be too vague. Provide specific examples or guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, as the current definition may be too broad. Add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, as the current instruction may not be clear enough. Provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a coherent, consistent, and relevant summary, as the current instruction may be too vague.
+
+
+
+--- Top 7 Prompt ---
+Instruction:
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Increase the threshold for fluency to better capture significant grammatical errors and unclear sentence structures.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies.
+- Adjust the relevance metric definition to emphasize the inclusion of all and only the important aspects of the article.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, but also consider adding more specific guidelines on how to identify and evaluate factual accuracy.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes a well-written sentence, such as proper grammar, clear vocabulary, and logical structure.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric, such as checking for consistency with the original text, verifying facts through external sources, and avoiding assumptions.
+- Emphasize the importance of capturing key points and including all relevant information in the coherence metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
+1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+6. Focus on more significant errors or clarity issues in the fluency metric.
+7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+10. Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
+Recommendation: 
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+  6. Focus on more significant errors or clarity issues in the fluency metric.
+  7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+  8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+  9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+
+Metrics:
+   fluency:
+       accuracy: 0.062
+       f1: 0.012
+       CE_fluency: 1.981
+   coherence:
+       accuracy: 0.219
+       f1: 0.163
+       CE_coherence: 1.825
+   consistency:
+       accuracy: 0.256
+       f1: 0.358
+       CE_consistency: 1.787
+   relevance:
+       accuracy: 0.331
+       f1: 0.273
+       CE_relevance: 1.712
+
+Recommendations: 
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+  6. Focus on more significant errors or clarity issues in the fluency metric.
+  7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+  8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+  9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
 
 
 
 --- Top 8 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures and grammatical errors, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction and penalizing minor factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being less lenient on fluency and consistency, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Increase the threshold for fluency to better capture significant grammatical errors and unclear sentence structures.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies.
+- Adjust the relevance metric definition to emphasize the inclusion of all and only the important aspects of the article.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, but also consider adding more specific guidelines on how to identify and evaluate factual accuracy.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric.
+- Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+- Focus on more significant errors or clarity issues in the fluency metric.
+- Add more specific guidelines on what constitutes a well-written sentence, such as proper grammar, clear vocabulary, and logical structure.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric, such as checking for consistency with the original text, verifying facts through external sources, and avoiding assumptions.
+- Emphasize the importance of capturing key points and including all relevant information in the coherence metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+6. Focus on more significant errors or clarity issues in the fluency metric.
+7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
+10. Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
+Recommendation: 
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text.
+  6. Focus on more significant errors or clarity issues in the fluency metric.
+  7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+  8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+  9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task.
 
 Metrics:
    fluency:
-       accuracy: 0.087
-       f1: 0.06
-       CE_fluency: 1.956
+       accuracy: 0.062
+       f1: 0.012
+       CE_fluency: 1.981
    coherence:
-       accuracy: 0.194
-       f1: 0.145
-       CE_coherence: 1.85
+       accuracy: 0.256
+       f1: 0.197
+       CE_coherence: 1.787
    consistency:
-       accuracy: 0.056
-       f1: 0.039
-       CE_consistency: 1.987
+       accuracy: 0.25
+       f1: 0.343
+       CE_consistency: 1.794
    relevance:
-       accuracy: 0.369
-       f1: 0.3
-       CE_relevance: 1.675
+       accuracy: 0.319
+       f1: 0.264
+       CE_relevance: 1.725
 
 Recommendations: 
-  1. Adjust the fluency instruction to be less lenient, as the CE_fluency loss is high (1.956) and the mean-diff scores for fluency are negative (-1) in all examples, indicating the model is being harsh. Consider revising the instruction to emphasize the importance of clear sentence structures and grammatical accuracy.
-  2. Refine the coherence instruction to provide clearer guidelines on what constitutes a coherent summary. The CE_coherence loss is moderate (1.85), and the mean-diff scores for coherence are mixed (1 and -1), suggesting some confusion. Consider revising the instruction to emphasize the importance of capturing key points and including all relevant information.
-  3. Increase the threshold for accurate factual reproduction in the consistency instruction, as the CE_consistency loss is high (1.987) and the mean-diff scores for consistency are negative (-1) in all examples, indicating the model is being harsh. Consider revising the instruction to emphasize the importance of minor factual accuracy and consistency.
-  4. Emphasize the importance of including all and only the important aspects in the relevance instruction, as the CE_relevance loss is moderate (1.675) and the mean-diff scores for relevance are mixed (1 and -1), suggesting some confusion. Consider revising the instruction to provide clearer guidelines on what constitutes a relevant summary.
+  1. Adjust the fluency metric to be less strict, as the LLM is penalizing significant grammatical errors and unclear sentence structures, but the machine summaries still manage to convey the main points of the original text. Consider decreasing the threshold for fluency to better capture the nuances of machine-generated summaries.
+  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary. This will help the model better understand the task and reduce inconsistencies in scoring.
+  3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy. This will help the model better evaluate the consistency of machine summaries and reduce errors in scoring.
+  4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes a relevant summary. This will help the model better understand the task and reduce inconsistencies in scoring.
+  5. Consider revising the instruction to provide clearer guidelines on what constitutes a balanced summary that captures both positive and negative aspects of the original text. This will help the model better understand the task and reduce errors in scoring.
+  6. Focus on more significant errors or clarity issues in the fluency metric, rather than penalizing minor errors. This will help the model better evaluate the fluency of machine summaries and reduce errors in scoring.
+  7. Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric. This will help the model better evaluate the consistency of machine summaries and reduce errors in scoring.
+  8. Emphasize the importance of including all and only the important aspects of the article in the relevance metric. This will help the model better understand the task and reduce inconsistencies in scoring.
+  9. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task. This will help the model better evaluate machine summaries and reduce errors in scoring.
 
 
 
 --- Top 9 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures and grammatical errors, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction and penalizing minor factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being less lenient on fluency and consistency, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Decrease the threshold for fluency to better capture the nuances of machine-generated summaries.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details.
+- Focus on more significant errors or clarity issues in the fluency metric, rather than penalizing minor errors.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task, such as including examples of well-written summaries that capture key points, include all relevant information, and exclude unnecessary details.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
 
 Metrics:
    fluency:
-       accuracy: 0.081
-       f1: 0.039
-       CE_fluency: 1.962
+       accuracy: 0.094
+       f1: 0.072
+       CE_fluency: 1.95
    coherence:
-       accuracy: 0.2
-       f1: 0.151
-       CE_coherence: 1.844
+       accuracy: 0.244
+       f1: 0.144
+       CE_coherence: 1.8
    consistency:
-       accuracy: 0.056
-       f1: 0.035
-       CE_consistency: 1.987
+       accuracy: 0.181
+       f1: 0.247
+       CE_consistency: 1.862
    relevance:
-       accuracy: 0.356
-       f1: 0.286
-       CE_relevance: 1.687
+       accuracy: 0.338
+       f1: 0.253
+       CE_relevance: 1.706
 
-Recommendations: 
-  1. Adjust the fluency metric to be less lenient, as the current instruction emphasizes penalizing unclear sentence structures and grammatical errors. Consider increasing the threshold for fluency scores to better reflect the importance of grammatical correctness.
-  2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered. The current instruction is clear, but the machine summaries often lack depth and detail, indicating a need for more specific guidance on what constitutes a coherent summary.
-  3. Increase the threshold for consistency scores to better reflect the importance of accurate factual reproduction. The current instruction is overly lenient, allowing minor factual inaccuracies to go unnoticed. Consider introducing a stricter evaluation of consistency to ensure that summaries accurately reflect the original article.
-  4. Emphasize the importance of relevance in the instruction, as the current metric is not clearly defined. Consider adding specific guidance on what constitutes a relevant summary, such as including all and only the important aspects of the article.
-  5. Provide clearer guidelines on what constitutes a coherent, consistent, and relevant summary. The current instruction is vague, leading to inconsistent scoring. Consider introducing specific examples or case studies to illustrate the desired outcomes for each metric.
+Recommendations:
+1. Decrease the threshold for fluency to better capture the nuances of machine-generated summaries, as the current threshold may be too strict, resulting in a high cross-entropy loss of 1.95.
+2. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details, to reduce the cross-entropy loss of 1.8.
+3. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions, to reduce the cross-entropy loss of 1.862.
+4. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details, to reduce the cross-entropy loss of 1.706.
+5. Focus on more significant errors or clarity issues in the fluency metric, rather than penalizing minor errors, to reduce the cross-entropy loss of 1.95.
+6. Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task, such as including examples of well-written summaries that capture key points, include all relevant information, and exclude unnecessary details, to reduce the cross-entropy loss of 1.8, 1.862, and 1.706.
 
 
 
 --- Top 10 Prompt ---
 Instruction:
-Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing unclear sentence structures and grammatical errors, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by increasing the threshold for accurate factual reproduction and penalizing minor factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being less lenient on fluency and consistency, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text.
+Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively, with the goal of minimizing CE_fluency by penalizing significant grammatical errors and unclear sentence structures, CE_coherence by rewarding summaries that capture key points and include all relevant information, CE_consistency by focusing on factual accuracy and penalizing significant factual inaccuracies, and CE_relevance by emphasizing the inclusion of all and only the important aspects and excluding any unnecessary information, while being more balanced across all metrics, and providing clearer guidelines on what constitutes a coherent, consistent, and relevant summary, and encouraging a balanced summary that captures both positive and negative aspects of the original text, with a focus on clear and concise writing, logical flow, and accurate factual reproduction, and including all and only the important aspects of the article, and emphasizing the importance of capturing key points and including all relevant information in the coherence metric, focusing on factual accuracy and penalizing significant factual inaccuracies in the consistency metric, and including all and only the important aspects of the article in the relevance metric, and considering the following adjustments: 
+- Decrease the threshold for fluency to better capture the nuances of machine-generated summaries.
+- Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary, such as including all relevant information and excluding unnecessary details.
+- Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions.
+- Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details.
+- Focus on more significant errors or clarity issues in the fluency metric, rather than penalizing minor errors.
+- Add more specific guidelines on what constitutes factual accuracy and how to identify significant inaccuracies in the consistency metric.
+- Emphasize the importance of including all and only the important aspects of the article in the relevance metric.
+- Provide specific examples or guidelines on what constitutes a coherent, consistent, and relevant summary to help the model better understand the task, such as including examples of well-written summaries that capture key points, include all relevant information, and exclude unnecessary details.
+- Rate the summary of the article from 1 to 5 based on its fluency, coherence, consistency, and relevance, considering the quality of individual sentences, the overall natural flow, accuracy of facts, and inclusion of key points, respectively.
 
 Metrics:
    fluency:
-       accuracy: 0.081
-       f1: 0.038
-       CE_fluency: 1.962
+       accuracy: 0.106
+       f1: 0.093
+       CE_fluency: 1.937
    coherence:
-       accuracy: 0.231
-       f1: 0.188
-       CE_coherence: 1.812
+       accuracy: 0.263
+       f1: 0.151
+       CE_coherence: 1.781
    consistency:
-       accuracy: 0.056
-       f1: 0.034
-       CE_consistency: 1.987
+       accuracy: 0.144
+       f1: 0.191
+       CE_consistency: 1.9
    relevance:
        accuracy: 0.356
-       f1: 0.29
+       f1: 0.261
        CE_relevance: 1.687
 
-Recommendations:
-1. Adjust the scoring to be less lenient on fluency, as the mean_diff scores for fluency are consistently negative, indicating the model is being harsh on fluency. Consider increasing the threshold for fluency scores to 3 or 4 to reduce the penalty for minor grammatical errors.
-2. Revise the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, as the mean_diff scores for coherence are also consistently negative, indicating the model is being harsh on coherence. Consider adding more specific guidelines on what constitutes a coherent summary, such as including a clear thesis statement, logical flow, and relevant supporting details.
-3. Increase the threshold for consistency scores to 4 or 5, as the mean_diff scores for consistency are consistently negative, indicating the model is being harsh on consistency. Consider adding more specific guidelines on what constitutes accurate factual reproduction, such as including all relevant details and avoiding minor inaccuracies.
-4. Emphasize the importance of relevance in the instruction, as the mean_diff scores for relevance are consistently positive, indicating the model is being lenient on relevance. Consider adding more specific guidelines on what constitutes a relevant summary, such as including all and only the important aspects of the article.
+Recommendations: 
+  1. Decrease the threshold for fluency to better capture the nuances of machine-generated summaries, as the current threshold may be too strict, resulting in a high Cross-Entropy Loss of 1.937. This adjustment would allow the model to provide more lenient ratings for minor errors, reducing the loss value.
+  2. Revise the consistency metric definition to focus on factual accuracy and penalize significant factual inaccuracies, and add more specific guidelines on how to identify and evaluate factual accuracy, such as verifying facts through external sources and avoiding assumptions. The current definition may be too vague, leading to inconsistent ratings and a high Cross-Entropy Loss of 1.9.
+  3. Emphasize the importance of excluding any unnecessary information in the relevance metric, and provide specific guidelines on what constitutes relevant information and how to distinguish it from unnecessary details. The current instruction may be too broad, resulting in a high Cross-Entropy Loss of 1.687, and the model may struggle to identify relevant information.
+  4. Refine the coherence instruction to emphasize capturing key points of the article and whether all the important aspects are covered, and provide specific examples or guidelines on what constitutes a coherent summary. The current instruction may be too general, leading to inconsistent ratings and a high Cross-Entropy Loss of 1.781.

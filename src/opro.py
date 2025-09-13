@@ -177,6 +177,7 @@ def run_opro(
 
   for epoch in range(num_epochs):
     print(f"\n--- Epoch {epoch + 1}/{num_epochs} ---")
+    ## Generated new instruction
     instruction = call_rater_llm_meta_prompt(
       top_k_prompts=top_k_prompts,
       metric_names=metric_names,
@@ -185,6 +186,7 @@ def run_opro(
     )
     print("Generated instruction")
 
+    ## Generate ratings for each sample point
     evals = call_rater_llm_prompt(
       instruction=instruction, file_path=file_path,
       metric_names=metric_names,
@@ -297,7 +299,7 @@ def main(
     max_workers: int = 20,
     train_num_examples: int = 160,
     test_num_examples: int = 480,
-    top_k_most_important_prompts: int = 5,
+    top_k_most_important_points: int = 5,
     model: str = "8b",
 ) -> None:
   opro_results = run_opro(
@@ -318,7 +320,7 @@ def main(
     metric_names=metric_names,
     reco_format=reco_format,
     top_points_format=top_points_format,
-    top_k_most_imp_points=top_k_most_important_prompts,
+    top_k_most_imp_points=top_k_most_important_points,
   )
 
   metric_history_file_path = f"metric_history_opro_{model}.txt"
@@ -355,7 +357,7 @@ if __name__ == "__main__":
   main(
     train_file_path=train_filepath, test_file_path=test_filepath,
     rater_llm_name=rater_llm_name_8b, metric_names=metric_names,
-    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50, top_k_most_important_prompts=5,
+    reco_llm_name=reco_llm_name_8b, top_k=10, num_epochs=50, top_k_most_important_points=5,
     rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
     calls_per_minute=80, max_workers=25, train_num_examples=160, model="8b_min_max_ours",
     test_num_examples=480, optimizer="min-max", reco_format="ours-unnamed", top_points_format="calibrated"
@@ -364,7 +366,7 @@ if __name__ == "__main__":
   main(
     train_file_path=train_filepath, test_file_path=test_filepath,
     rater_llm_name=rater_llm_name_70b, metric_names=metric_names,
-    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=50, top_k_most_important_prompts=5,
+    reco_llm_name=reco_llm_name_70b, top_k=10, num_epochs=50, top_k_most_important_points=5,
     rater_temp=0.0, reco_temp=0.0, rater_top_p=1.0, reco_top_p=1.0,
     calls_per_minute=80, max_workers=25, train_num_examples=160, model="70b_min_max_ours",
     test_num_examples=480, optimizer="min-max", reco_format="ours-unnamed", top_points_format="calibrated"
